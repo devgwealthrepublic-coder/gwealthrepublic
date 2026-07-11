@@ -62,9 +62,9 @@ router.post(
       status: 'pending', // Awaits admin approval
     });
 
-    // Send welcome email (asynchronous, won't block response)
-    const { sendWelcomeEmail } = require('../utils/emailService');
-    sendWelcomeEmail(user);
+    // Send pending application email (asynchronous)
+    const { sendPendingEmail } = require('../utils/emailService');
+    sendPendingEmail(user);
 
     res.status(201).json({
       success: true,
@@ -114,6 +114,11 @@ router.post(
       user.amountPaid = amountPaid;
       user.paymentReference = reference;
       await user.save();
+
+      // Send the Welcome Email now that they are fully approved!
+      // The function signature is: sendWelcomeEmail(partnerEmail, partnerName, partnerCode)
+      const { sendWelcomeEmail } = require('./../controllers/onboardingController');
+      sendWelcomeEmail(user.email, user.fullName, user.referralCode);
 
       // Issue token and login
       sendTokenResponse(user, 200, res);

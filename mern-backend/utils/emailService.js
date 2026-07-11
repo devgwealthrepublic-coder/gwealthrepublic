@@ -4,9 +4,9 @@ const { Resend } = require('resend');
 const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 
 /**
- * Sends a welcome email to realtors upon registration.
+ * Sends a pending application email to realtors upon registration.
  */
-const sendWelcomeEmail = async (user) => {
+const sendPendingEmail = async (user) => {
   if (!process.env.RESEND_API_KEY) {
     console.warn(`[Email Skipped] Welcome email to ${user.email} not sent. Missing RESEND_API_KEY.`);
     return;
@@ -67,6 +67,6 @@ const sendPayoutEmail = async (user, amount, propertyName) => {
 };
 
 module.exports = {
-  sendWelcomeEmail,
+  sendPendingEmail,
   sendPayoutEmail,
 };
