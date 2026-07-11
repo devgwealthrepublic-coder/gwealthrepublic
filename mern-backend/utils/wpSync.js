@@ -80,13 +80,13 @@ const compileWPContent = (property) => {
       <div class="gw-main-viewport">
         <img id="gw-active-media-${property._id}" src="${mainImage}" class="gw-main-image">
         <div class="gw-badges">
-          ${property.badge ? \`<span class="gw-badge gw-badge-verified">${property.badge}</span>\` : ''}
-          ${property.status ? \`<span class="gw-badge gw-badge-urgent">${property.status}</span>\` : ''}
+          ${property.badge ? `<span class="gw-badge gw-badge-verified">${property.badge}</span>` : ''}
+          ${property.status ? `<span class="gw-badge gw-badge-urgent">${property.status}</span>` : ''}
         </div>
-        ${property.cloudinaryVideoUrl ? \`
+        ${property.cloudinaryVideoUrl ? `
         <button class="gw-walkthrough-trigger" onclick="window.open('${property.cloudinaryVideoUrl}', '_blank')">
             ▶ Watch Drone Walkthrough
-        </button>\` : ''}
+        </button>` : ''}
       </div>
 
       <div class="gw-thumbnails-row">
@@ -164,7 +164,7 @@ const compileWPContent = (property) => {
         }
       </script>
     </div>
-  \`;
+  `;
 };
 
 const buildWPPayload = (property) => ({
