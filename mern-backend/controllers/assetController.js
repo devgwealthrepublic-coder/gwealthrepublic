@@ -18,7 +18,32 @@ exports.getAssets = async (req, res) => {
 // @access  Private (Admin)
 exports.createAsset = async (req, res) => {
   try {
-    const asset = await Asset.create(req.body);
+    const { title, type, category } = req.body;
+    let { size } = req.body;
+
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'Please upload a file' });
+    }
+
+    // Auto-calculate size if not provided
+    if (!size || size === 'Unknown Size' || size.trim() === '') {
+      const bytes = req.file.size;
+      if (bytes < 1024 * 1024) {
+        size = (bytes / 1024).toFixed(1) + ' KB';
+      } else {
+        size = (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+      }
+    }
+
+    const assetData = {
+      title,
+      type,
+      category,
+      url: req.file.path, // The Cloudinary URL
+      size
+    };
+
+    const asset = await Asset.create(assetData);
     res.status(201).json({ success: true, data: asset });
   } catch (err) {
     console.error(err);

@@ -36,9 +36,9 @@ const Sidebar = () => {
 
   return (
     <div className="fixed inset-y-0 left-0 w-64 bg-white border-r border-trust-slate flex flex-col pt-8 pb-4 z-10 shadow-sm overflow-y-auto">
-      <div className="mb-10 text-center px-4">
-        <h2 className="text-primary font-headline-md text-2xl font-bold">GWealth Nation</h2>
-        <span className="text-sm text-outline font-label-md mt-1 block">{isAdmin ? 'Admin Portal' : 'Partner Portal'}</span>
+      <div className="mb-10 text-center px-4 flex flex-col items-center">
+        <img src="/gwealth-logo3.0.png" alt="GWealth Nation Logo" className="h-14 w-auto object-contain mb-2" />
+        <span className="text-sm text-outline font-label-md block">{isAdmin ? 'Admin Portal' : 'Partner Portal'}</span>
       </div>
 
       <nav className="flex-1 flex flex-col gap-2 px-4 pb-8">

@@ -108,4 +108,12 @@ const videoStorage = new CloudinaryStorage({
   ],
 });
 
-module.exports = { cloudinary, imageStorage, videoStorage };
+/**
+ * Asset storage — for PDFs, Flyers, and raw marketing files.
+ */
+const assetStorage = new CloudinaryStorage({
+  folder:          'gwealth-assets',
+  resource_type:   'auto', // Allows images, videos, and raw files (PDFs)
+});
+
+module.exports = { cloudinary, imageStorage, videoStorage, assetStorage };

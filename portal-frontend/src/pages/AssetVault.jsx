@@ -11,7 +11,8 @@ const AssetVault = () => {
   const [error, setError] = useState(null);
   
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const [uploadData, setUploadData] = useState({ title: '', type: 'image', category: 'Promotional Flyers', url: '', size: 'Unknown Size' });
+  const [uploadData, setUploadData] = useState({ title: '', type: 'image', category: 'Promotional Flyers', size: '' });
+  const [fileToUpload, setFileToUpload] = useState(null);
 
   const categories = ["All Assets", "Promotional Flyers", "Site Videos", "Site Layouts", "Legal Documents"];
   const [activeCategory, setActiveCategory] = useState("All Assets");
@@ -52,13 +53,28 @@ const AssetVault = () => {
 
   const handleUploadSubmit = async (e) => {
     e.preventDefault();
+    if (!fileToUpload) {
+      alert('Please select a file to upload.');
+      return;
+    }
+    
     try {
-      const res = await axios.post('/api/assets', uploadData);
+      const formData = new FormData();
+      formData.append('title', uploadData.title);
+      formData.append('type', uploadData.type);
+      formData.append('category', uploadData.category);
+      if (uploadData.size) formData.append('size', uploadData.size);
+      formData.append('file', fileToUpload);
+
+      const res = await axios.post('/api/assets', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
       const data = res.data;
       if (data.success) {
         setAssets([data.data, ...assets]);
         setShowUploadModal(false);
-        setUploadData({ title: '', type: 'image', category: 'Promotional Flyers', url: '', size: 'Unknown Size' });
+        setUploadData({ title: '', type: 'image', category: 'Promotional Flyers', size: '' });
+        setFileToUpload(null);
       } else {
         alert(data.message || 'Error uploading asset');
       }
@@ -198,11 +214,11 @@ const AssetVault = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-on-surface mb-1">Direct URL Link</label>
-                  <input type="url" required value={uploadData.url} onChange={e => setUploadData({...uploadData, url: e.target.value})} className="w-full p-3 border border-trust-slate rounded-md outline-none bg-white text-gray-900" placeholder="https://..." />
+                  <label className="block text-sm font-bold text-on-surface mb-1">Select File</label>
+                  <input type="file" required onChange={e => setFileToUpload(e.target.files[0])} className="w-full p-3 border border-trust-slate rounded-md outline-none bg-white text-gray-900" />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-on-surface mb-1">Estimated Size (Optional)</label>
+                  <label className="block text-sm font-bold text-on-surface mb-1">Estimated Size (Optional - Auto calculated if left blank)</label>
                   <input type="text" value={uploadData.size} onChange={e => setUploadData({...uploadData, size: e.target.value})} className="w-full p-3 border border-trust-slate rounded-md outline-none bg-white text-gray-900" placeholder="e.g. 2.4 MB" />
                 </div>
                 <button type="submit" className="w-full bg-primary text-white py-3 rounded-md font-bold mt-4 hover:bg-primary-container transition-colors shadow-sm">
