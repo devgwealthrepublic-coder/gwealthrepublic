@@ -1,0 +1,430 @@
+<!-- 
+  GWealth Nation - Single Property: Details Content (Component 2)
+  Objective: Metadata grid, typography box, features, vertical timeline, trust shield.
+  Instructions: Place inside Elementor's Main Column (Left), directly below Component 1.
+-->
+<div id="gw-sp-details-content">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-sp-details-content {
+            width: 100%;
+            font-family: 'Lexend', sans-serif;
+            color: #4a5568;
+        }
+
+        #gw-sp-details-content * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 1. Metadata Grid (Top) */
+        #gw-sp-details-content .gw-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        @media (min-width: 640px) {
+            #gw-sp-details-content .gw-meta-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        #gw-sp-details-content .gw-meta-card {
+            background-color: #FAFAFA;
+            border: 1px solid #E2E8F0;
+            border-radius: 4px; /* Strict 4px Limit */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        #gw-sp-details-content .gw-meta-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        #gw-sp-details-content .gw-meta-value {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #1E1B4B;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #gw-sp-details-content .gw-meta-sub {
+            font-size: 11px;
+            font-weight: 600;
+            color: #D4AF37; /* Gold */
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        #gw-sp-details-content .gw-meta-sub.danger {
+            color: #bb001b; /* Crimson Red */
+        }
+
+        /* WhatsApp Button in Meta Card */
+        #gw-sp-details-content .gw-whatsapp-btn {
+            background-color: #25D366; /* WhatsApp Green */
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 4px; /* Strict 4px Limit */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0px 4px 12px rgba(37, 211, 102, 0.3);
+            transition: all 0.2s ease;
+            text-decoration: none;
+            margin-top: 4px;
+        }
+
+        #gw-sp-details-content .gw-whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 6px 16px rgba(37, 211, 102, 0.4);
+        }
+
+        /* 2. Typography & Descriptions */
+        #gw-sp-details-content .gw-property-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 28px;
+            color: #1E1B4B;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        @media (min-width: 768px) {
+            #gw-sp-details-content .gw-property-title {
+                font-size: 36px;
+            }
+        }
+
+        #gw-sp-details-content .gw-property-desc {
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 32px;
+            color: #4a5568;
+        }
+
+        #gw-sp-details-content .gw-property-desc p {
+            margin-bottom: 16px;
+        }
+
+        /* 3. Features Grid */
+        #gw-sp-details-content .gw-features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        @media (min-width: 480px) {
+            #gw-sp-details-content .gw-features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        #gw-sp-details-content .gw-feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #E2E8F0;
+            border-radius: 4px; /* Strict 4px Limit */
+            padding: 16px;
+            background-color: #FFFFFF;
+        }
+
+        #gw-sp-details-content .gw-feature-icon {
+            color: #27267d; /* Primary Blue */
+            font-size: 16px;
+        }
+
+        #gw-sp-details-content .gw-feature-text {
+            font-size: 13px;
+            font-weight: 500;
+            color: #464651;
+        }
+
+        /* 4. Development Updates Timeline */
+        #gw-sp-details-content .gw-section-subtitle {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            color: #1E1B4B;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        #gw-sp-details-content .gw-timeline-meta {
+            font-family: 'Lexend', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            color: #A0AEC0;
+            text-transform: uppercase;
+        }
+
+        #gw-sp-details-content .gw-timeline-list {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            border-left: 2px solid #E2E8F0;
+            padding-left: 24px;
+            margin-left: 8px; /* Offset to center the line pseudo-elements if added */
+            margin-bottom: 56px;
+        }
+
+        #gw-sp-details-content .gw-timeline-item {
+            position: relative;
+        }
+
+        /* The timeline dot */
+        #gw-sp-details-content .gw-timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -29px; /* Align to the border */
+            top: 4px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #27267d;
+            border: 2px solid #FFFFFF;
+            box-shadow: 0 0 0 2px #27267d;
+        }
+
+        #gw-sp-details-content .gw-timeline-item.pending::before {
+            background-color: #E2E8F0;
+            box-shadow: 0 0 0 2px #A0AEC0;
+        }
+
+        #gw-sp-details-content .gw-milestone-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        #gw-sp-details-content .gw-milestone-badge {
+            background-color: #e5eeff;
+            color: #27267d;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border-radius: 4px; /* Strict 4px Limit */
+        }
+        
+        #gw-sp-details-content .gw-timeline-item.pending .gw-milestone-badge {
+            background-color: #F7FAFC;
+            color: #718096;
+            border: 1px solid #E2E8F0;
+        }
+
+        #gw-sp-details-content .gw-milestone-date {
+            font-size: 11px;
+            color: #718096;
+            font-weight: 500;
+        }
+
+        #gw-sp-details-content .gw-milestone-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: #1E1B4B;
+            margin-bottom: 6px;
+        }
+
+        #gw-sp-details-content .gw-milestone-desc {
+            font-size: 13px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        /* 5. GWealth Trust Shield Component */
+        #gw-sp-details-content .gw-trust-shield {
+            background-color: #1E1B4B; /* Legal Ink */
+            border-radius: 4px; /* Strict 4px Limit */
+            padding: 32px;
+            color: #FFFFFF;
+        }
+
+        #gw-sp-details-content .gw-shield-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        #gw-sp-details-content .gw-shield-icon {
+            font-size: 28px;
+            color: #D4AF37; /* Gold */
+        }
+
+        #gw-sp-details-content .gw-shield-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        #gw-sp-details-content .gw-shield-sub {
+            font-size: 12px;
+            color: #A0AEC0;
+        }
+
+        #gw-sp-details-content .gw-shield-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 24px;
+        }
+
+        @media (min-width: 640px) {
+            #gw-sp-details-content .gw-shield-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+            }
+        }
+
+        #gw-sp-details-content .gw-shield-col {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        #gw-sp-details-content .gw-shield-col h5 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: #D4AF37; /* Gold */
+        }
+
+        #gw-sp-details-content .gw-shield-col p {
+            font-size: 11px;
+            color: #E2E8F0;
+            line-height: 1.5;
+        }
+
+    </style>
+
+    <!-- 1. Metadata Grid -->
+    <div class="gw-meta-grid">
+        <div class="gw-meta-card">
+            <span class="gw-meta-title">Survey Status</span>
+            <div class="gw-meta-value"><i class="fa-solid fa-file-signature text-[#27267d]"></i> Survey No: AK/2024/099</div>
+            <div class="gw-meta-sub"><i class="fa-regular fa-clock"></i> Lodge-ready document</div>
+        </div>
+        
+        <div class="gw-meta-card">
+            <span class="gw-meta-title">GPS Coordinates</span>
+            <div class="gw-meta-value"><i class="fa-solid fa-location-crosshairs text-[#27267d]"></i> 4.8472° N, 7.0498° E</div>
+            <div class="gw-meta-sub" style="color: #718096;">Akpabu Owa Region</div>
+        </div>
+
+        <div class="gw-meta-card" style="background-color: #f0fdf4; border-color: #bbf7d0;">
+            <span class="gw-meta-title">Current Status</span>
+            <div class="gw-meta-sub danger" style="margin-bottom: 4px;"><i class="fa-solid fa-fire"></i> Selling Fast (Only 12 Plots)</div>
+            <a href="https://wa.me/2340000000000" target="_blank" class="gw-whatsapp-btn">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp Hotline
+            </a>
+        </div>
+    </div>
+
+    <!-- 2. Typography Block -->
+    <h1 class="gw-property-title">Wealth Kingdom Phase 3</h1>
+    <div class="gw-property-desc">
+        <p>Welcome to <strong>Wealth Kingdom Phase 3</strong>, GWealth Nation's flagship development designed for visionary investors. Located in the rapidly appreciating corridor of Akpabu, this phase offers a perfect blend of high-yield potential and institutional security.</p>
+        <p>This development is tailored for those who value transparency and legal clarity. Every plot comes with a verified history and a commitment to zero hidden fees. Whether you are looking to build a generational family home or diversify your investment portfolio, Wealth Kingdom provides the structural foundation you need.</p>
+    </div>
+
+    <!-- 3. Features Grid -->
+    <div class="gw-features-grid">
+        <div class="gw-feature-item">
+            <i class="fa-solid fa-file-contract gw-feature-icon"></i>
+            <span class="gw-feature-text">100% C of O Global Process</span>
+        </div>
+        <div class="gw-feature-item">
+            <i class="fa-solid fa-layer-group gw-feature-icon"></i>
+            <span class="gw-feature-text">Dry, Table-flat Land</span>
+        </div>
+        <div class="gw-feature-item">
+            <i class="fa-solid fa-bolt gw-feature-icon"></i>
+            <span class="gw-feature-text">Proposed Estate Power Grid</span>
+        </div>
+        <div class="gw-feature-item">
+            <i class="fa-solid fa-shield-halved gw-feature-icon"></i>
+            <span class="gw-feature-text">24/7 Gated Security Patrol</span>
+        </div>
+    </div>
+
+    <!-- 4. Development Updates Timeline -->
+    <h3 class="gw-section-subtitle">
+        Development Updates
+        <span class="gw-timeline-meta">Updated 2 days ago</span>
+    </h3>
+    <div class="gw-timeline-list">
+        
+        <div class="gw-timeline-item active">
+            <div class="gw-milestone-header">
+                <span class="gw-milestone-badge">Milestone 1</span>
+                <span class="gw-milestone-date">Sept 20, 2024</span>
+            </div>
+            <h4 class="gw-milestone-title">Perimeter Fencing in Progress</h4>
+            <p class="gw-milestone-desc">Phase 3 boundaries are currently being secured with reinforced concrete fencing. 65% completed.</p>
+        </div>
+
+        <div class="gw-timeline-item pending">
+            <div class="gw-milestone-header">
+                <span class="gw-milestone-badge">Milestone 2</span>
+                <span class="gw-milestone-date">Pending</span>
+            </div>
+            <h4 class="gw-milestone-title">Access Road Clearing</h4>
+            <p class="gw-milestone-desc">Internal road network layout and site grading scheduled for next quarter.</p>
+        </div>
+
+    </div>
+
+    <!-- 5. GWealth Trust Shield -->
+    <div class="gw-trust-shield">
+        <div class="gw-shield-header">
+            <i class="fa-solid fa-shield-halved gw-shield-icon"></i>
+            <div>
+                <h4 class="gw-shield-title">The GWealth Trust Shield</h4>
+                <p class="gw-shield-sub">Guaranteed legal protection for every plot owner.</p>
+            </div>
+        </div>
+        <div class="gw-shield-grid">
+            <div class="gw-shield-col">
+                <h5>Zero Hidden Fees</h5>
+                <p>The price you see covers primary paperwork and developmental levy.</p>
+            </div>
+            <div class="gw-shield-col">
+                <h5>C of O Priority</h5>
+                <p>Institutional processing of your individual Deed of Assignment.</p>
+            </div>
+            <div class="gw-shield-col">
+                <h5>Refund Policy</h5>
+                <p>Transparent refund structure if legal standards are not met.</p>
+            </div>
+        </div>
+    </div>
+
+</div>

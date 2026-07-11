@@ -1,0 +1,215 @@
+<!-- 
+  GWealth Nation - Section 2: About Us (Core Philosophy)
+  Objective: Zigzag layout (Image Left, Content Right), strict namespace, vault motion animations.
+  Instructions: Paste this block into an Elementor Custom HTML Widget below the Hero Section.
+-->
+<div id="gw-section-about">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-section-about {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%); /* Fullbleed breakout */
+            padding: 96px 0;
+            background-color: #FAFAFA; /* surface */
+            font-family: 'Lexend', sans-serif;
+            overflow: hidden; /* prevents reveal animations from breaking layout */
+        }
+
+        #gw-section-about * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        #gw-section-about .gw-container {
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* Zigzag Grid */
+        #gw-section-about .gw-about-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        @media (min-width: 992px) {
+            #gw-section-about .gw-about-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 80px;
+            }
+        }
+
+        /* Image Column (Left) */
+        #gw-section-about .gw-about-img-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 4px; /* Strict 4px limit */
+            overflow: hidden;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03); /* Level-1 Elevation */
+            /* Fixed aspect ratio trick */
+            padding-top: 80%;
+            transition: box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        #gw-section-about .gw-about-img-wrapper:hover {
+            box-shadow: 0px 12px 32px rgba(0, 0, 0, 0.08); /* Level-2 Elevation */
+            transform: translateY(-4px); /* Premium subtle lift */
+        }
+
+        #gw-section-about .gw-about-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #gw-section-about .gw-about-img-wrapper:hover .gw-about-img {
+            transform: scale(1.05); /* Slow, elegant inner zoom */
+        }
+
+        /* Content Column (Right) */
+        #gw-section-about .gw-about-heading {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 40px;
+            font-weight: 800;
+            color: #0b1c30; /* on-surface */
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+            #gw-section-about .gw-about-heading {
+                font-size: 32px;
+            }
+        }
+
+        #gw-section-about .gw-about-heading .gw-highlight {
+            color: #bb001b; /* primary red */
+        }
+
+        #gw-section-about .gw-about-body {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #4a5568; /* secondary text */
+            margin-bottom: 20px;
+        }
+
+        #gw-section-about .gw-about-body:last-of-type {
+            margin-bottom: 32px;
+        }
+
+        /* Button CTA */
+        #gw-section-about .gw-btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #27267d; /* corporate blue */
+            color: #ffffff;
+            font-family: 'Lexend', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 16px 32px;
+            border-radius: 4px; /* Strict 4px rule */
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #gw-section-about .gw-btn-primary:hover {
+            background-color: #3f3f95; /* primary-container hover */
+            transform: scale(1.02); /* Premium hover hook */
+            box-shadow: 0px 8px 24px rgba(63, 63, 149, 0.15); /* Vault elevated shadow */
+        }
+
+        /* --- THE VAULT AESTHETIC MOTION DESIGN --- */
+        #gw-section-about .gw-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            will-change: transform, opacity;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #gw-section-about .gw-reveal-left {
+            opacity: 0;
+            transform: translateX(-30px); /* Subtle 30px offset */
+            will-change: transform, opacity;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #gw-section-about .gw-reveal.gw-visible,
+        #gw-section-about .gw-reveal-left.gw-visible {
+            opacity: 1;
+            transform: translateY(0) translateX(0);
+        }
+    </style>
+
+    <div class="gw-container">
+        <div class="gw-about-grid">
+            
+            <!-- Left: Image (Slides in from left) -->
+            <div class="gw-about-img-col gw-reveal-left">
+                <div class="gw-about-img-wrapper">
+                    <!-- High quality placeholder: Replace src with actual team/site photo -->
+                    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="GWealth Institutional Developers" class="gw-about-img" loading="lazy">
+                </div>
+            </div>
+
+            <!-- Right: Content (Rises from bottom) -->
+            <div class="gw-about-content-col gw-reveal" style="transition-delay: 0.15s;">
+                <h2 class="gw-about-heading">
+                    Direct Developers.<br>
+                    <span class="gw-highlight">No Hidden Fees.</span>
+                </h2>
+                <p class="gw-about-body">
+                    GWealth Nation is a leading institutional real estate developer focused on delivering secure, verified land ownership across Southern and Eastern Nigeria.
+                </p>
+                <p class="gw-about-body">
+                    We completely eliminate the middlemen. That means absolutely zero agency fees, zero documentation charges, and immediate registered surveys. When you invest with us, you are securing true peace of mind.
+                </p>
+                <a href="/about/" class="gw-btn-primary">Learn More About Us</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scoped Component Logic (IIFE) -->
+    <script>
+        (() => {
+            document.addEventListener('DOMContentLoaded', () => {
+                const revealElements = document.querySelectorAll('#gw-section-about .gw-reveal, #gw-section-about .gw-reveal-left');
+                
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0.15 // Triggers when 15% is visible
+                };
+
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('gw-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                revealElements.forEach(el => observer.observe(el));
+            });
+        })();
+    </script>
+</div>

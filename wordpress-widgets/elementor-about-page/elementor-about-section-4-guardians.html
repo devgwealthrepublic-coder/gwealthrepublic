@@ -1,0 +1,166 @@
+<!-- elementor-about-section-4-guardians.html -->
+<style>
+body { margin: 0; padding: 0; overflow-x: hidden; }
+* { box-sizing: border-box; }
+/* --- Vanilla CSS: Guardians of GWealth --- */
+.gw-guardians-section {
+  max-width: 100%;
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  padding: 80px 5%;
+}
+.gw-guardians-header {
+  text-align: left;
+  margin-bottom: 40px;
+}
+.gw-guardians-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #27267d;
+  margin: 0 0 12px 0;
+}
+.gw-guardians-desc {
+  font-size: 16px;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0;
+}
+.gw-guardians-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.gw-guardian-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+  background: #ffffff;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(0);
+}
+.gw-guardian-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 25px 50px rgba(39,38,125,0.15);
+}
+.gw-guardian-img-wrap {
+  width: 100%;
+  aspect-ratio: 4/5;
+  position: relative;
+  overflow: hidden;
+}
+.gw-guardian-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #f1f5f9;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.gw-guardian-card:hover .gw-guardian-img {
+  transform: scale(1.05);
+}
+.gw-guardian-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(15,23,42,0.9) 0%, rgba(15,23,42,0.4) 50%, transparent 100%);
+  opacity: 0.8;
+  transition: opacity 0.4s;
+}
+.gw-guardian-card:hover .gw-guardian-img-wrap::after {
+  opacity: 1;
+}
+.gw-guardian-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 32px 24px 24px;
+  color: #ffffff;
+  z-index: 2;
+  transform: translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.gw-guardian-card:hover .gw-guardian-info {
+  transform: translateY(0);
+}
+.gw-guardian-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+}
+.gw-guardian-role {
+  font-size: 13px;
+  font-weight: 800;
+  color: #f59e0b;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 12px 0;
+}
+.gw-guardian-bio {
+  font-size: 14px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0;
+  max-height: 0;
+  transition: opacity 0.4s, max-height 0.4s;
+  overflow: hidden;
+}
+.gw-guardian-card:hover .gw-guardian-bio {
+  opacity: 1;
+  max-height: 150px;
+}
+
+@media(max-width: 992px) {
+  .gw-guardians-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media(max-width: 576px) {
+  .gw-guardians-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="gw-guardians-section">
+  <div class="gw-guardians-header">
+    <h2 class="gw-guardians-title">Guardians of GWealth</h2>
+    <p class="gw-guardians-desc">Meet the legal and real estate veterans steering our commitment to institutional transparency.</p>
+  </div>
+
+  <div class="gw-guardians-grid">
+    
+    <div class="gw-guardian-card gw-animate gw-delay-100">
+      <div class="gw-guardian-img-wrap">
+        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400" alt="Dr. Samuel Uzoma" class="gw-guardian-img">
+        <div class="gw-guardian-info">
+          <h3 class="gw-guardian-name">Dr. Samuel Uzoma</h3>
+          <p class="gw-guardian-role">Chief Executive Officer</p>
+          <p class="gw-guardian-bio">With over 20 years in property law and urban planning, Dr. Uzoma oversees the strategic acquisitions of all GWealth Nation estates.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gw-guardian-card gw-animate gw-delay-200">
+      <div class="gw-guardian-img-wrap">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400" alt="Barr. Amaka Okoye" class="gw-guardian-img">
+        <div class="gw-guardian-info">
+          <h3 class="gw-guardian-name">Barr. Amaka Okoye</h3>
+          <p class="gw-guardian-role">Head of Legal Services</p>
+          <p class="gw-guardian-bio">Amaka leads our verification team, ensuring every plot of land under our management meets 100% of state and federal regulatory laws.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gw-guardian-card gw-animate gw-delay-300">
+      <div class="gw-guardian-img-wrap">
+        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400" alt="Chinedu Okafor" class="gw-guardian-img">
+        <div class="gw-guardian-info">
+          <h3 class="gw-guardian-name">Chinedu Okafor</h3>
+          <p class="gw-guardian-role">Director of Operations</p>
+          <p class="gw-guardian-bio">Chinedu manages the physical development of our estates, from perimeter fencing to road networking, ensuring asset value is preserved.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

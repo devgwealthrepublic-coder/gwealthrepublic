@@ -1,0 +1,481 @@
+<!-- section-2-grid.html -->
+<style>
+/* --- Vanilla CSS for Grid Section --- */
+.gw-grid-section { 
+  max-width: 100%; 
+  padding: 0 5%;
+  margin: 40px auto; 
+  font-family: 'Plus Jakarta Sans', sans-serif; 
+}
+.gw-grid-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 24px; 
+  flex-wrap: wrap; 
+  gap: 16px; 
+}
+.gw-grid-title { 
+  font-size: 28px; 
+  font-weight: 800; 
+  color: #27267d; 
+  margin: 0; 
+  letter-spacing: -0.5px;
+}
+.gw-sort-group { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+}
+.gw-sort-label { 
+  font-size: 14px; 
+  font-weight: 700; 
+  color: #64748b; 
+}
+.gw-sort-select { 
+  padding: 8px 16px; 
+  border: 1px solid #e2e8f0; 
+  border-radius: 6px; 
+  font-size: 14px; 
+  font-weight: 600; 
+  color: #27267d; 
+  cursor: pointer; 
+  outline: none; 
+  background: #ffffff; 
+}
+
+/* Grid & Cards */
+.gw-properties-grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+  gap: 32px; 
+}
+.gw-card { 
+  background: #ffffff; 
+  border: 1px solid #e2e8f0; 
+  border-radius: 12px; 
+  overflow: hidden; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+  transition: box-shadow 0.3s ease; 
+  display: flex; 
+  flex-direction: column; 
+}
+.gw-card:hover { 
+  box-shadow: 0 10px 20px rgba(0,0,0,0.06); 
+}
+.gw-card-image-wrap { 
+  height: 220px; 
+  position: relative; 
+  background: #f1f5f9; 
+  overflow: hidden; 
+}
+.gw-card-image { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  transition: transform 0.5s ease; 
+}
+.gw-card:hover .gw-card-image { 
+  transform: scale(1.05); 
+}
+.gw-badge-status { 
+  position: absolute; 
+  top: 16px; 
+  left: 16px; 
+  background: rgba(255,255,255,0.9); 
+  backdrop-filter: blur(4px); 
+  color: #0f172a; 
+  font-size: 10px; 
+  font-weight: 800; 
+  padding: 6px 12px; 
+  border-radius: 4px; 
+  text-transform: uppercase; 
+  letter-spacing: 1px; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.gw-badge-price { 
+  position: absolute; 
+  bottom: 16px; 
+  right: 16px; 
+  background: #27267d; 
+  color: #ffffff; 
+  font-size: 14px; 
+  font-weight: 800; 
+  padding: 8px 16px; 
+  border-radius: 4px; 
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+.gw-card-body { 
+  padding: 24px; 
+  display: flex; 
+  flex-direction: column; 
+  flex: 1; 
+}
+.gw-card-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: flex-start; 
+  margin-bottom: 8px; 
+}
+.gw-card-title { 
+  font-size: 20px; 
+  font-weight: 800; 
+  color: #27267d; 
+  margin: 0; 
+  line-height: 1.2; 
+}
+.gw-card-badge { 
+  background: #fef3c7; 
+  color: #92400e; 
+  font-size: 10px; 
+  font-weight: 800; 
+  padding: 4px 8px; 
+  border-radius: 4px; 
+  text-transform: uppercase; 
+  white-space: nowrap; 
+  margin-left: 12px; 
+}
+.gw-card-location { 
+  font-size: 14px; 
+  color: #64748b; 
+  font-weight: 500; 
+  display: flex; 
+  align-items: center; 
+  gap: 4px; 
+  margin-bottom: 24px; 
+}
+.gw-card-info-grid { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 16px; 
+  margin-bottom: 24px; 
+  margin-top: auto; 
+  border-top: 1px solid #e2e8f0; 
+  padding-top: 16px; 
+}
+.gw-info-item { 
+  display: flex; 
+  flex-direction: column; 
+}
+.gw-info-label { 
+  font-size: 12px; 
+  font-weight: 700; 
+  color: #64748b; 
+  display: flex; 
+  align-items: center; 
+  gap: 4px; 
+  margin-bottom: 4px; 
+}
+.gw-info-value { 
+  font-size: 14px; 
+  font-weight: 600; 
+  color: #0f172a; 
+}
+.gw-card-btn { 
+  display: block; 
+  text-align: center; 
+  width: 100%; 
+  background: #ffffff; 
+  color: #27267d; 
+  border: 1px solid #27267d; 
+  padding: 12px; 
+  border-radius: 6px; 
+  font-size: 14px; 
+  font-weight: 700; 
+  text-decoration: none; 
+  transition: background 0.2s, color 0.2s; 
+  box-sizing: border-box;
+}
+.gw-card-btn:hover { 
+  background: #27267d; 
+  color: #ffffff; 
+}
+
+/* Load More */
+.gw-load-more { 
+  display: none; /* hidden by default */
+  justify-content: center; 
+  margin-top: 48px; 
+}
+.gw-load-more-btn { 
+  background: #ffffff; 
+  color: #27267d; 
+  border: 1px solid #27267d; 
+  padding: 12px 32px; 
+  border-radius: 6px; 
+  font-size: 14px; 
+  font-weight: 700; 
+  cursor: pointer; 
+  transition: 0.2s; 
+}
+.gw-load-more-btn:hover { 
+  background: #27267d; 
+  color: #ffffff; 
+}
+
+/* States */
+.gw-state-message { 
+  grid-column: 1 / -1; 
+  padding: 80px 0; 
+  text-align: center; 
+  color: #27267d; 
+  font-weight: 700; 
+  font-size: 16px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+</style>
+
+<div class="gw-grid-section">
+  
+  <div class="gw-grid-header">
+    <h2 class="gw-grid-title">Institutional Holdings</h2>
+    
+    <div class="gw-sort-group">
+      <span class="gw-sort-label">Sort By:</span>
+      <select id="gw-sort" class="gw-sort-select">
+        <option value="newest">Newest First</option>
+        <option value="price_asc">Price: Low to High</option>
+        <option value="price_desc">Price: High to Low</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="gw-properties-grid" class="gw-properties-grid">
+    <div class="gw-state-message">Loading premium estates...</div>
+  </div>
+
+  <div class="gw-load-more" id="gw-load-more-container">
+    <button id="gw-load-more-btn" class="gw-load-more-btn">Load More Estates</button>
+  </div>
+
+</div>
+
+<!-- Logic Script for the entire app -->
+<script>
+(function() {
+  const initGrid = () => {
+    try {
+      // Configuration - Switch to WordPress REST API
+      const API_BASE_URL = 'http://gwealthrepublic.local/wp-json/wp/v2/properties?per_page=100'; 
+
+      // Fallback premium images matching the homepage logic
+      const fallbackImages = [
+        'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80'
+      ];
+      
+      // State
+      let allProperties = []; // Store all fetched properties
+      let properties = []; // Store currently filtered properties
+      let currentPage = 1;
+      const itemsPerPage = 6;
+      let totalPages = 1;
+      let isLoading = false;
+
+      // Grid Elements
+      const gridEl = document.getElementById('gw-properties-grid');
+      const sortEl = document.getElementById('gw-sort');
+      const loadMoreBtn = document.getElementById('gw-load-more-btn');
+      const loadMoreContainer = document.getElementById('gw-load-more-container');
+
+      if (!gridEl) return; // Safety check in case it's not rendered yet
+
+      // Filter Elements (From Section 1)
+      const filterLocation = document.getElementById('gw-filter-location');
+      const filterPrice = document.getElementById('gw-filter-price');
+      const filterTitle = document.getElementById('gw-filter-title');
+      const searchBtn = document.getElementById('gw-search-btn');
+
+      // Number extraction for WP string price
+      const extractNumber = (str) => {
+        if (!str) return 0;
+        const num = Number(String(str).replace(/[^0-9.-]+/g,""));
+        return isNaN(num) ? 0 : num;
+      };
+
+      const formatCurrency = (amount) => {
+        if (!amount) return '0';
+        const num = extractNumber(amount);
+        return new Intl.NumberFormat('en-NG').format(num);
+      };
+
+      // Fetch logic (Fetch all once, then filter client-side)
+      const fetchProperties = async () => {
+        if (isLoading) return;
+        isLoading = true;
+        gridEl.innerHTML = '<div class="gw-state-message">Fetching properties...</div>';
+
+        try {
+          const res = await fetch(API_BASE_URL);
+          if (!res.ok) throw new Error('API unreachable');
+          const data = await res.json();
+
+          // Map WP JSON to our Schema
+          allProperties = data.map(post => ({
+            id: post.id,
+            propertyName: post.title.rendered,
+            priceRaw: extractNumber(post.acf?.property_price),
+            priceString: post.acf?.property_price,
+            location: post.acf?.property_location || 'Nigeria',
+            address: post.acf?.property_location || 'Nigeria',
+            plotSize: post.acf?.property_size || 'N/A',
+            titleType: post.acf?.survey_status || 'Registered',
+            badge: post.acf?.property_badge || 'Available',
+            featuredImage: post.acf?.property_featured_image || post.featured_media_url || '',
+            date: new Date(post.date).getTime()
+          }));
+
+          applyFiltersAndRender(true);
+        } catch (err) {
+          console.error('Fetch error:', err);
+          gridEl.innerHTML = '<div class="gw-state-message" style="color: #ef4444;">Could not load properties from WordPress. Ensure WP backend is running.</div>';
+        } finally {
+          isLoading = false;
+        }
+      };
+
+      const applyFiltersAndRender = (resetPage = false) => {
+        if (resetPage) currentPage = 1;
+
+        // 1. Filter
+        let filtered = allProperties.filter(p => {
+          let matchLocation = true;
+          let matchPrice = true;
+          let matchTitle = true;
+
+          if (filterLocation && filterLocation.value) {
+            matchLocation = p.location.toLowerCase().includes(filterLocation.value.toLowerCase());
+          }
+
+          if (filterTitle && filterTitle.value) {
+            matchTitle = p.titleType.toLowerCase().includes(filterTitle.value.toLowerCase());
+          }
+
+          if (filterPrice && filterPrice.value) {
+            const [minStr, maxStr] = filterPrice.value.split('-');
+            const min = Number(minStr);
+            const max = Number(maxStr);
+            if (!isNaN(min) && p.priceRaw < min) matchPrice = false;
+            if (!isNaN(max) && p.priceRaw > max) matchPrice = false;
+          }
+
+          return matchLocation && matchPrice && matchTitle;
+        });
+
+        // 2. Sort
+        if (sortEl && sortEl.value) {
+          if (sortEl.value === 'newest') {
+            filtered.sort((a, b) => b.date - a.date);
+          } else if (sortEl.value === 'price_asc') {
+            filtered.sort((a, b) => a.priceRaw - b.priceRaw);
+          } else if (sortEl.value === 'price_desc') {
+            filtered.sort((a, b) => b.priceRaw - a.priceRaw);
+          }
+        }
+
+        properties = filtered;
+        totalPages = Math.ceil(properties.length / itemsPerPage) || 1;
+        renderProperties();
+      };
+
+      const renderProperties = () => {
+        if (properties.length === 0) {
+          gridEl.innerHTML = '<div class="gw-state-message">No properties match your search.</div>';
+          if (loadMoreContainer) loadMoreContainer.style.display = 'none';
+          return;
+        }
+
+        // Paginate
+        const startIndex = 0; // Always render from start to current page * itemsPerPage
+        const endIndex = currentPage * itemsPerPage;
+        const paginatedProperties = properties.slice(startIndex, endIndex);
+
+        const html = paginatedProperties.map(p => {
+          // Dynamic realistic image fallback if no featuredImage is uploaded via MERN / ACF
+          const displayImage = p.featuredImage ? p.featuredImage : fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
+          
+          return `
+          <div class="gw-card">
+            <div class="gw-card-image-wrap">
+              <img src="${displayImage}" alt="${p.propertyName}" class="gw-card-image"/>
+              <div class="gw-badge-price">₦${formatCurrency(p.priceString)}</div>
+            </div>
+
+            <div class="gw-card-body">
+              <div class="gw-card-header">
+                <h3 class="gw-card-title">${p.propertyName}</h3>
+                ${p.badge ? `<span class="gw-card-badge">${p.badge}</span>` : ''}
+              </div>
+
+              <div class="gw-card-location">
+                <span class="material-icons-outlined" style="font-size:16px;">location_on</span>
+                ${p.address}
+              </div>
+
+              <div class="gw-card-info-grid">
+                <div class="gw-info-item">
+                  <span class="gw-info-label">
+                    <span class="material-icons-outlined" style="font-size:14px;">description</span> Title
+                  </span>
+                  <span class="gw-info-value">${p.titleType}</span>
+                </div>
+                <div class="gw-info-item">
+                  <span class="gw-info-label">
+                    <span class="material-icons-outlined" style="font-size:14px;">straighten</span> Size
+                  </span>
+                  <span class="gw-info-value">${p.plotSize}</span>
+                </div>
+              </div>
+
+              <a href="/property/${p.id}" class="gw-card-btn">
+                View Property Details &rarr;
+              </a>
+            </div>
+          </div>
+        `}).join('');
+
+        gridEl.innerHTML = html;
+
+        if (loadMoreContainer) {
+          if (currentPage < totalPages) loadMoreContainer.style.display = 'flex';
+          else loadMoreContainer.style.display = 'none';
+        }
+      };
+
+      // Bind Events (ensure we don't double bind if Elementor re-renders)
+      if (searchBtn && !searchBtn.dataset.bound) {
+        searchBtn.addEventListener('click', () => applyFiltersAndRender(true));
+        searchBtn.dataset.bound = true;
+      }
+      if (sortEl && !sortEl.dataset.bound) {
+        sortEl.addEventListener('change', () => applyFiltersAndRender(true));
+        sortEl.dataset.bound = true;
+      }
+      if (loadMoreBtn && !loadMoreBtn.dataset.bound) {
+        loadMoreBtn.addEventListener('click', () => {
+          currentPage++;
+          renderProperties();
+        });
+        loadMoreBtn.dataset.bound = true;
+      }
+
+      // Init
+      fetchProperties();
+    } catch (e) {
+      console.error('Elementor Custom HTML Script Error:', e);
+    }
+  };
+
+  // Run safely whether loaded or not
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGrid);
+  } else {
+    // Timeout helps Elementor editor finish rendering the DOM nodes
+    setTimeout(initGrid, 100); 
+  }
+})();
+</script>

@@ -1,0 +1,250 @@
+<!-- elementor-about-section-1-hero.html -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+<style>
+body { margin: 0; padding: 0; overflow-x: hidden; }
+* { box-sizing: border-box; }
+/* --- Vanilla CSS: About Hero Zigzag --- */
+.gw-about-hero {
+  max-width: 100%;
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  padding: 60px 5%;
+}
+.gw-hero-content {
+  flex: 1;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+.gw-hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f1f5f9;
+  color: #27267d;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+.gw-hero-title {
+  font-size: 42px;
+  font-weight: 800;
+  color: #27267d;
+  line-height: 1.15;
+  margin: 0 0 24px 0;
+  letter-spacing: -1px;
+}
+.gw-hero-desc {
+  font-size: 16px;
+  color: #475569;
+  line-height: 1.7;
+  margin: 0 0 24px 0;
+}
+.gw-hero-stats {
+  display: flex;
+  gap: 40px;
+  margin-top: 40px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 32px;
+}
+.gw-stat {
+  display: flex;
+  flex-direction: column;
+}
+.gw-stat-number {
+  font-size: 28px;
+  font-weight: 800;
+  color: #27267d;
+  margin-bottom: 4px;
+}
+.gw-stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.gw-hero-image-col {
+  flex: 1;
+  position: relative;
+  animation: fadeInRight 1s ease-out forwards;
+}
+.gw-hero-img-wrap {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+}
+.gw-hero-img-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.gw-hero-badge {
+  position: absolute;
+  bottom: -20px;
+  left: -20px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 250px;
+  z-index: 2;
+}
+.gw-hero-badge-icon {
+  width: 48px;
+  height: 48px;
+  background: #fef3c7;
+  color: #f59e0b;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.gw-hero-badge-text h4 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: #27267d;
+}
+.gw-hero-badge-text p {
+  margin: 0;
+  font-size: 11px;
+  color: #64748b;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Scroll Animation Utilities */
+.gw-animate {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.gw-animate.gw-is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.gw-delay-100 { transition-delay: 100ms; }
+.gw-delay-200 { transition-delay: 200ms; }
+.gw-delay-300 { transition-delay: 300ms; }
+.gw-delay-400 { transition-delay: 400ms; }
+
+@media(max-width: 992px) {
+  .gw-about-hero { flex-direction: column; gap: 40px; }
+  .gw-hero-badge { bottom: 20px; left: 20px; }
+  .gw-hero-title { font-size: 32px; }
+}
+</style>
+
+<div class="gw-about-hero">
+  <div class="gw-hero-content">
+    <div class="gw-hero-tag">
+      <span class="material-icons-outlined" style="font-size:16px;">verified_user</span> Institutional Trust Since 2018
+    </div>
+    <h1 class="gw-hero-title">Securing the Future of Southern Real Estate.</h1>
+    <p class="gw-hero-desc">
+      G-Wealth Republic is a private limited liability company operating as an integrated economic authority designed to expand land ownership, food security, and wealth education across Africa. We stand as a cornerstone of institutional reliability in the Southern and Eastern Nigerian real estate sectors.
+    </p>
+    <p class="gw-hero-desc">
+      Specializing in direct-to-consumer land sales, we eliminate the opacity of traditional brokerage. Every square meter under GWealth Nation management has been rigorously vetted, cleared, and secured before it ever reaches the market.
+    </p>
+    
+    <div class="gw-hero-stats">
+      <div class="gw-stat">
+        <span class="gw-stat-number"><span class="gw-counter" data-target="5000">0</span>+</span>
+        <span class="gw-stat-label">Verified Titles Issued</span>
+      </div>
+      <div class="gw-stat">
+        <span class="gw-stat-number"><span class="gw-counter" data-target="100">0</span>%</span>
+        <span class="gw-stat-label">Legal Success Rate</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="gw-hero-image-col">
+    <div class="gw-hero-img-wrap">
+      <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=800" alt="GWealth Estate Development">
+    </div>
+    <div class="gw-hero-badge">
+      <div class="gw-hero-badge-icon">
+        <span class="material-icons-outlined">workspace_premium</span>
+      </div>
+      <div class="gw-hero-badge-text">
+        <h4>C of O Certified</h4>
+        <p>All documents ready for instant transfer.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Counter animation
+  const counters = document.querySelectorAll('.gw-counter');
+  const speed = 100; // lower is faster
+
+  counters.forEach(counter => {
+    const target = +counter.getAttribute('data-target');
+    const updateCount = () => {
+      const count = +counter.innerText.replace(/,/g, '');
+      const inc = target / speed;
+      if (count < target) {
+        counter.innerText = Math.ceil(count + inc).toLocaleString();
+        setTimeout(updateCount, 20);
+      } else {
+        counter.innerText = target.toLocaleString();
+      }
+    };
+    // add small delay so user sees it start
+    setTimeout(updateCount, 400); 
+  });
+
+  // Scroll Animations using Intersection Observer
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px"
+  };
+  
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        entry.target.classList.add('gw-is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  // Poll for dynamically added .gw-animate elements if Elementor loads them late
+  const observeElements = () => {
+    const animateElements = document.querySelectorAll('.gw-animate:not(.gw-is-visible)');
+    animateElements.forEach(el => observer.observe(el));
+  };
+  
+  observeElements();
+  // Call it again after a delay in case other sections take time to render
+  setTimeout(observeElements, 1000);
+});
+</script>

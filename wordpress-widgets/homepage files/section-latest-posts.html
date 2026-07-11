@@ -1,0 +1,352 @@
+<!-- 
+  GWealth Nation - Homepage Latest Posts Section
+  Objective: Dynamic grid fetching the 3 latest blog posts from WP REST API.
+  Instructions: Paste this block into an Elementor Custom HTML Widget on the Home Page.
+-->
+<div id="gw-latest-posts-section">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-latest-posts-section {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            padding: 96px 0;
+            background-color: #ffffff; /* Clean white background */
+            font-family: 'Lexend', sans-serif;
+            overflow: hidden;
+        }
+
+        #gw-latest-posts-section * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        #gw-latest-posts-section .gw-container {
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* Header */
+        #gw-latest-posts-section .gw-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 48px;
+        }
+
+        @media (max-width: 768px) {
+            #gw-latest-posts-section .gw-section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+
+        #gw-latest-posts-section .gw-header-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            color: #1E1B4B; /* Legal Ink */
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        #gw-latest-posts-section .gw-header-subtitle {
+            font-size: 16px;
+            color: #718096;
+            max-width: 600px;
+        }
+
+        #gw-latest-posts-section .gw-view-all {
+            display: inline-flex;
+            align-items: center;
+            font-weight: 600;
+            color: #27267d; /* Primary Blue */
+            text-decoration: none;
+            gap: 8px;
+            transition: color 0.3s ease;
+        }
+
+        #gw-latest-posts-section .gw-view-all:hover {
+            color: #bb001b; /* Crimson Red */
+        }
+
+        /* Grid Layout */
+        #gw-latest-posts-section .gw-posts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+            min-height: 300px;
+        }
+
+        @media (min-width: 768px) {
+            #gw-latest-posts-section .gw-posts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            #gw-latest-posts-section .gw-posts-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Post Card */
+        #gw-latest-posts-section .gw-post-card {
+            background-color: #f8f9fa; /* Light surface */
+            border-radius: 4px; /* Strict 4px Limit */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(30, 27, 75, 0.05);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        #gw-latest-posts-section .gw-post-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0px 16px 32px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Card Image */
+        #gw-latest-posts-section .gw-card-image-wrap {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            overflow: hidden;
+            background-color: #e2e8f0;
+        }
+
+        #gw-latest-posts-section .gw-card-image {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        #gw-latest-posts-section .gw-post-card:hover .gw-card-image {
+            transform: scale(1.05);
+        }
+
+        /* Card Body */
+        #gw-latest-posts-section .gw-card-body {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        #gw-latest-posts-section .gw-category-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background-color: #1E1B4B; /* Legal Ink */
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+
+        #gw-latest-posts-section .gw-card-date {
+            font-size: 12px;
+            color: #718096;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        #gw-latest-posts-section .gw-card-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1E1B4B;
+            line-height: 1.4;
+            margin-bottom: 24px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        #gw-latest-posts-section .gw-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #edf2f7;
+            padding-top: 16px;
+            margin-top: auto;
+        }
+
+        #gw-latest-posts-section .gw-author-avatar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #gw-latest-posts-section .gw-avatar-circle {
+            width: 28px;
+            height: 28px;
+            background-color: #27267d; /* Primary Blue */
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        #gw-latest-posts-section .gw-author-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        #gw-latest-posts-section .gw-read-more {
+            font-size: 13px;
+            font-weight: 600;
+            color: #bb001b; /* Crimson Red */
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: gap 0.2s ease;
+        }
+
+        #gw-latest-posts-section .gw-post-card:hover .gw-read-more {
+            gap: 8px;
+        }
+
+        #gw-latest-posts-section .gw-state-message {
+            text-align: center;
+            padding: 48px 24px;
+            color: #718096;
+            font-size: 16px;
+            grid-column: 1 / -1;
+        }
+    </style>
+
+    <div class="gw-container">
+        
+        <div class="gw-section-header">
+            <div>
+                <h2 class="gw-header-title">Latest Market Insights</h2>
+                <p class="gw-header-subtitle">Stay informed with expert analysis and news from GWealth Nation.</p>
+            </div>
+            <a href="/blog" class="gw-view-all">View All Posts <i class="fa-solid fa-arrow-right-long"></i></a>
+        </div>
+
+        <!-- Grid -->
+        <div class="gw-posts-grid" id="gw-latest-posts-grid">
+            <div class="gw-state-message">Loading latest insights...</div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const gridEl = document.getElementById('gw-latest-posts-grid');
+            if (!gridEl) return;
+
+            const fallbackImages = [
+                'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80'
+            ];
+
+            try {
+                // Fetch exactly 3 posts for the homepage
+                const baseUrl = 'http://gwealthrepublic.local/wp-json/wp/v2/posts';
+                const params = new URLSearchParams({
+                    _embed: 'true',
+                    per_page: 3,
+                    page: 1
+                });
+
+                const response = await fetch(`${baseUrl}?${params.toString()}`);
+                
+                if (!response.ok) {
+                    throw new Error(`API returned ${response.status}`);
+                }
+
+                const posts = await response.json();
+                
+                gridEl.innerHTML = '';
+
+                if (posts.length === 0) {
+                    gridEl.innerHTML = '<div class="gw-state-message">No posts available at the moment.</div>';
+                    return;
+                }
+
+                posts.forEach((post, index) => {
+                    const dateOpts = { year: 'numeric', month: 'short', day: 'numeric' };
+                    const formattedDate = new Date(post.date).toLocaleDateString('en-US', dateOpts);
+
+                    let imageUrl = fallbackImages[index % fallbackImages.length];
+                    if (post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0]) {
+                        imageUrl = post._embedded['wp:featuredmedia'][0].source_url;
+                    }
+
+                    // Extract Category
+                    let categoryName = 'News';
+                    if (post._embedded && post._embedded['wp:term'] && post._embedded['wp:term'][0] && post._embedded['wp:term'][0].length > 0) {
+                        categoryName = post._embedded['wp:term'][0][0].name;
+                    }
+
+                    // Extract Author
+                    let authorName = 'GWealth Admin';
+                    if (post._embedded && post._embedded['author'] && post._embedded['author'][0]) {
+                        authorName = post._embedded['author'][0].name;
+                    }
+
+                    // Extract Initials
+                    let initials = 'GW';
+                    if (authorName) {
+                        const parts = authorName.split(' ');
+                        if (parts.length > 1) {
+                            initials = (parts[0][0] + parts[1][0]).toUpperCase();
+                        } else {
+                            initials = parts[0].substring(0, 2).toUpperCase();
+                        }
+                    }
+
+                    const cardHTML = `
+                        <a href="${post.link}" class="gw-post-card">
+                            <div class="gw-card-image-wrap">
+                                <img src="${imageUrl}" alt="${post.title.rendered}" class="gw-card-image" loading="lazy" />
+                                <div class="gw-category-badge">${categoryName}</div>
+                            </div>
+                            <div class="gw-card-body">
+                                <div class="gw-card-date">${formattedDate}</div>
+                                <h3 class="gw-card-title">${post.title.rendered}</h3>
+                                
+                                <div class="gw-card-footer">
+                                    <div class="gw-author-avatar">
+                                        <div class="gw-avatar-circle">${initials}</div>
+                                        <span class="gw-author-name">${authorName}</span>
+                                    </div>
+                                    <span class="gw-read-more">Read <i class="fa-solid fa-arrow-right-long"></i></span>
+                                </div>
+                            </div>
+                        </a>
+                    `;
+                    gridEl.insertAdjacentHTML('beforeend', cardHTML);
+                });
+
+            } catch (error) {
+                console.error('Error fetching latest posts:', error);
+                gridEl.innerHTML = '<div class="gw-state-message" style="color: #ef4444;">Unable to load insights at this time.</div>';
+            }
+        });
+    </script>
+</div>

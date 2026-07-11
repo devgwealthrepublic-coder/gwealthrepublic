@@ -1,0 +1,99 @@
+<!-- 
+  GWealth Nation - Blog Page Section 1: Hero
+  Objective: Premium header for the Insights & News page.
+  Instructions: Paste this block into an Elementor Custom HTML Widget.
+-->
+<div id="gw-blog-hero">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-blog-hero {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            padding: 80px 0;
+            background-color: #1E1B4B; /* Legal Ink Background */
+            color: #ffffff;
+            font-family: 'Lexend', sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        #gw-blog-hero * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        #gw-blog-hero .gw-container {
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 5%;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Decorative Grid Background */
+        #gw-blog-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 1;
+        }
+
+        /* Typography */
+        #gw-blog-hero .gw-hero-badge {
+            display: inline-block;
+            background-color: rgba(212, 175, 55, 0.1);
+            color: #D4AF37; /* Gold */
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 6px 16px;
+            border-radius: 4px; /* Strict 4px Limit */
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+
+        #gw-blog-hero .gw-hero-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 40px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        @media (min-width: 768px) {
+            #gw-blog-hero .gw-hero-title {
+                font-size: 56px;
+            }
+        }
+
+        #gw-blog-hero .gw-hero-subtitle {
+            font-size: 16px;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        @media (min-width: 768px) {
+            #gw-blog-hero .gw-hero-subtitle {
+                font-size: 18px;
+            }
+        }
+    </style>
+
+    <div class="gw-container">
+        <span class="gw-hero-badge">Insights & News</span>
+        <h1 class="gw-hero-title">Real Estate Intelligence for the Modern Investor</h1>
+        <p class="gw-hero-subtitle">Stay ahead of the curve with expert market analysis, investment strategies, and exclusive updates from GWealth Nation.</p>
+    </div>
+</div>

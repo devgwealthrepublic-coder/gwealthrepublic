@@ -1,0 +1,6 @@
+node_modules/
+.env
+*.log
+test_token.txt
+seed.js
+resetAdmin.js

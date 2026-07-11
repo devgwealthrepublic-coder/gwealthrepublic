@@ -1,0 +1,95 @@
+<!-- section-3-trust.html -->
+<style>
+/* --- Vanilla CSS for Trust Section --- */
+.gw-trust-section { 
+  max-width: none; 
+  margin: 64px 5%; 
+  background: #27267d; 
+  color: #ffffff; 
+  border-radius: 16px; 
+  padding: 40px; 
+  position: relative; 
+  overflow: hidden; 
+  font-family: 'Plus Jakarta Sans', sans-serif; 
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); 
+}
+.gw-trust-bg-icon { 
+  position: absolute; 
+  top: 0; 
+  right: 0; 
+  transform: translate(20%, -20%); 
+  font-size: 300px; 
+  opacity: 0.05; 
+  pointer-events: none; 
+}
+.gw-trust-content { 
+  position: relative; 
+  z-index: 10; 
+  max-width: 700px; 
+}
+.gw-trust-title { 
+  font-size: 28px; 
+  font-weight: 800; 
+  margin: 0 0 12px 0; 
+  letter-spacing: -0.5px;
+}
+.gw-trust-desc { 
+  font-size: 16px; 
+  color: #e0e7ff; 
+  line-height: 1.6; 
+  margin: 0 0 32px 0; 
+  font-weight: 500;
+}
+.gw-trust-features { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 32px; 
+}
+.gw-trust-feature { 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  font-size: 14px; 
+  font-weight: 800; 
+}
+.gw-trust-feature .material-icons-outlined { 
+  color: #f59e0b; /* accent gold */
+  font-size: 20px; 
+}
+
+@media(max-width: 768px) { 
+  .gw-trust-section { 
+    padding: 32px 24px; 
+  } 
+  .gw-trust-features { 
+    gap: 16px; 
+    flex-direction: column; 
+  } 
+  .gw-trust-title {
+    font-size: 24px;
+  }
+}
+</style>
+
+<div class="gw-trust-section">
+  <span class="material-icons-outlined gw-trust-bg-icon">shield</span>
+  
+  <div class="gw-trust-content">
+    <h3 class="gw-trust-title">Zero Hidden Fee Guarantee</h3>
+    <p class="gw-trust-desc">
+      Every property listed in the GWealth Nation Hub has passed our 7-step institutional verification process including survey authentication and root of title certification.
+    </p>
+    
+    <div class="gw-trust-features">
+      <div class="gw-trust-feature">
+        <span class="material-icons-outlined">verified_user</span> 100% Legal Clearance
+      </div>
+      <div class="gw-trust-feature">
+        <span class="material-icons-outlined">handshake</span> Direct Developer Assets
+      </div>
+      <div class="gw-trust-feature">
+        <span class="material-icons-outlined">lock</span> Secure Escrow Protocol
+      </div>
+    </div>
+  </div>
+</div>

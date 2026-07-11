@@ -1,0 +1,291 @@
+<!-- 
+  GWealth Nation - Global Header Widget
+  Objective: Fully responsive, 4px strict radius limit, namespace isolated.
+  Instructions: Paste this entire block into an Elementor Custom HTML Widget at the top of the page.
+-->
+<div id="gw-section-global-header">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-section-global-header {
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            font-family: 'Lexend', sans-serif;
+            width: 100%;
+        }
+
+        #gw-section-global-header * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Wrapper (Level-1 Elevation & Trust Slate Border) */
+        #gw-section-global-header .gw-header-wrapper {
+            background-color: #FAFAFA; /* surface */
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03); /* Level-1 Elevation */
+            border-bottom: 1px solid #E2E8F0; /* trust-slate */
+            position: relative; /* Fallback */
+            position: sticky;
+            top: 0;
+            width: 100%;
+        }
+
+        #gw-section-global-header .gw-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 16px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* 1. Logo (Left) */
+        #gw-section-global-header .gw-logo {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: #27267d; /* primary */
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 2. Desktop Navigation (Middle) */
+        #gw-section-global-header .gw-desktop-nav {
+            display: none;
+        }
+
+        @media (min-width: 992px) {
+            #gw-section-global-header .gw-desktop-nav {
+                display: flex;
+                gap: 32px;
+                align-items: center;
+            }
+        }
+
+        #gw-section-global-header .gw-nav-link {
+            font-family: 'Lexend', sans-serif;
+            font-weight: 500;
+            font-size: 15px;
+            color: #0b1c30; /* on-surface */
+            text-decoration: none;
+            transition: color 0.2s ease-in-out;
+            position: relative;
+            padding: 4px 0;
+        }
+
+        #gw-section-global-header .gw-nav-link:hover,
+        #gw-section-global-header .gw-nav-link.active {
+            color: #27267d; /* primary hover state */
+        }
+
+        /* Active Indicator */
+        #gw-section-global-header .gw-nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #bb001b; /* secondary / action */
+            border-radius: 4px; /* STRICT 4px cap */
+        }
+
+        /* 3. CTA Button (Right) */
+        #gw-section-global-header .gw-header-cta {
+            display: none;
+        }
+
+        @media (min-width: 992px) {
+            #gw-section-global-header .gw-header-cta {
+                display: block;
+            }
+        }
+
+        #gw-section-global-header .gw-btn-primary {
+            font-family: 'Lexend', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            color: #ffffff;
+            background-color: #27267d; /* primary */
+            padding: 12px 24px;
+            border-radius: 4px; /* STRICT 4px rule */
+            text-decoration: none;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        #gw-section-global-header .gw-btn-primary:hover {
+            background-color: #3f3f95; /* primary-container hover */
+            transform: translateY(-1px);
+        }
+
+        /* Mobile Hamburger Toggle */
+        #gw-section-global-header .gw-mobile-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        @media (min-width: 992px) {
+            #gw-section-global-header .gw-mobile-toggle {
+                display: none;
+            }
+        }
+
+        #gw-section-global-header .gw-mobile-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: #0b1c30; /* on-surface */
+            border-radius: 4px; /* STRICT 4px rule */
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Mobile Navigation Dropdown */
+        #gw-section-global-header .gw-mobile-nav {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            padding: 0 24px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+            box-shadow: 0px 12px 30px rgba(63, 63, 149, 0.08); /* Level-2 Elevation for deep elements */
+        }
+
+        #gw-section-global-header .gw-mobile-nav.open {
+            max-height: 400px; /* Arbitrary high value to allow content to slide in */
+            padding: 16px 24px 24px;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        #gw-section-global-header .gw-mobile-nav .gw-nav-link {
+            padding: 16px 0;
+            border-bottom: 1px solid #E2E8F0;
+            display: block;
+            font-size: 16px;
+        }
+
+        #gw-section-global-header .gw-mobile-nav .gw-nav-link:last-of-type {
+            border-bottom: none;
+        }
+
+        #gw-section-global-header .gw-mobile-btn {
+            margin-top: 16px;
+            text-align: center;
+            width: 100%;
+        }
+        /* Logo Text Gradient */
+        #gw-section-global-header .gw-logo-text {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(90deg, #1a1a4b 0%, #27267d 60%, #bb001b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+
+    <!-- Component HTML -->
+    <header class="gw-header-wrapper">
+        <div class="gw-container">
+            <!-- Left: Logo -->
+            <a href="/" class="gw-logo">
+                <img src="http://gwealthrepublic.local/wp-content/uploads/2026/07/gwealth-logo3.0.png" alt="GWealth Nation Logo" style="height: 64px; width: auto;">
+                <span class="gw-logo-text">G-Wealth Republic</span>
+            </a>
+            
+            <!-- Middle: Desktop Navigation -->
+            <nav class="gw-desktop-nav">
+                <a href="/" class="gw-nav-link">Home</a>
+                <a href="/about/" class="gw-nav-link">About Us</a>
+                <a href="/properties/" class="gw-nav-link">Property Hub</a>
+                <a href="/realtors/" class="gw-nav-link">Realtor Hub</a>
+                <a href="/blog/" class="gw-nav-link">Blog</a>
+                <a href="/contact/" class="gw-nav-link">Contact Us</a>
+            </nav>
+
+            <!-- Right: CTA Button -->
+            <div class="gw-header-cta">
+                <a href="/contact/" class="gw-btn-primary">Book Inspection</a>
+            </div>
+
+            <!-- Mobile: Toggle Button -->
+            <button class="gw-mobile-toggle" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Container -->
+        <div class="gw-mobile-nav">
+            <a href="/" class="gw-nav-link">Home</a>
+            <a href="/about/" class="gw-nav-link">About Us</a>
+            <a href="/properties/" class="gw-nav-link">Property Hub</a>
+            <a href="/realtors/" class="gw-nav-link">Realtor Hub</a>
+            <a href="/blog/" class="gw-nav-link">Blog</a>
+            <a href="/contact/" class="gw-nav-link">Contact Us</a>
+            
+            <a href="/contact/" class="gw-btn-primary gw-mobile-btn">Book Inspection</a>
+        </div>
+    </header>
+
+    <!-- Scoped Component Logic (IIFE) -->
+    <script>
+        (() => {
+            document.addEventListener('DOMContentLoaded', () => {
+                const toggleBtn = document.querySelector('#gw-section-global-header .gw-mobile-toggle');
+                const mobileNav = document.querySelector('#gw-section-global-header .gw-mobile-nav');
+
+                if (toggleBtn && mobileNav) {
+                    toggleBtn.addEventListener('click', () => {
+                        const isOpen = mobileNav.classList.toggle('open');
+                        
+                        // Hamburger Icon Animation
+                        const spans = toggleBtn.querySelectorAll('span');
+                        if (isOpen) {
+                            spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                            spans[1].style.opacity = '0';
+                            spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+                        } else {
+                            spans[0].style.transform = 'none';
+                            spans[1].style.opacity = '1';
+                            spans[2].style.transform = 'none';
+                        }
+                    });
+                }
+
+                // Dynamic Active State Logic
+                const currentPath = window.location.pathname;
+                const navLinks = document.querySelectorAll('#gw-section-global-header .gw-nav-link');
+                navLinks.forEach(link => {
+                    const linkPath = link.getAttribute('href');
+                    if (linkPath === '/' && currentPath === '/') {
+                        link.classList.add('active');
+                    } else if (linkPath !== '/' && currentPath.includes(linkPath)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        })();
+    </script>
+</div>

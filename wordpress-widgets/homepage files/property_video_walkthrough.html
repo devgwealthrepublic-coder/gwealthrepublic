@@ -1,0 +1,393 @@
+<!-- ========================================== -->
+<!-- MOCKUP PAGE: Single Property Template      -->
+<!-- SECTION: Cinematic Dynamic Video Tour      -->
+<!-- Namespace: #gw-video-walkthrough          -->
+<!-- ========================================== -->
+<div id="gw-video-walkthrough" class="gw-reveal-parent">
+    <div class="gw-walkthrough-container">
+        
+        <!-- Section Header Layout -->
+        <div class="gw-section-header gw-reveal">
+            <span class="gw-pre-headline"><i class="fa-solid fa-circle-play"></i> Aerial Excursion Matrix</span>
+            <h3 class="gw-section-title">Drone Walkthrough & Boundary Coordinates</h3>
+            <p class="gw-section-subtitle">Inspect high-definition drone footage of the layout boundaries, graded road networks, and physical survey beacon alignments.</p>
+        </div>
+
+        <div class="gw-layout-grid">
+            
+            <!-- LEFT COLUMN: High-Performance Custom Video Player (Strictly 4px) -->
+            <div class="gw-player-card gw-reveal" style="transition-delay: 0.1s;">
+                <div class="gw-player-viewport">
+                    
+                    <!-- Fallback Static Thumbnail Cover -->
+                    <div id="gw-video-poster" class="gw-video-poster-frame">
+                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1200" alt="Drone View Cover" class="gw-poster-img">
+                        <div class="gw-poster-tint"></div>
+                        
+                        <!-- Premium Play Action Overlay -->
+                        <div id="gw-play-trigger" class="gw-play-circle-btn">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                        <span class="gw-play-text-hint">Stream Layout Tour</span>
+                    </div>
+
+                    <!-- Native Video Component (Unloaded by default to save mobile bandwidth) -->
+                    <video id="gw-native-video" loop muted playsinline disablepictureinpicture controlslist="nodownload" class="gw-html5-video">
+                        <source src="" type="video/mp4">
+                    </video>
+
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Metadata Coordinate Specifications Matrix -->
+            <div class="gw-metadata-card gw-reveal" style="transition-delay: 0.2s;">
+                <h4 class="gw-matrix-title">Cadastral Survey Parameters</h4>
+                <p class="gw-matrix-desc">Verified layout measurements and compliance indexes synced directly from the G-Wealth land office registry.</p>
+                
+                <div class="gw-specs-table">
+                    
+                    <div class="gw-spec-row">
+                        <span class="gw-spec-label"><i class="fa-solid fa-hourglass-half"></i> Video Duration</span>
+                        <span id="gw-spec-duration" class="gw-spec-value">Loading...</span>
+                    </div>
+
+                    <div class="gw-spec-row">
+                        <span class="gw-spec-label"><i class="fa-solid fa-user-shield"></i> Field Surveyor</span>
+                        <span id="gw-spec-surveyor" class="gw-spec-value">Loading...</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<style>
+    /* ==========================================================================
+       SCOPED COMPONENT STYLING: CINEMATIC DYNAMIC VIDEO WALKTHROUGH
+       ========================================================================== */
+    #gw-video-walkthrough {
+        position: relative;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%); /* Fullbleed breakout */
+        background-color: #FAFAFA; /* Light surface */
+        padding: 96px 0;
+        font-family: 'Lexend', sans-serif;
+        color: #4a5568;
+        overflow: hidden;
+    }
+
+    #gw-video-walkthrough .gw-walkthrough-container {
+        max-width: 100%;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 5%;
+    }
+
+    /* Section Typography Header */
+    #gw-video-walkthrough .gw-section-header {
+        margin-bottom: 48px;
+        text-align: left;
+    }
+
+    #gw-video-walkthrough .gw-pre-headline {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: #D4AF37; /* Gold */
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 8px;
+    }
+
+    #gw-video-walkthrough .gw-section-title {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 800;
+        font-size: 28px;
+        color: #0b1c30;
+        margin: 0 0 8px 0;
+        letter-spacing: -0.02em;
+    }
+
+    #gw-video-walkthrough .gw-section-subtitle {
+        font-size: 14px;
+        color: #4a5568; /* Trust Slate */
+        margin: 0;
+        max-width: 620px;
+        line-height: 1.5;
+    }
+
+    /* Responsive Columns Split */
+    #gw-video-walkthrough .gw-layout-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 40px;
+        align-items: center;
+    }
+
+    @media (min-width: 1024px) {
+        #gw-video-walkthrough .gw-layout-grid {
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+        }
+        #gw-video-walkthrough .gw-player-card {
+            grid-column: span 7 / span 7;
+        }
+        #gw-video-walkthrough .gw-metadata-card {
+            grid-column: span 5 / span 5;
+        }
+    }
+
+    /* Cinematic Player Container - Locked strictly to 4px corners */
+    #gw-video-walkthrough .gw-player-card {
+        background-color: #27267d; /* Primary blue frame outline */
+        padding: 6px;
+        border-radius: 4px; /* Strict 4px Limit */
+        box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    #gw-video-walkthrough .gw-player-viewport {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background-color: #0b1c30;
+        border-radius: 4px; /* Strict 4px Limit */
+        overflow: hidden;
+    }
+
+    #gw-video-walkthrough .gw-html5-video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none; /* Hidden until loaded on-demand */
+    }
+
+    #gw-video-walkthrough .gw-html5-video.active {
+        display: block;
+    }
+
+    /* Poster Frame Cover and Shading */
+    #gw-video-walkthrough .gw-video-poster-frame {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    #gw-video-walkthrough .gw-video-poster-frame.gw-fade-out {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease-out;
+    }
+
+    #gw-video-walkthrough .gw-poster-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    #gw-video-walkthrough .gw-poster-tint {
+        position: absolute;
+        inset: 0;
+        background-color: rgba(30, 27, 75, 0.45); /* Dark blue shading tint */
+        z-index: 2;
+    }
+
+    /* Custom Play Interaction Unit */
+    #gw-video-walkthrough .gw-play-circle-btn {
+        position: relative;
+        z-index: 3;
+        width: 60px;
+        height: 60px;
+        background-color: #bb001b; /* Secondary Crimson Red */
+        border: 2px solid #FFFFFF;
+        border-radius: 50%; /* Allowed circular exception */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #FFFFFF;
+        font-size: 18px;
+        box-shadow: 0px 4px 15px rgba(187, 0, 27, 0.4);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                    background-color 0.2s ease;
+    }
+
+    #gw-video-walkthrough .gw-play-circle-btn i {
+        margin-left: 4px; /* Visual center adjustment for play arrow icon */
+    }
+
+    #gw-video-walkthrough .gw-video-poster-frame:hover .gw-play-circle-btn {
+        transform: scale(1.1);
+        background-color: #e02830;
+    }
+
+    #gw-video-walkthrough .gw-play-text-hint {
+        position: relative;
+        z-index: 3;
+        margin-top: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #FFFFFF;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    /* Right Column Specifications Matrix Table - Strict 4px Limit */
+    #gw-video-walkthrough .gw-matrix-title {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 700;
+        font-size: 18px;
+        color: #0b1c30;
+        margin: 0 0 6px 0;
+    }
+
+    #gw-video-walkthrough .gw-matrix-desc {
+        font-size: 12px;
+        color: #4a5568;
+        line-height: 1.5;
+        margin: 0 0 24px 0;
+    }
+
+    #gw-video-walkthrough .gw-specs-table {
+        display: flex;
+        flex-direction: column;
+        background-color: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 4px; /* Strict 4px Limit */
+        overflow: hidden;
+        margin-bottom: 24px;
+    }
+
+    #gw-video-walkthrough .gw-spec-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        font-size: 12px;
+    }
+
+    #gw-video-walkthrough .gw-spec-row:last-child {
+        border-bottom: none;
+    }
+
+    #gw-video-walkthrough .gw-spec-label {
+        color: #718096;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    #gw-video-walkthrough .gw-spec-label i {
+        color: #D4AF37; /* Gold Icons */
+    }
+
+    #gw-video-walkthrough .gw-spec-value {
+        font-weight: 500;
+        color: #0b1c30;
+    }
+
+
+    /* Scroll entries */
+    #gw-video-walkthrough .gw-reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        will-change: transform, opacity;
+        transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #gw-video-walkthrough .gw-reveal.gw-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
+<script>
+    (() => {
+        // Safe Scoped IIFE Execution to avoid collisions inside Local WP
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const poster = document.getElementById('gw-video-poster');
+            const videoEl = document.getElementById('gw-native-video');
+
+            const durationSpec = document.getElementById('gw-spec-duration');
+            const surveyorSpec = document.getElementById('gw-spec-surveyor');
+
+            // 1. Initialise local/live dynamic Data Bridge
+            async function fetchPropertyVideoWalkthrough() {
+                try {
+                    // Try to parse WordPress CPT REST API variables
+                    const response = await fetch('http://gwealthrepublic.local/wp-json/wp/v2/properties');
+                    if (!response.ok) throw new Error("WP Server offline");
+                    const data = await response.json();
+                    
+                    // Fetch first registered listing with valid video attributes
+                    const matchedPost = data.find(p => p.acf && p.acf.video_url);
+                    if (matchedPost) {
+                        videoEl.src = matchedPost.acf.video_url;
+                        durationSpec.innerText = matchedPost.acf.video_duration || "01:45 mins";
+                        surveyorSpec.innerText = matchedPost.acf.surveyor_name || "Surv. E. Okon (NIS)";
+                    } else {
+                        throw new Error("No video uploaded on current active listings yet.");
+                    }
+                } catch (error) {
+                    console.warn("Unified Data Bridge: REST API bypassed. Activating Cinematic Video Fallbacks.");
+                    // Fallback to high-quality drone stream
+                    videoEl.src = "https://assets.mixkit.co/videos/preview/mixkit-drone-view-of-a-dense-forest-and-road-34305-large.mp4";
+                    durationSpec.innerText = "01:22 mins";
+                    surveyorSpec.innerText = "Surv. O. Uzor (NIS)";
+                }
+            }
+
+            // 2. Play mechanics - On-demand video mount and stream
+            function activateStream() {
+                poster.classList.add('gw-fade-out');
+                videoEl.classList.add('active');
+                
+                // Mount controls and play safely
+                videoEl.controls = true;
+                videoEl.play();
+                
+                // Strips controls on loop background
+                setTimeout(() => {
+                    poster.style.display = 'none';
+                }, 400);
+            }
+
+            poster.addEventListener('click', activateStream);
+
+            // 3. Viewport scroll observer activation
+            const revealElements = document.querySelectorAll('#gw-video-walkthrough .gw-reveal');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('gw-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            revealElements.forEach(el => observer.observe(el));
+
+            // Boot program
+            fetchPropertyVideoWalkthrough();
+        });
+    })();
+</script>

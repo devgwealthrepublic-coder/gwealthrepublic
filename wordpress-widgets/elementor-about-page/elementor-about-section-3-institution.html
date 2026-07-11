@@ -1,0 +1,112 @@
+<!-- elementor-about-section-3-institution.html -->
+<style>
+body { margin: 0; padding: 0; overflow-x: hidden; }
+* { box-sizing: border-box; }
+/* --- Vanilla CSS: Our Institution Zigzag --- */
+.gw-institution-section {
+  max-width: 100%;
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  padding: 80px 5%;
+}
+.gw-inst-image-col {
+  flex: 1;
+  position: relative;
+}
+.gw-inst-img-wrap {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+.gw-inst-img-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.gw-inst-content-col {
+  flex: 1;
+}
+.gw-inst-title {
+  font-size: 36px;
+  font-weight: 800;
+  color: #27267d;
+  margin: 0 0 20px 0;
+  line-height: 1.2;
+}
+.gw-inst-desc {
+  font-size: 16px;
+  color: #475569;
+  line-height: 1.7;
+  margin: 0 0 24px 0;
+}
+.gw-inst-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.gw-inst-feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}
+.gw-inst-icon-wrap {
+  background: #e0e7ff;
+  color: #27267d;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media(max-width: 992px) {
+  .gw-institution-section { flex-direction: column-reverse; gap: 40px; }
+}
+</style>
+
+<div class="gw-institution-section">
+  <div class="gw-inst-image-col gw-animate">
+    <div class="gw-inst-img-wrap">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800" alt="Wealth Creation Education">
+    </div>
+  </div>
+
+  <div class="gw-inst-content-col gw-animate">
+    <h2 class="gw-inst-title">Our Institution: Wealth Nation Empowerment</h2>
+    <p class="gw-inst-desc">
+      We have established an institution where O'level degree graduates are qualified to learn about the principles of wealth creation and financial independence. Our <strong>Money Wisdom Education</strong> curriculum gives individuals the opportunity to graduate and become masters within 12 months.
+    </p>
+    <p class="gw-inst-desc">
+      We convert individuals into landowners, producers, and economically educated citizens across multiple specialized disciplines:
+    </p>
+
+    <ul class="gw-inst-features">
+      <li class="gw-inst-feature">
+        <div class="gw-inst-icon-wrap"><span class="material-icons-outlined" style="font-size:16px;">school</span></div>
+        Real Estate Psychology
+      </li>
+      <li class="gw-inst-feature">
+        <div class="gw-inst-icon-wrap"><span class="material-icons-outlined" style="font-size:16px;">gavel</span></div>
+        Business Law & Ethics
+      </li>
+      <li class="gw-inst-feature">
+        <div class="gw-inst-icon-wrap"><span class="material-icons-outlined" style="font-size:16px;">trending_up</span></div>
+        Entrepreneurship & Wealth Creation
+      </li>
+      <li class="gw-inst-feature">
+        <div class="gw-inst-icon-wrap"><span class="material-icons-outlined" style="font-size:16px;">hub</span></div>
+        Inter-Connected Economy Education
+      </li>
+    </ul>
+  </div>
+</div>

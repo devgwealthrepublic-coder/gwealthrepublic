@@ -1,0 +1,176 @@
+<!-- 
+  GWealth Nation - Subscription Tiers Grid (Colorized)
+  Instructions: Replace your current Subscription Tiers block with this one.
+-->
+<div id="gw-subscription-tiers">
+    <style>
+        #gw-subscription-tiers {
+            background-color: #ffffff;
+            padding: 80px 24px;
+            font-family: 'Lexend', sans-serif;
+        }
+        #gw-subscription-tiers .gw-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        #gw-subscription-tiers h2 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            text-align: center;
+            color: #1e293b;
+            margin-bottom: 60px;
+        }
+        #gw-subscription-tiers .gw-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        /* Base Card Styling */
+        #gw-subscription-tiers .gw-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 32px;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* The Top Accent Line using CSS Variables */
+        #gw-subscription-tiers .gw-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background-color: var(--tier-color, #27267d);
+        }
+        
+        #gw-subscription-tiers .gw-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: var(--tier-color, #D4AF37);
+        }
+        
+        /* The Title Text using CSS Variables */
+        #gw-subscription-tiers .gw-card-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--tier-color, #64748b);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+        
+        /* Tier Color Definitions */
+        .gw-tier-superverse { --tier-color: #0ea5e9; } /* Sky Blue */
+        .gw-tier-metaverse  { --tier-color: #8b5cf6; } /* Royal Purple */
+        .gw-tier-classic    { --tier-color: #3b82f6; } /* Standard Blue */
+        .gw-tier-silver     { --tier-color: #94a3b8; } /* Metallic Silver */
+        .gw-tier-gold       { --tier-color: #d4af37; } /* Rich Gold */
+        .gw-tier-emerald    { --tier-color: #10b981; } /* Emerald Green */
+        .gw-tier-diamond    { --tier-color: #06b6d4; } /* Diamond Cyan */
+        .gw-tier-premier    { --tier-color: #f59e0b; } /* Amber / Orange */
+        .gw-tier-premium    { --tier-color: #0f172a; } /* Executive Slate Black */
+
+        #gw-subscription-tiers .gw-card-price {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            color: #27267d;
+            margin-bottom: 24px;
+        }
+        #gw-subscription-tiers .gw-card-desc {
+            font-size: 15px;
+            color: #475569;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+        #gw-subscription-tiers .gw-btn-select {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background-color: #f8fafc;
+            color: #27267d;
+            border: 1px solid #cbd5e1;
+            padding: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        #gw-subscription-tiers .gw-card:hover .gw-btn-select {
+            background-color: #27267d;
+            color: #ffffff;
+            border-color: #27267d;
+        }
+    </style>
+    <div class="gw-container">
+        <h2>Choose Your Subscription Plan</h2>
+        <div class="gw-grid">
+            <!-- Superverse -->
+            <div class="gw-card gw-tier-superverse">
+                <div class="gw-card-title">Superverse Subscription</div>
+                <div class="gw-card-price">₦53,400</div>
+                <p class="gw-card-desc">The perfect entry point to secure your plot and begin your journey to property ownership.</p>
+                <a href="http://localhost:5173/register" class="gw-btn-select">Select Plan</a>
+            </div>
+            <!-- Metaverse -->
+            <div class="gw-card gw-tier-metaverse">
+                <div class="gw-card-title">Metaverse Subscription</div>
+                <div class="gw-card-price">₦210,000</div>
+                <p class="gw-card-desc">Accelerate your property goals with a robust initial deposit for premium estate access.</p>
+                <a href="http://localhost:5173/register" class="gw-btn-select">Select Plan</a>
+            </div>
+            <!-- Classic -->
+            <div class="gw-card gw-tier-classic">
+                <div class="gw-card-title">Classic Subscription</div>
+                <div class="gw-card-price">₦380,000</div>
+                <p class="gw-card-desc">Our most popular tier for securing prime residential layouts within our certified networks.</p>
+                <a href="http://localhost:5173/register" class="gw-btn-select">Select Plan</a>
+            </div>
+            <!-- Silver -->
+            <div class="gw-card gw-tier-silver">
+                <div class="gw-card-title">Silver Subscription</div>
+                <div class="gw-card-price">₦570,000</div>
+                <p class="gw-card-desc">Unlock advanced property allocations and faster documentation processing.</p>
+                <a href="http://localhost:5173/register" class="gw-btn-select">Select Plan</a>
+            </div>
+            <!-- Gold -->
+            <div class="gw-card gw-tier-gold">
+                <div class="gw-card-title">Gold Subscription</div>
+                <div class="gw-card-price">₦760,000</div>
+                <p class="gw-card-desc">Secure larger land sizes in exclusive zones with priority estate allocation.</p>
+                <a href="http://localhost:5173/register" class="gw-btn-select">Select Plan</a>
+            </div>
+            <!-- Emerald -->
+            <div class="gw-card gw-tier-emerald">
+                <div class="gw-card-title">Emerald Subscription</div>
+                <div class="gw-card-price">₦1,500,000</div>
+                <p class="gw-card-desc">High-tier investment deposit for commercial or multi-plot residential acquisitions.</p>
+                <a href="http://localhost:5173/register" class="gw-btn-select">Select Plan</a>
+            </div>
+            <!-- Diamond -->
+            <div class="gw-card gw-tier-diamond">
+                <div class="gw-card-title">Diamond Subscription</div>
+                <div class="gw-card-price">₦2,280,000</div>
+                <p class="gw-card-desc">Institutional-grade commitment for investors looking to secure major real estate assets.</p>
+                <a href="http://localhost:5173/register" class="gw-btn-select">Select Plan</a>
+            </div>
+            <!-- Premier -->
+            <div class="gw-card gw-tier-premier">
+                <div class="gw-card-title">Premier Subscription</div>
+                <div class="gw-card-price">₦3,820,000</div>
+                <p class="gw-card-desc">Elite subscription offering immediate access to our most prestigious and high-yield properties.</p>
+                <a href="http://localhost:5173/register" class="gw-btn-select">Select Plan</a>
+            </div>
+            <!-- Premium -->
+            <div class="gw-card gw-tier-premium">
+                <div class="gw-card-title">Premium Subscription</div>
+                <div class="gw-card-price">₦5,360,000</div>
+                <p class="gw-card-desc">The ultimate commitment. Secure entire acres and premium commercial plots instantly.</p>
+                <a href="http://localhost:5173/register" class="gw-btn-select">Select Plan</a>
+            </div>
+        </div>
+    </div>
+</div>

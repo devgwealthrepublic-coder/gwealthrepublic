@@ -1,0 +1,290 @@
+<!-- 
+  GWealth Nation - Section 6: Dynamic FAQ Accordion
+  Objective: Institutional-grade accordion, vault motion, pure CSS grid transitions.
+  Instructions: Paste this block into an Elementor Custom HTML Widget.
+-->
+<div id="gw-faq-section">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-faq-section {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%); /* Fullbleed breakout */
+            background-color: #ffffff; /* Pure white surface */
+            padding: 96px 0;
+            font-family: 'Lexend', sans-serif;
+            overflow: hidden;
+        }
+
+        #gw-faq-section * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        #gw-faq-section .gw-container {
+            max-width: 800px; /* Narrower container for reading comfort */
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header Layout */
+        #gw-faq-section .gw-faq-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        #gw-faq-section .gw-pre-headline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #D4AF37; /* Gold */
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+
+        #gw-faq-section .gw-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 32px;
+            color: #1E1B4B; /* Legal Ink */
+            margin: 0 0 12px 0;
+            letter-spacing: -0.02em;
+        }
+
+        @media (min-width: 768px) {
+            #gw-faq-section .gw-title {
+                font-size: 40px;
+            }
+        }
+
+        #gw-faq-section .gw-subtitle {
+            font-size: 16px;
+            color: #4a5568;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 500px;
+        }
+
+        /* Accordion List */
+        #gw-faq-section .gw-accordion-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Accordion Item - Strict 4px */
+        #gw-faq-section .gw-accordion-item {
+            background-color: #f8f9ff;
+            border: 1px solid rgba(30, 27, 75, 0.05);
+            border-radius: 4px; /* Strict 4px */
+            overflow: hidden;
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        #gw-faq-section .gw-accordion-item:hover {
+            border-color: rgba(39, 38, 125, 0.15);
+        }
+
+        #gw-faq-section .gw-accordion-item.active {
+            background-color: #ffffff;
+            border-color: rgba(39, 38, 125, 0.2);
+            box-shadow: 0px 8px 24px rgba(30, 27, 75, 0.04);
+        }
+
+        /* Trigger Button */
+        #gw-faq-section .gw-accordion-trigger {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: transparent;
+            border: none;
+            padding: 24px;
+            cursor: pointer;
+            text-align: left;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1E1B4B;
+            transition: color 0.3s ease;
+        }
+
+        #gw-faq-section .gw-accordion-item.active .gw-accordion-trigger {
+            color: #27267d; /* Primary Blue when open */
+        }
+
+        /* Icon Animation */
+        #gw-faq-section .gw-icon-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%; /* Icon boundary */
+            background-color: rgba(39, 38, 125, 0.08);
+            color: #27267d;
+            flex-shrink: 0;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s;
+        }
+
+        #gw-faq-section .gw-accordion-item.active .gw-icon-wrap {
+            transform: rotate(45deg); /* Spin plus into an X */
+            background-color: #bb001b; /* Crimson Red active state */
+            color: #ffffff;
+        }
+
+        /* Pure CSS Grid Height Transition for butter-smooth Vault Motion */
+        #gw-faq-section .gw-accordion-content-wrapper {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #gw-faq-section .gw-accordion-item.active .gw-accordion-content-wrapper {
+            grid-template-rows: 1fr;
+        }
+
+        #gw-faq-section .gw-accordion-content {
+            overflow: hidden;
+        }
+
+        #gw-faq-section .gw-accordion-inner {
+            padding: 0 24px 24px 24px;
+            font-size: 15px;
+            color: #4a5568;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* --- VAULT MOTION --- */
+        #gw-faq-section .gw-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            will-change: transform, opacity;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #gw-faq-section .gw-reveal.gw-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+
+    <div class="gw-container">
+        
+        <!-- Section Header -->
+        <div class="gw-faq-header gw-reveal">
+            <span class="gw-pre-headline"><i class="fa-solid fa-circle-question"></i> Client Inquiries</span>
+            <h2 class="gw-title">Frequently Asked Questions</h2>
+            <p class="gw-subtitle">Everything you need to know about our allocation processes, land titles, and secure banking protocols.</p>
+        </div>
+
+        <!-- Dynamic Accordion List -->
+        <div class="gw-accordion-list">
+            
+            <!-- Item 1 -->
+            <div class="gw-accordion-item gw-reveal" style="transition-delay: 0.1s;">
+                <button class="gw-accordion-trigger">
+                    <span>What does 'Instant Allocation' mean?</span>
+                    <div class="gw-icon-wrap"><i class="fa-solid fa-plus"></i></div>
+                </button>
+                <div class="gw-accordion-content-wrapper">
+                    <div class="gw-accordion-content">
+                        <p class="gw-accordion-inner">Instant allocation means the moment your payment is cleared and verified, your specific plot coordinates are immediately logged into our registry and assigned to your name. There are no waiting periods or lottery systems for your land.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="gw-accordion-item gw-reveal" style="transition-delay: 0.2s;">
+                <button class="gw-accordion-trigger">
+                    <span>Are the properties legally verified?</span>
+                    <div class="gw-icon-wrap"><i class="fa-solid fa-plus"></i></div>
+                </button>
+                <div class="gw-accordion-content-wrapper">
+                    <div class="gw-accordion-content">
+                        <p class="gw-accordion-inner">Absolutely. Every estate under GWealth Nation holds verifiable registered survey plans, Certificates of Occupancy (C of O), or Deed of Assignments depending on the phase. We operate with strict legal transparency.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="gw-accordion-item gw-reveal" style="transition-delay: 0.3s;">
+                <button class="gw-accordion-trigger">
+                    <span>Can I inspect the property before buying?</span>
+                    <div class="gw-icon-wrap"><i class="fa-solid fa-plus"></i></div>
+                </button>
+                <div class="gw-accordion-content-wrapper">
+                    <div class="gw-accordion-content">
+                        <p class="gw-accordion-inner">Yes. We highly encourage physical inspections. We organize weekly guided tours to all our estates. If you are in the diaspora, you can utilize our Cinematic Drone Walkthroughs or request a live virtual tour from a dedicated agent.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="gw-accordion-item gw-reveal" style="transition-delay: 0.4s;">
+                <button class="gw-accordion-trigger">
+                    <span>Do you offer installment payment plans?</span>
+                    <div class="gw-icon-wrap"><i class="fa-solid fa-plus"></i></div>
+                </button>
+                <div class="gw-accordion-content-wrapper">
+                    <div class="gw-accordion-content">
+                        <p class="gw-accordion-inner">We provide highly flexible, interest-free installment options ranging from 3 to 12 months across various estates. A minimal initial deposit is required to secure the current market price and lock down your plot.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Interactive Script -->
+    <script>
+        (() => {
+            document.addEventListener('DOMContentLoaded', () => {
+                
+                // Accordion Engine
+                const accordionItems = document.querySelectorAll('#gw-faq-section .gw-accordion-item');
+
+                accordionItems.forEach(item => {
+                    const trigger = item.querySelector('.gw-accordion-trigger');
+                    
+                    trigger.addEventListener('click', () => {
+                        const isActive = item.classList.contains('active');
+                        
+                        // Close all others
+                        accordionItems.forEach(innerItem => {
+                            innerItem.classList.remove('active');
+                        });
+
+                        // Toggle current
+                        if (!isActive) {
+                            item.classList.add('active');
+                        }
+                    });
+                });
+
+                // Viewport Observer for Vault Motion Entrances
+                const revealElements = document.querySelectorAll('#gw-faq-section .gw-reveal');
+                const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+                
+                const observer = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('gw-visible');
+                            obs.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                revealElements.forEach(el => observer.observe(el));
+            });
+        })();
+    </script>
+</div>

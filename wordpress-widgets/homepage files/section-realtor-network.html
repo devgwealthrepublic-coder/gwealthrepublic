@@ -1,0 +1,266 @@
+<!-- 
+  GWealth Nation - Section 5: Realtor Network CTA
+  Objective: Premium gradient banner with glassmorphism, strict 4px limit, vault motion.
+  Instructions: Paste this block into an Elementor Custom HTML Widget.
+-->
+<div id="gw-realtor-network">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-realtor-network {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%); /* Fullbleed breakout */
+            background-color: #FAFAFA; /* Light surface matching previous section */
+            padding: 96px 0;
+            font-family: 'Lexend', sans-serif;
+            overflow: hidden;
+        }
+
+        #gw-realtor-network * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        #gw-realtor-network .gw-container {
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* Gradient Banner Card */
+        #gw-realtor-network .gw-banner-card {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 48px;
+            background: linear-gradient(135deg, #1E1B4B 0%, #27267d 100%); /* Legal Ink to Primary Blue */
+            border-radius: 4px; /* Strict 4px */
+            padding: 56px 48px;
+            box-shadow: 0px 24px 48px rgba(30, 27, 75, 0.15);
+            align-items: center;
+        }
+
+        @media (min-width: 992px) {
+            #gw-realtor-network .gw-banner-card {
+                grid-template-columns: 1.2fr 0.8fr; /* Content takes more space */
+                padding: 72px 80px;
+            }
+        }
+
+        /* Left Content */
+        #gw-realtor-network .gw-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 28px;
+            color: #FFFFFF;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        @media (min-width: 768px) {
+            #gw-realtor-network .gw-title {
+                font-size: 32px;
+            }
+        }
+
+        #gw-realtor-network .gw-desc {
+            font-size: 15px;
+            color: #E2E8F0;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            max-width: 540px;
+        }
+
+        #gw-realtor-network .gw-list {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+
+        #gw-realtor-network .gw-list li {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #FFFFFF;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        #gw-realtor-network .gw-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        #gw-realtor-network .gw-list i {
+            color: #D4AF37; /* Gold checkmark */
+            font-size: 16px;
+            margin-right: 12px;
+        }
+
+        /* CTA Button */
+        #gw-realtor-network .gw-btn {
+            display: inline-block;
+            background-color: #bb001b; /* Crimson Red */
+            color: #FFFFFF;
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            padding: 14px 32px;
+            border-radius: 4px; /* Strict 4px */
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 2px solid transparent;
+        }
+
+        #gw-realtor-network .gw-btn:hover {
+            background-color: #e02830;
+            transform: translateY(-2px);
+            box-shadow: 0px 8px 20px rgba(187, 0, 27, 0.3);
+        }
+
+        /* Right Content: Glassmorphism Card */
+        #gw-realtor-network .gw-glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 4px; /* Strict 4px */
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        #gw-realtor-network .gw-glass-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        #gw-realtor-network .gw-glass-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%; /* Perfect circle allowed for icon backgrounds */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-size: 18px;
+        }
+
+        #gw-realtor-network .gw-glass-title-box h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            color: #FFFFFF;
+            margin-bottom: 4px;
+        }
+
+        #gw-realtor-network .gw-glass-title-box span {
+            font-size: 11px;
+            color: #A0AEC0;
+            display: block;
+        }
+
+        #gw-realtor-network .gw-glass-media {
+            position: relative;
+            width: 100%;
+            border-radius: 4px; /* Strict 4px */
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        #gw-realtor-network .gw-glass-media img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            display: block;
+        }
+
+        #gw-realtor-network .gw-glass-stat {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(30, 27, 75, 0.85); /* Dark Legal Ink */
+            backdrop-filter: blur(8px);
+            padding: 6px 12px;
+            border-radius: 4px; /* Strict 4px */
+            font-size: 11px;
+            color: #D4AF37; /* Gold */
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* --- VAULT MOTION --- */
+        #gw-realtor-network .gw-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            will-change: transform, opacity;
+            transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #gw-realtor-network .gw-reveal.gw-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+
+    <div class="gw-container">
+        <!-- Banner Card -->
+        <div class="gw-banner-card gw-reveal">
+            
+            <!-- Left Text Content -->
+            <div class="gw-banner-content">
+                <h3 class="gw-title">Join the GWealth Realtor Network</h3>
+                <p class="gw-desc">Partner with a developer that prioritizes legal security and institutional transparency. Access our premium Media Marketing Kit and institutional support.</p>
+                
+                <ul class="gw-list">
+                    <li><i class="fa-regular fa-circle-check"></i> Dedicated Marketing Support</li>
+                    <li><i class="fa-regular fa-circle-check"></i> Professional Training & Tools</li>
+                </ul>
+                
+                <a href="/realtor-network" class="gw-btn">Join the Network</a>
+            </div>
+            
+            <!-- Right Glassmorphism Visual -->
+            <div class="gw-glass-card">
+                <div class="gw-glass-header">
+                    <div class="gw-glass-icon"><i class="fa-solid fa-users"></i></div>
+                    <div class="gw-glass-title-box">
+                        <h4>Growing Community</h4>
+                        <span>Join Active Realtors Nationwide</span>
+                    </div>
+                </div>
+                <div class="gw-glass-media">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600" alt="Active Realtors Network">
+                    <div class="gw-glass-stat">
+                        <i class="fa-solid fa-arrow-trend-up"></i> +400 Members
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scroll Observer Script -->
+    <script>
+        (() => {
+            document.addEventListener('DOMContentLoaded', () => {
+                const revealElements = document.querySelectorAll('#gw-realtor-network .gw-reveal');
+                const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+                const observer = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('gw-visible');
+                            obs.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+                revealElements.forEach(el => observer.observe(el));
+            });
+        })();
+    </script>
+</div>

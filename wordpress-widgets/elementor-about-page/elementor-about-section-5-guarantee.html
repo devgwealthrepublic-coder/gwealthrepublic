@@ -1,0 +1,136 @@
+<!-- elementor-about-section-5-guarantee.html -->
+<style>
+body { margin: 0; padding: 0; overflow-x: hidden; }
+* { box-sizing: border-box; }
+/* --- Vanilla CSS: Zero-Surprise Guarantee --- */
+.gw-guarantee-section {
+  max-width: 100%;
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #3b3a9e; /* Slightly lighter/vibrant dark blue */
+  border-radius: 0;
+  padding: 80px 5%;
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  box-shadow: 0 20px 40px rgba(39,38,125,0.2);
+}
+.gw-guarantee-left {
+  flex: 1;
+  color: #ffffff;
+}
+.gw-guarantee-title {
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0 0 24px 0;
+}
+.gw-guarantee-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #f59e0b;
+  margin-top: 16px;
+}
+.gw-guarantee-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #e0e7ff;
+  margin: 0 0 32px 0;
+}
+.gw-guarantee-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.gw-guarantee-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.gw-guarantee-item .material-icons-outlined {
+  color: #f59e0b;
+}
+.gw-guarantee-right {
+  flex: 0.8;
+}
+.gw-guarantee-card {
+  background: #e2e8f0;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+}
+.gw-guarantee-card-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1e1e50;
+  margin: 0 0 16px 0;
+}
+.gw-guarantee-card-desc {
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+}
+.gw-guarantee-btn {
+  display: inline-block;
+  background: #dc2626; /* Deep Red CTA */
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 14px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+.gw-guarantee-btn:hover {
+  background: #b91c1c;
+}
+
+@media(max-width: 992px) {
+  .gw-guarantee-section { flex-direction: column; padding: 40px 20px; gap: 40px; }
+  .gw-guarantee-right { width: 100%; }
+}
+</style>
+
+<div class="gw-guarantee-section">
+  <div class="gw-guarantee-left gw-animate">
+    <h2 class="gw-guarantee-title">The GWealth Zero-Surprise Guarantee.</h2>
+    <p class="gw-guarantee-desc">
+      We believe that trust is won through total cost transparency. When we quote a price, that is the final price. Our commitment to you is uncompromising legal safety.
+    </p>
+    
+    <ul class="gw-guarantee-list">
+      <li class="gw-guarantee-item">
+        <span class="material-icons-outlined">check_circle</span> Zero hidden administrative fees
+      </li>
+      <li class="gw-guarantee-item">
+        <span class="material-icons-outlined">check_circle</span> Zero development levy surprises
+      </li>
+      <li class="gw-guarantee-item">
+        <span class="material-icons-outlined">check_circle</span> Total legal documentation included
+      </li>
+    </ul>
+  </div>
+
+  <div class="gw-guarantee-right gw-animate gw-delay-200">
+    <div class="gw-guarantee-card">
+      <h3 class="gw-guarantee-card-title">Investment Security Assurance</h3>
+      <p class="gw-guarantee-card-desc">
+        Every purchase from GWealth Nation comes with a lifetime guarantee of title protection. If a legal challenge ever arises regarding our verification, we bear 100% of the resolution costs.
+      </p>
+      <a href="#" onclick="alert('Downloads the Trust Manifesto PDF'); return false;" class="gw-guarantee-btn">
+        Download Trust Manifesto
+      </a>
+    </div>
+  </div>
+</div>

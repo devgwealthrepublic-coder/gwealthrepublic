@@ -1,0 +1,580 @@
+<!-- ========================================== -->
+<!-- COMPONENT: Unified Visitor Greeter Modal   -->
+<!-- Namespace: #gw-visitor-greeter             -->
+<!-- ========================================== -->
+<div id="gw-visitor-greeter">
+    
+    <!-- FIRST-TIME VISITOR MODAL CONTAINER -->
+    <div id="gw-onboarding-modal" class="gw-modal-overlay">
+        <div class="gw-modal-card">
+            
+            <!-- Close trigger -->
+            <button onclick="gwDismissOnboarding()" class="gw-modal-close" aria-label="Close dialog">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <!-- STEP 1: Name Input Panel -->
+            <div id="gw-step-1" class="gw-step-panel gw-active">
+                <span class="gw-badge"><i class="fa-solid fa-circle-check text-[#D4AF37]"></i> Verified Platform</span>
+                <h4 id="gw-time-greeting" class="gw-modal-headline">Good day!</h4>
+                <p class="gw-modal-paragraph">Welcome to G-Wealth Republic. What is your name?</p>
+                
+                <div class="gw-form-group">
+                    <input type="text" id="gw-v-name" required placeholder="Enter your full name..." class="gw-form-input">
+                    <span id="gw-step1-error" class="gw-error-msg">Name coordinates are required.</span>
+                </div>
+                <button onclick="gwGoToStep(2)" class="gw-btn-action">
+                    Proceed Next <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- STEP 2: Intent Switcher (Strategy 1) -->
+            <div id="gw-step-2" class="gw-step-panel">
+                <span class="gw-badge"><i class="fa-solid fa-route text-[#D4AF37]"></i> Choose Your Journey</span>
+                <h4 class="gw-modal-headline">Welcome, <span id="gw-lbl-name" class="text-[#27267d]"></span>!</h4>
+                <p class="gw-modal-paragraph">How would you like to explore G-Wealth today?</p>
+                
+                <div class="gw-journey-grid">
+                    <button onclick="gwSelectIntent('buyer')" class="gw-btn-journey">
+                        <i class="fa-solid fa-house-shield text-xl text-[#27267d]"></i>
+                        <div>
+                            <span class="gw-journey-title">I want to buy Land</span>
+                            <span class="gw-journey-desc">Secure your layout boundaries</span>
+                        </div>
+                    </button>
+                    
+                    <button onclick="gwSelectIntent('partner')" class="gw-btn-journey">
+                        <i class="fa-solid fa-users text-xl text-[#bb001b]"></i>
+                        <div>
+                            <span class="gw-journey-title">Become a Partner</span>
+                            <span class="gw-journey-desc">Earn up to 10% commission</span>
+                        </div>
+                    </button>
+                </div>
+                
+                <button onclick="gwGoToStep(1)" class="gw-btn-back"><i class="fa-solid fa-arrow-left"></i> Back</button>
+            </div>
+
+            <!-- STEP 3A: Email Capture & Finish -->
+            <div id="gw-step-3a" class="gw-step-panel">
+                <span class="gw-badge"><i class="fa-solid fa-envelope-open-text text-[#D4AF37]"></i> Finish Priority Booking</span>
+                <h4 class="gw-modal-headline">Priority Queue Lock</h4>
+                <p class="gw-modal-paragraph">Enter your email address to secure your priority booking coordinates. You can skip this step.</p>
+                
+                <div class="gw-form-group">
+                    <input type="email" id="gw-v-email" placeholder="email@address.com (Optional)" class="gw-form-input">
+                </div>
+                
+                <div class="gw-form-actions">
+                    <button onclick="gwGoToStep(2)" class="gw-btn-back"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button onclick="gwSubmitBuyerOnboarding()" class="gw-btn-action">Start Investing</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- RETURNING VISITOR SLIDEOUT CARDS (Strategy 2) -->
+    <div id="gw-returning-pill" class="gw-support-pill">
+        <div class="gw-pill-card">
+            <span class="gw-pill-badge"><i class="fa-solid fa-shield-halved text-[#D4AF37]"></i> GWealth Nation Helpdesk</span>
+            <h5 class="gw-pill-title">Hope G-Wealth is serving you right, <span id="gw-returning-name" class="text-[#27267d]"></span>?</h5>
+            
+            <div class="gw-pill-actions">
+                <a href="https://wa.link/gwealth" target="_blank" class="gw-btn-pill-whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i> Contact Support via WhatsApp
+                </a>
+                <a href="https://portal.gwealthrepublic.com/register" target="_blank" class="gw-pill-secondary-link">
+                    Want to earn with us instead? Become a Registered Partner
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    /* ==========================================================================
+       CSS INTERACTIVE STYLING SPECIFICATIONS (Strict 4px limits)
+       ========================================================================== */
+    #gw-visitor-greeter {
+        font-family: 'Lexend', sans-serif;
+    }
+
+    /* Modal Overlays */
+    #gw-visitor-greeter .gw-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(11, 28, 48, 0.4);
+        backdrop-filter: blur(4px);
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #gw-visitor-greeter .gw-modal-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* Modal Cards - STRICT 4px Cap */
+    #gw-visitor-greeter .gw-modal-card {
+        position: relative;
+        background-color: #FAFAFA;
+        border: 1px solid #E2E8F0;
+        width: 100%;
+        max-width: 440px;
+        padding: 32px 24px;
+        border-radius: 4px; /* Strict 4px Cap */
+        box-shadow: 0px 12px 30px rgba(63, 63, 149, 0.08);
+        box-sizing: border-box;
+        transform: scale(0.95);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #gw-visitor-greeter .gw-modal-overlay.active .gw-modal-card {
+        transform: scale(1);
+    }
+
+    /* Step Panels */
+    #gw-visitor-greeter .gw-step-panel {
+        display: none;
+        flex-direction: column;
+    }
+
+    #gw-visitor-greeter .gw-step-panel.gw-active {
+        display: flex;
+    }
+
+    /* Micro Badges (Strict 4px) */
+    #gw-visitor-greeter .gw-badge {
+        align-self: flex-start;
+        font-size: 9px;
+        font-weight: 600;
+        color: #27267d;
+        background-color: rgba(39, 38, 125, 0.05);
+        border: 1px solid rgba(39, 38, 125, 0.08);
+        padding: 4px 10px;
+        border-radius: 4px; /* Strict 4px Cap */
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 16px;
+    }
+
+    #gw-visitor-greeter .gw-modal-headline {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 800;
+        font-size: 20px;
+        color: #1E1B4B;
+        margin: 0 0 6px 0;
+    }
+
+    #gw-visitor-greeter .gw-modal-paragraph {
+        font-size: 12px;
+        color: #464651;
+        line-height: 1.5;
+        margin: 0 0 20px 0;
+    }
+
+    /* Forms & Inputs (Strict 4px) */
+    #gw-visitor-greeter .gw-form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 20px;
+    }
+
+    #gw-visitor-greeter .gw-form-input {
+        width: 100%;
+        background-color: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        padding: 12px;
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        color: #0b1c30;
+        border-radius: 4px !important; /* Strict 4px Cap */
+        box-sizing: border-box;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    #gw-visitor-greeter .gw-form-input:focus {
+        outline: none;
+        border-color: #27267d;
+        box-shadow: 0 0 0 3px rgba(39, 38, 125, 0.15);
+    }
+
+    /* Actions & Journey Grids (Strict 4px) */
+    #gw-visitor-greeter .gw-journey-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    #gw-visitor-greeter .gw-btn-journey {
+        background-color: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 4px; /* Strict 4px Cap */
+        padding: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-align: left;
+        transition: all 0.2s ease;
+    }
+
+    #gw-visitor-greeter .gw-btn-journey:hover {
+        border-color: #27267d;
+        background-color: #e5eeff;
+        transform: translateY(-2px);
+    }
+
+    #gw-visitor-greeter .gw-journey-title {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: #1E1B4B;
+    }
+
+    #gw-visitor-greeter .gw-journey-desc {
+        display: block;
+        font-size: 10px;
+        color: #464651;
+        margin-top: 2px;
+    }
+
+    #gw-visitor-greeter .gw-btn-action {
+        width: 100%;
+        background-color: #27267d;
+        color: #FFFFFF;
+        font-family: 'Lexend', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 14px;
+        border: none;
+        border-radius: 4px !important; /* Strict 4px Cap */
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    #gw-visitor-greeter .gw-btn-action:hover {
+        background-color: #3f3f95;
+    }
+
+    #gw-visitor-greeter .gw-btn-back {
+        background-color: transparent;
+        color: #464651;
+        border: 1px solid #E2E8F0;
+        border-radius: 4px; /* Strict 4px Cap */
+        padding: 10px 16px;
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    #gw-visitor-greeter .gw-btn-back:hover {
+        background-color: #e5eeff;
+    }
+
+    #gw-visitor-greeter .gw-form-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+    }
+
+    #gw-visitor-greeter .gw-modal-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background-color: transparent;
+        border: none;
+        color: #464651;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    #gw-visitor-greeter .gw-error-msg {
+        display: none;
+        font-size: 10px;
+        color: #bb001b;
+        font-weight: 500;
+        margin-top: 4px;
+    }
+
+    #gw-visitor-greeter .gw-error-msg.active {
+        display: block;
+    }
+
+    /* STRATEGY 2: RETURNING VISITOR SLIDEOUT CHANNELS */
+    #gw-visitor-greeter .gw-support-pill {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9999;
+        max-width: 320px;
+        width: 100%;
+        transform: translateY(120%) scale(0.9);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+                    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #gw-visitor-greeter .gw-support-pill.active {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    #gw-visitor-greeter .gw-pill-card {
+        background-color: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 4px; /* Strict 4px Cap */
+        box-shadow: 0px 12px 30px rgba(63, 63, 149, 0.12);
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    #gw-visitor-greeter .gw-pill-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 9px;
+        font-weight: 600;
+        color: #D4AF37;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 8px;
+    }
+
+    #gw-visitor-greeter .gw-pill-title {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 700;
+        font-size: 13px;
+        color: #1E1B4B;
+        line-height: 1.4;
+        margin: 0 0 16px 0;
+    }
+
+    #gw-visitor-greeter .gw-pill-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    #gw-visitor-greeter .gw-btn-pill-whatsapp {
+        width: 100%;
+        background-color: #bb001b; /* Crimson */
+        color: #FFFFFF;
+        font-size: 11px;
+        font-weight: 600;
+        text-align: center;
+        padding: 12px;
+        border-radius: 4px !important; /* Strict 4px Cap */
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    #gw-visitor-greeter .gw-btn-pill-whatsapp:hover {
+        background-color: #e02830;
+    }
+
+    #gw-visitor-greeter .gw-pill-secondary-link {
+        font-size: 10px;
+        color: #27267d;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s ease;
+    }
+
+    #gw-visitor-greeter .gw-pill-secondary-link:hover {
+        color: #3f3f95;
+        text-decoration: underline;
+    }
+
+    /* DYNAMIC BURST ANIMATION KEYFRAMES (Hardware Accelerated) */
+    @keyframes gwModalBurst {
+        0% {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+        50% {
+            transform: scale(0.6) translateY(100px);
+            opacity: 0.5;
+        }
+        100% {
+            transform: scale(0.1) translate(400px, 400px);
+            opacity: 0;
+        }
+    }
+
+    .gw-modal-burst-anim {
+        animation: gwModalBurst 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+</style>
+
+<script>
+    (() => {
+        // Safe Scoped IIFE configuration for WordPress runtime protection
+        document.addEventListener('DOMContentLoaded', () => {
+            const STORAGE_KEY = 'gw_visitor_details';
+            
+            const overlay = document.getElementById('gw-onboarding-modal');
+            const pill = document.getElementById('gw-returning-pill');
+            const timeGreetingText = document.getElementById('gw-time-greeting');
+            
+            // Onboarding context variables
+            let visitorName = '';
+            let visitorEmail = '';
+            let visitorIntent = 'buyer';
+
+            // Eval time of day dynamic greet
+            function getGreetingString() {
+                const hour = new Date().getHours();
+                if (hour < 12) return "Good morning";
+                if (hour >= 12 && hour < 17) return "Good afternoon";
+                return "Good evening";
+            }
+
+            // Init loop logic
+            function initializeGreeterLifecycle() {
+                const rawSession = localStorage.getItem(STORAGE_KEY);
+                
+                if (rawSession) {
+                    // Strategy 2: Returning visitor support card setup
+                    const session = JSON.parse(rawSession);
+                    document.getElementById('gw-returning-name').innerText = session.name;
+                    overlay.classList.remove('active');
+                    
+                    // Delay reveal for sleek slideout effect
+                    setTimeout(() => {
+                        pill.classList.add('active');
+                    }, 1500);
+                } else {
+                    // Strategy 1: First time visitor greeting modal popup
+                    timeGreetingText.innerText = `${getGreetingString()}!`;
+                    setTimeout(() => {
+                        overlay.classList.add('active');
+                    }, 2000);
+                }
+            }
+
+            // Navigate between internal multi-step onboarding panels
+            window.gwGoToStep = (step) => {
+                const nameInput = document.getElementById('gw-v-name');
+                const errorText = document.getElementById('gw-step1-error');
+
+                if (step === 2) {
+                    visitorName = nameInput.value.trim();
+                    if (!visitorName) {
+                        errorText.classList.add('active');
+                        nameInput.focus();
+                        return;
+                    }
+                    errorText.classList.remove('active');
+                    document.getElementById('gw-lbl-name').innerText = visitorName;
+                }
+
+                // Remove active classes
+                document.querySelectorAll('#gw-visitor-greeter .gw-step-panel').forEach(panel => {
+                    panel.classList.remove('gw-active');
+                });
+
+                // Render destination
+                if (step === 1) {
+                    document.getElementById('gw-step-1').classList.add('gw-active');
+                } else if (step === 2) {
+                    document.getElementById('gw-step-2').classList.add('gw-active');
+                }
+            };
+
+            // Capture Intent selections from Strategy 1
+            window.gwSelectIntent = (intent) => {
+                visitorIntent = intent;
+                
+                if (intent === 'partner') {
+                    // Immediately capture and redirect to registration portal
+                    const sessionData = { name: visitorName, email: '', intent: 'partner' };
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionData));
+                    
+                    // Optional background API handshake ping
+                    navigator.sendBeacon('https://portal.gwealthrepublic.com/api/visitors/log', JSON.stringify({
+                        name: visitorName,
+                        email: null,
+                        intent: 'partner',
+                        timeSubmitted: new Date()
+                    }));
+
+                    // Slide overlay out before routing to portal
+                    overlay.classList.remove('active');
+                    window.location.href = 'https://portal.gwealthrepublic.com/register?ref=wordpress_modal';
+                } else {
+                    // Render step 3A for optional email and closing sequences
+                    document.getElementById('gw-step-2').classList.remove('gw-active');
+                    document.getElementById('gw-step-3a').classList.add('gw-active');
+                }
+            };
+
+            // Trigger Modal Burst animation on buyer submit completion
+            window.gwSubmitBuyerOnboarding = () => {
+                visitorEmail = document.getElementById('gw-v-email').value.trim() || null;
+                const sessionData = { name: visitorName, email: visitorEmail, intent: 'buyer' };
+                
+                // 1. Save data state locally
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionData));
+
+                // 2. Transmit package background handshake directly to MERN API
+                fetch('https://portal.gwealthrepublic.com/api/visitors/log', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: visitorName,
+                        email: visitorEmail,
+                        intent: 'buyer',
+                        timeSubmitted: new Date()
+                    })
+                }).catch(err => console.warn("API Sync deferred to background queue.", err));
+
+                // 3. Initiate premium Modal Burst animation sequence
+                const modal = overlay.querySelector('.gw-modal-card');
+                modal.classList.add('gw-modal-burst-anim');
+
+                setTimeout(() => {
+                    overlay.classList.remove('active');
+                    // Setup support pill content
+                    document.getElementById('gw-returning-name').innerText = visitorName;
+                    
+                    // Shrink smoothly into active support pill card
+                    setTimeout(() => {
+                        pill.classList.add('active');
+                    }, 400);
+                }, 600);
+            };
+
+            window.gwDismissOnboarding = () => {
+                overlay.classList.remove('active');
+            };
+
+            // Bootstrap
+            initializeGreeterLifecycle();
+        });
+    })();
+</script>
+

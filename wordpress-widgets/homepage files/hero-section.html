@@ -1,0 +1,263 @@
+<!-- 
+  GWealth Nation - Homepage Hero Section
+  Objective: Full-screen video background, strict namespace, vault motion animations.
+  Instructions: Paste this block into an Elementor Custom HTML Widget on the homepage.
+-->
+<div id="gw-hero-section">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-hero-section {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%); /* Fullbleed breakout */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Lexend', sans-serif;
+            background-color: #0b1c30; /* Fallback color */
+        }
+
+        #gw-hero-section * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 1. True Video Background */
+        #gw-hero-section .gw-hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top; /* Shift focus to top */
+            transform: scale(1.15) translateY(6.5%); /* Zoom in 15% and push down to crop bottom */
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* 2. Readability Shading Overlay (Deep Corporate Blue Gradient) */
+        #gw-hero-section .gw-hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            /* Dark gradient starting from left to right, ensuring text readability */
+            background: linear-gradient(90deg, rgba(11, 28, 48, 0.95) 0%, rgba(11, 28, 48, 0.7) 40%, rgba(11, 28, 48, 0.2) 100%);
+        }
+
+        @media (max-width: 768px) {
+            #gw-hero-section .gw-hero-overlay {
+                /* On mobile, darken the whole screen for readability */
+                background: linear-gradient(180deg, rgba(11, 28, 48, 0.9) 0%, rgba(11, 28, 48, 0.7) 100%);
+            }
+        }
+
+        /* 3. Content Container */
+        #gw-hero-section .gw-container {
+            position: relative;
+            z-index: 3;
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        #gw-hero-section .gw-hero-content {
+            max-width: 650px;
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+
+        /* Title */
+        #gw-hero-section .gw-hero-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 56px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.15;
+            letter-spacing: -1px;
+            margin-bottom: 24px;
+        }
+
+        #gw-hero-section .gw-hero-title .gw-highlight {
+            color: #bb001b; /* Red highlight */
+        }
+
+        @media (max-width: 768px) {
+            #gw-hero-section .gw-hero-title {
+                font-size: 32px;
+                word-wrap: break-word;
+                hyphens: auto;
+            }
+        }
+
+        /* Subtitle */
+        #gw-hero-section .gw-hero-subtitle {
+            font-family: 'Lexend', sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            color: #e2e8f0;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            max-width: 540px;
+        }
+
+        @media (max-width: 768px) {
+            #gw-hero-section .gw-hero-subtitle {
+                font-size: 15px;
+            }
+            #gw-hero-section .gw-hero-content {
+                padding-top: 60px;
+                padding-bottom: 60px;
+            }
+        }
+
+        /* Buttons Container */
+        #gw-hero-section .gw-hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        /* Primary CTA */
+        #gw-hero-section .gw-btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #bb001b;
+            color: #ffffff;
+            font-family: 'Lexend', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 16px 32px;
+            border-radius: 4px; /* Strict 4px */
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #gw-hero-section .gw-btn-primary:hover {
+            background-color: #d90020;
+            transform: scale(1.02); /* Premium Hover Hook */
+            box-shadow: 0px 8px 24px rgba(187, 0, 27, 0.25);
+        }
+
+        /* Secondary CTA */
+        #gw-hero-section .gw-btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-family: 'Lexend', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 16px 32px;
+            border-radius: 4px; /* Strict 4px */
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(4px);
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        #gw-hero-section .gw-btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.02); /* Premium Hover Hook */
+        }
+
+        /* --- THE VAULT AESTHETIC MOTION DESIGN --- */
+        #gw-hero-section .gw-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            will-change: transform, opacity;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #gw-hero-section .gw-reveal.gw-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+    </style>
+
+    <!-- Background Video -->
+    <video class="gw-hero-video" autoplay loop muted playsinline disablepictureinpicture controlslist="nodownload">
+        <source src="http://gwealthrepublic.local/wp-content/uploads/2026/07/SUV_driving_on_dirt_road_202607100304-1.mp4" type="video/mp4">
+    </video>
+
+    <!-- Overlay Shader -->
+    <div class="gw-hero-overlay"></div>
+
+    <!-- Content -->
+    <div class="gw-container">
+        <div class="gw-hero-content">
+            <!-- Staggered Entrance Elements -->
+            <h1 class="gw-hero-title gw-reveal" style="transition-delay: 0.1s;">
+                Secure Your Future<br>
+                with <span class="gw-highlight">Verified</span> Land<br>
+                Ownership.
+            </h1>
+            
+            <p class="gw-hero-subtitle gw-reveal" style="transition-delay: 0.2s;">
+                Zero Agency Fees. Zero Documentation Charges. Immediate Registered Surveys in Southern & Eastern Nigeria.
+            </p>
+            
+            <div class="gw-hero-actions gw-reveal" style="transition-delay: 0.3s;">
+                <!-- Included ID for WhatsApp redirect logic -->
+                <a href="/properties/" class="gw-btn-primary" id="gw-hero-whatsapp-btn">Explore Estates</a>
+                <a href="/certifications/" class="gw-btn-secondary">View Certifications</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scoped Component Logic (IIFE) -->
+    <script>
+        (() => {
+            document.addEventListener('DOMContentLoaded', () => {
+                
+                // 1. Viewport Observer for Vault Aesthetic Motion
+                const revealElements = document.querySelectorAll('#gw-hero-section .gw-reveal');
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0.15
+                };
+
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Slight delay to ensure preloader is gone before hero animates
+                            setTimeout(() => {
+                                entry.target.classList.add('gw-visible');
+                            }, 100);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                revealElements.forEach(el => observer.observe(el));
+
+                // 2. WhatsApp Redirect Logic (Collision-safe)
+                const waBtn = document.getElementById('gw-hero-whatsapp-btn');
+                if (waBtn) {
+                    waBtn.addEventListener('click', (e) => {
+                        // If you want this button to act as a WhatsApp redirect instead of a standard link:
+                        // e.preventDefault();
+                        // const phoneNumber = "2348000000000"; // Replace with localized desk
+                        // const message = encodeURIComponent("Hello GWealth Nation, I would like to explore your estates.");
+                        // window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+                    });
+                }
+            });
+        })();
+    </script>
+</div>

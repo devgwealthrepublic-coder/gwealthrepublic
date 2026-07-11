@@ -1,0 +1,431 @@
+<!-- 
+  GWealth Nation - Section: Client Testimonials
+  Objective: Premium light-theme sliding carousel for MERN-driven dynamic reviews, vault motion, 4px strict radius.
+  Instructions: Paste this block into an Elementor Custom HTML Widget.
+-->
+<div id="gw-testimonials-section">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-testimonials-section {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%); /* Fullbleed breakout */
+            background-color: #FAFAFA; /* Premium Light Surface */
+            padding: 96px 0;
+            font-family: 'Lexend', sans-serif;
+            overflow: hidden;
+        }
+
+        #gw-testimonials-section * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        #gw-testimonials-section .gw-container {
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* Header Layout */
+        #gw-testimonials-section .gw-section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        #gw-testimonials-section .gw-pre-headline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #D4AF37; /* Gold */
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+
+        #gw-testimonials-section .gw-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 32px;
+            color: #1E1B4B; /* Legal Ink */
+            margin: 0 0 16px 0;
+            letter-spacing: -0.02em;
+        }
+
+        @media (min-width: 768px) {
+            #gw-testimonials-section .gw-title {
+                font-size: 40px;
+            }
+        }
+
+        #gw-testimonials-section .gw-subtitle {
+            font-size: 16px;
+            color: #4a5568;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+
+        /* Slider Engine */
+        #gw-testimonials-section .gw-slider-wrapper {
+            position: relative;
+            overflow: hidden;
+            margin: 0 -12px; /* Offset padding */
+            padding: 16px 0;
+        }
+
+        #gw-testimonials-section .gw-slider-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+
+        /* Individual Slide */
+        #gw-testimonials-section .gw-slide {
+            flex: 0 0 100%;
+            padding: 0 12px;
+        }
+
+        @media (min-width: 768px) {
+            #gw-testimonials-section .gw-slide {
+                flex: 0 0 50%;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            #gw-testimonials-section .gw-slide {
+                flex: 0 0 33.3333%;
+            }
+        }
+
+        /* Testimonial Card (Light Theme) */
+        #gw-testimonials-section .gw-testimonial-card {
+            background: #ffffff;
+            border: 1px solid rgba(30, 27, 75, 0.06);
+            border-radius: 4px; /* Strict 4px limit */
+            padding: 40px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            box-shadow: 0px 8px 24px rgba(30, 27, 75, 0.03);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        #gw-testimonials-section .gw-testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0px 16px 32px rgba(30, 27, 75, 0.06);
+            border-color: rgba(30, 27, 75, 0.1);
+        }
+
+        /* Stars */
+        #gw-testimonials-section .gw-stars {
+            color: #D4AF37; /* Gold */
+            font-size: 14px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 4px;
+        }
+
+        /* Quote Text */
+        #gw-testimonials-section .gw-quote {
+            font-size: 15px;
+            color: #4a5568;
+            line-height: 1.7;
+            margin-bottom: 32px;
+            font-style: italic;
+        }
+
+        /* Client Info Footer */
+        #gw-testimonials-section .gw-client-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        #gw-testimonials-section .gw-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%; /* Permitted exception for 1:1 avatars */
+            object-fit: cover;
+            background-color: #f1f5f9;
+        }
+
+        #gw-testimonials-section .gw-client-details h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: #1E1B4B; /* Legal Ink */
+            margin-bottom: 4px;
+        }
+
+        #gw-testimonials-section .gw-client-details span {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        /* Slider Controls */
+        #gw-testimonials-section .gw-slider-controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        #gw-testimonials-section .gw-slider-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%; /* Permitted exception for 1:1 action buttons */
+            background-color: #ffffff;
+            border: 1px solid rgba(30, 27, 75, 0.1);
+            color: #1E1B4B;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0px 4px 12px rgba(30, 27, 75, 0.04);
+        }
+
+        #gw-testimonials-section .gw-slider-btn:hover {
+            background-color: #1E1B4B;
+            color: #ffffff;
+            border-color: #1E1B4B;
+            transform: translateY(-2px);
+            box-shadow: 0px 8px 16px rgba(30, 27, 75, 0.15);
+        }
+
+        #gw-testimonials-section .gw-slider-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            background-color: #f8f9ff;
+            color: #a0aec0;
+            border-color: rgba(30, 27, 75, 0.05);
+            box-shadow: none;
+        }
+
+        /* --- VAULT MOTION --- */
+        #gw-testimonials-section .gw-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            will-change: transform, opacity;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #gw-testimonials-section .gw-reveal.gw-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+
+    <div class="gw-container">
+        
+        <!-- Section Header -->
+        <div class="gw-section-header gw-reveal">
+            <span class="gw-pre-headline"><i class="fa-solid fa-star"></i> Client Success Stories</span>
+            <h2 class="gw-title">Trusted by Global Investors</h2>
+            <p class="gw-subtitle">Real experiences from clients who have secured their wealth through our verified properties.</p>
+        </div>
+
+        <!-- Sliding Track Wrapper -->
+        <div class="gw-slider-wrapper gw-reveal" style="transition-delay: 0.1s;">
+            <!-- MERN Dynamic Data Hook: Map over .gw-slide -->
+            <div class="gw-slider-track" id="gw-dynamic-testimonials-mount">
+                
+                <!-- Slide 1 -->
+                <div class="gw-slide">
+                    <div class="gw-testimonial-card">
+                        <div>
+                            <div class="gw-stars">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="gw-quote">"The level of transparency is unmatched. From the drone walkthroughs to the final Deed of Assignment, the entire process of securing my plot from the diaspora was seamless."</p>
+                        </div>
+                        <div class="gw-client-info">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150" alt="Client" class="gw-avatar">
+                            <div class="gw-client-details">
+                                <h4>Dr. Sarah O.</h4>
+                                <span>Diaspora Investor (UK)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="gw-slide">
+                    <div class="gw-testimonial-card">
+                        <div>
+                            <div class="gw-stars">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="gw-quote">"I was skeptical about buying land online, but GWealth's instant allocation policy is real. I got my documents and coordinates within 48 hours of my final payment."</p>
+                        </div>
+                        <div class="gw-client-info">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=150" alt="Client" class="gw-avatar">
+                            <div class="gw-client-details">
+                                <h4>Chukwuemeka N.</h4>
+                                <span>Real Estate Developer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="gw-slide">
+                    <div class="gw-testimonial-card">
+                        <div>
+                            <div class="gw-stars">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="gw-quote">"As a realtor, I only partner with developers who prioritize legal security. GWealth Nation provides everything my clients need to invest with absolute peace of mind."</p>
+                        </div>
+                        <div class="gw-client-info">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=150" alt="Client" class="gw-avatar">
+                            <div class="gw-client-details">
+                                <h4>Aisha B.</h4>
+                                <span>Lead Consultant</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4 -->
+                <div class="gw-slide">
+                    <div class="gw-testimonial-card">
+                        <div>
+                            <div class="gw-stars">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="gw-quote">"The infrastructure development inside Wealth Kingdom is moving incredibly fast. It's rare to see a developer deliver on their timeline promises in this market."</p>
+                        </div>
+                        <div class="gw-client-info">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150" alt="Client" class="gw-avatar">
+                            <div class="gw-client-details">
+                                <h4>Tunde A.</h4>
+                                <span>Commercial Investor</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Slider Controls -->
+        <div class="gw-slider-controls gw-reveal" style="transition-delay: 0.2s;">
+            <button class="gw-slider-btn gw-prev" disabled aria-label="Previous testimonials"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="gw-slider-btn gw-next" aria-label="Next testimonials"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+
+    </div>
+
+    <!-- Interactive Script for Slider & Reveal -->
+    <script>
+        (() => {
+            document.addEventListener('DOMContentLoaded', () => {
+                
+                // --- SLIDER ENGINE ---
+                const track = document.querySelector('#gw-testimonials-section .gw-slider-track');
+                const slides = document.querySelectorAll('#gw-testimonials-section .gw-slide');
+                const prevBtn = document.querySelector('#gw-testimonials-section .gw-prev');
+                const nextBtn = document.querySelector('#gw-testimonials-section .gw-next');
+                
+                let currentIndex = 0;
+
+                function updateSlider() {
+                    if(!slides.length) return;
+                    
+                    // Calculate how many items are visible based on screen width
+                    const width = window.innerWidth;
+                    let visibleItems = 1;
+                    if (width >= 1024) visibleItems = 3;
+                    else if (width >= 768) visibleItems = 2;
+
+                    const maxIndex = Math.max(0, slides.length - visibleItems);
+                    
+                    // Prevent out of bounds on resize
+                    if (currentIndex > maxIndex) {
+                        currentIndex = maxIndex;
+                    }
+
+                    // Get exact width of a slide (including its flex padding)
+                    const slideWidth = slides[0].offsetWidth;
+                    
+                    // Apply buttery smooth transform
+                    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+
+                    // Update button states
+                    prevBtn.disabled = currentIndex === 0;
+                    nextBtn.disabled = currentIndex >= maxIndex;
+                }
+
+                // Initial setup
+                updateSlider();
+
+                // Recalculate on window resize
+                window.addEventListener('resize', () => {
+                    requestAnimationFrame(updateSlider);
+                });
+
+                // Navigation Events
+                nextBtn.addEventListener('click', () => {
+                    const width = window.innerWidth;
+                    const visibleItems = width >= 1024 ? 3 : (width >= 768 ? 2 : 1);
+                    const maxIndex = Math.max(0, slides.length - visibleItems);
+                    
+                    if (currentIndex < maxIndex) {
+                        currentIndex++;
+                        updateSlider();
+                    }
+                });
+
+                prevBtn.addEventListener('click', () => {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateSlider();
+                    }
+                });
+
+
+                // --- VAULT MOTION OBSERVER ---
+                const revealElements = document.querySelectorAll('#gw-testimonials-section .gw-reveal');
+                const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+                
+                const observer = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('gw-visible');
+                            obs.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                revealElements.forEach(el => observer.observe(el));
+            });
+        })();
+    </script>
+</div>

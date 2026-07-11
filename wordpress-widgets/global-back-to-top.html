@@ -1,0 +1,102 @@
+<!-- 
+  GWealth Nation - Global Back To Top Button
+  Objective: Sticky circular button with smooth scrolling and vault motion fade.
+  Instructions: Paste this block into WPCode (Footer section).
+-->
+<div id="gw-back-to-top" class="gw-btt-hidden">
+    <i class="fa-solid fa-chevron-up"></i>
+</div>
+
+<style>
+    /* ==========================================================================
+       SCOPED STYLING: BACK TO TOP BUTTON
+       ========================================================================== */
+    #gw-back-to-top {
+        position: fixed;
+        bottom: 40px;
+        right: 40px;
+        width: 52px;
+        height: 52px;
+        background-color: #27267d; /* Primary Blue */
+        color: #ffffff;
+        border-radius: 50%; /* Perfect circle exception allowed for 1:1 action buttons */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        cursor: pointer;
+        z-index: 9999;
+        box-shadow: 0px 8px 24px rgba(30, 27, 75, 0.25);
+        
+        /* Vault Motion physics for entry/exit */
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                    opacity 0.4s ease, 
+                    visibility 0.4s ease,
+                    background-color 0.3s ease;
+        
+        /* Visible State */
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    #gw-back-to-top i {
+        margin-top: -2px; /* Visual center tweak for chevron */
+    }
+
+    #gw-back-to-top:hover {
+        transform: translateY(-4px) scale(1.05); /* Premium hover lift */
+        background-color: #1E1B4B; /* Darken to Legal Ink */
+        box-shadow: 0px 12px 32px rgba(30, 27, 75, 0.35);
+    }
+
+    /* Hidden State (When at the top of the page) */
+    #gw-back-to-top.gw-btt-hidden {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px);
+        pointer-events: none;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+        #gw-back-to-top {
+            bottom: 24px;
+            right: 24px;
+            width: 44px;
+            height: 44px;
+            font-size: 14px;
+        }
+    }
+</style>
+
+<script>
+    (() => {
+        // Safe Scoped IIFE Execution for WPCode
+        document.addEventListener('DOMContentLoaded', () => {
+            const bttButton = document.getElementById('gw-back-to-top');
+            if (!bttButton) return;
+
+            // Scroll threshold before showing the button (e.g., 500px down)
+            const showThreshold = 500;
+
+            // Handle scroll events to toggle visibility
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > showThreshold) {
+                    bttButton.classList.remove('gw-btt-hidden');
+                } else {
+                    bttButton.classList.add('gw-btt-hidden');
+                }
+            }, { passive: true }); // passive flag for scrolling performance
+
+            // Handle click event for buttery-smooth scrolling to top
+            bttButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    })();
+</script>

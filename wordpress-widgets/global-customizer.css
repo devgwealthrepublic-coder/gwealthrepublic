@@ -1,0 +1,102 @@
+/* ==========================================================================
+   GWealth Nation - Global Customizer CSS (Hello Elementor Override)
+   Objective: High-Performance, Core Web Vitals Optimization, & strict UI locks.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. SECURE HORIZON DESIGN TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+    --gw-primary: #27267d;
+    --gw-crimson: #bb001b;
+    --gw-gold: #D4AF37;
+    --gw-canvas: #f8f9ff;
+    
+    /* Strict border radius limit per system instructions */
+    --gw-radius-cap: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   2. THEME OVERRIDE & CLS PREVENTION (Kill Default Hello Elementor)
+   -------------------------------------------------------------------------- */
+/* Aggressively remove default headers, footers, titles, and skip links */
+header.site-header,
+footer.site-footer,
+.site-header,
+.site-footer,
+.skip-link,
+.page-header,
+.entry-title {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. CORE WEB VITALS & RENDERING OPTIMIZERS
+   -------------------------------------------------------------------------- */
+/* Horizontal Clip Force & Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    background-color: var(--gw-canvas);
+}
+
+body {
+    overflow-x: hidden;
+    background-color: var(--gw-canvas);
+    margin: 0;
+    padding: 0;
+    
+    /* Text & Font Optimizers */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* 
+ * Hardware Acceleration for Lexendactive Elements 
+ * (prevent mobile stuttering on low-end devices) 
+ */
+a, 
+button, 
+input, 
+select, 
+textarea, 
+.gw-interactive {
+    transform: translateZ(0);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   4. THE STRICT 4PX CAP (Form & Button Reset)
+   -------------------------------------------------------------------------- */
+/* Force standard structural elements to adhere to the 4px border-radius limit */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="date"],
+textarea,
+select,
+button,
+.elementor-button,
+.wp-block-button__link {
+    border-radius: var(--gw-radius-cap) !important;
+}
+
+/* 
+ * Note: 1:1 perfect circles like avatars or close buttons are expected to use 
+ * specific utility classes with higher specificity or direct styles to 
+ * override this when strictly necessary. 
+ */

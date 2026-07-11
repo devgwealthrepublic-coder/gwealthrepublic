@@ -1,0 +1,288 @@
+<!-- 
+  GWealth Nation - Section 3: The GWealth Guarantee
+  Objective: Zigzag layout (Content Left, Image Right), strict namespace, vault motion animations.
+  Instructions: Paste this block into an Elementor Custom HTML Widget below Section 2.
+-->
+<div id="gw-section-guarantee">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-section-guarantee {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%); /* Fullbleed breakout */
+            padding: 96px 0;
+            background-color: #ffffff; /* pure white contrast */
+            font-family: 'Lexend', sans-serif;
+            overflow: hidden; /* prevents reveal animations from breaking layout */
+        }
+
+        #gw-section-guarantee * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        #gw-section-guarantee .gw-container {
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* Zigzag Grid (Reversed) */
+        #gw-section-guarantee .gw-guarantee-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        @media (min-width: 992px) {
+            #gw-section-guarantee .gw-guarantee-grid {
+                /* Reverse the columns: Content Left, Image Right */
+                grid-template-columns: 1fr 1fr;
+                gap: 80px;
+            }
+            
+            /* Visual order enforcement just in case */
+            #gw-section-guarantee .gw-guarantee-content-col {
+                order: 1;
+            }
+            #gw-section-guarantee .gw-guarantee-img-col {
+                order: 2;
+            }
+        }
+
+        @media (max-width: 991px) {
+            /* On mobile, usually we want Image first, then Text. */
+            #gw-section-guarantee .gw-guarantee-img-col {
+                order: 1;
+            }
+            #gw-section-guarantee .gw-guarantee-content-col {
+                order: 2;
+            }
+        }
+
+        /* Image Column (Right) */
+        #gw-section-guarantee .gw-guarantee-img-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 4px; /* Strict 4px limit */
+            overflow: hidden;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03); /* Level-1 Elevation */
+            /* Fixed aspect ratio trick */
+            padding-top: 80%;
+            transition: box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        #gw-section-guarantee .gw-guarantee-img-wrapper:hover {
+            box-shadow: 0px 12px 32px rgba(0, 0, 0, 0.08); /* Level-2 Elevation */
+            transform: translateY(-4px); /* Premium subtle lift */
+        }
+
+        #gw-section-guarantee .gw-guarantee-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #gw-section-guarantee .gw-guarantee-img-wrapper:hover .gw-guarantee-img {
+            transform: scale(1.05); /* Slow, elegant inner zoom */
+        }
+
+        /* Content Column (Left) */
+        #gw-section-guarantee .gw-badge {
+            display: inline-block;
+            font-family: 'Lexend', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #27267d; /* corporate blue */
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+        }
+
+        #gw-section-guarantee .gw-guarantee-heading {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 40px;
+            font-weight: 800;
+            color: #0b1c30; /* on-surface */
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+            #gw-section-guarantee .gw-guarantee-heading {
+                font-size: 32px;
+            }
+        }
+
+        #gw-section-guarantee .gw-guarantee-heading .gw-highlight {
+            color: #bb001b; /* primary red */
+        }
+
+        #gw-section-guarantee .gw-guarantee-list {
+            list-style: none;
+            margin-top: 32px;
+            margin-bottom: 32px;
+        }
+
+        #gw-section-guarantee .gw-guarantee-list-item {
+            position: relative;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #4a5568;
+            padding-left: 36px;
+            margin-bottom: 20px;
+        }
+
+        #gw-section-guarantee .gw-guarantee-list-item strong {
+            color: #0b1c30;
+            font-weight: 600;
+        }
+
+        /* Custom checkmark icon */
+        #gw-section-guarantee .gw-guarantee-list-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(187, 0, 27, 0.1); /* light red bg */
+            border-radius: 50%;
+        }
+
+        #gw-section-guarantee .gw-guarantee-list-item::after {
+            content: '✓';
+            position: absolute;
+            left: 5px;
+            top: 4px;
+            font-size: 12px;
+            color: #bb001b; /* red check */
+            font-weight: bold;
+        }
+
+        /* Button CTA */
+        #gw-section-guarantee .gw-btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            color: #0b1c30;
+            font-family: 'Lexend', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 15px 31px;
+            border-radius: 4px; /* Strict 4px rule */
+            text-decoration: none;
+            border: 2px solid #0b1c30;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #gw-section-guarantee .gw-btn-outline:hover {
+            background-color: #0b1c30; 
+            color: #ffffff;
+            transform: scale(1.02); /* Premium hover hook */
+            box-shadow: 0px 8px 24px rgba(11, 28, 48, 0.15); 
+        }
+
+        /* --- THE VAULT AESTHETIC MOTION DESIGN --- */
+        #gw-section-guarantee .gw-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            will-change: transform, opacity;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #gw-section-guarantee .gw-reveal-right {
+            opacity: 0;
+            transform: translateX(30px); /* Subtle 30px offset from right */
+            will-change: transform, opacity;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #gw-section-guarantee .gw-reveal.gw-visible,
+        #gw-section-guarantee .gw-reveal-right.gw-visible {
+            opacity: 1;
+            transform: translateY(0) translateX(0);
+        }
+    </style>
+
+    <div class="gw-container">
+        <div class="gw-guarantee-grid">
+            
+            <!-- Left: Content (Rises from bottom) -->
+            <div class="gw-guarantee-content-col gw-reveal">
+                <span class="gw-badge">The GWealth Guarantee</span>
+                <h2 class="gw-guarantee-heading">
+                    100% Verified.<br>
+                    <span class="gw-highlight">Legally Registered.</span>
+                </h2>
+                
+                <ul class="gw-guarantee-list">
+                    <li class="gw-guarantee-list-item">
+                        <strong>Immediate Allocations</strong><br>
+                        We do not sell what we don't own. Once your payment is confirmed, your allocation is processed instantly.
+                    </li>
+                    <li class="gw-guarantee-list-item">
+                        <strong>Registered Surveys</strong><br>
+                        Every square meter of our estates is backed by government-approved registered surveys and verifiable titles.
+                    </li>
+                    <li class="gw-guarantee-list-item">
+                        <strong>Strategic Locations</strong><br>
+                        Our lands are situated in high-growth corridors across Southern and Eastern Nigeria, ensuring massive ROI.
+                    </li>
+                </ul>
+
+                <a href="/certifications/" class="gw-btn-outline">View Legal Documents</a>
+            </div>
+
+            <!-- Right: Image (Slides in from right) -->
+            <div class="gw-guarantee-img-col gw-reveal-right" style="transition-delay: 0.15s;">
+                <div class="gw-guarantee-img-wrapper">
+                    <!-- High quality placeholder: Replace src with actual documents or estate photo -->
+                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Legal Land Certifications" class="gw-guarantee-img" loading="lazy">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scoped Component Logic (IIFE) -->
+    <script>
+        (() => {
+            document.addEventListener('DOMContentLoaded', () => {
+                const revealElements = document.querySelectorAll('#gw-section-guarantee .gw-reveal, #gw-section-guarantee .gw-reveal-right');
+                
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0.15
+                };
+
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('gw-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                revealElements.forEach(el => observer.observe(el));
+            });
+        })();
+    </script>
+</div>

@@ -1,0 +1,225 @@
+<!-- 
+  GWealth Nation - Single Property: Media Gallery (Component 1)
+  Objective: Main media viewport, responsive thumbnails, strict 4px radius, absolute badges.
+  Instructions: Place inside Elementor's Main Column (Left).
+-->
+<div id="gw-sp-media-gallery">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-sp-media-gallery {
+            width: 100%;
+            font-family: 'Lexend', sans-serif;
+            margin-bottom: 32px;
+        }
+
+        #gw-sp-media-gallery * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Main Viewport */
+        #gw-sp-media-gallery .gw-main-viewport {
+            position: relative;
+            width: 100%;
+            border-radius: 4px; /* Strict 4px Limit */
+            overflow: hidden;
+            background-color: #E2E8F0;
+            margin-bottom: 16px;
+            /* Placeholder aspect ratio */
+            aspect-ratio: 16 / 9;
+        }
+
+        #gw-sp-media-gallery .gw-main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Overlay Badges */
+        #gw-sp-media-gallery .gw-badges {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            z-index: 2;
+        }
+
+        #gw-sp-media-gallery .gw-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 4px; /* Strict 4px Limit */
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        #gw-sp-media-gallery .gw-badge-verified {
+            background-color: #D4AF37; /* Gold */
+            color: #1E1B4B; /* Legal Ink */
+        }
+
+        #gw-sp-media-gallery .gw-badge-urgent {
+            background-color: #bb001b; /* Crimson Red */
+            color: #FFFFFF;
+        }
+
+        /* Walkthrough Button Overlay */
+        #gw-sp-media-gallery .gw-walkthrough-trigger {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px; /* Strict 4px Limit */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            color: #27267d; /* Primary Blue */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            box-shadow: 0px 8px 24px rgba(30, 27, 75, 0.2);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 2;
+        }
+
+        #gw-sp-media-gallery .gw-walkthrough-trigger:hover {
+            background: #FFFFFF;
+            transform: translate(-50%, -52%);
+            box-shadow: 0px 12px 32px rgba(30, 27, 75, 0.3);
+            color: #1E1B4B;
+        }
+
+        /* Thumbnails Grid */
+        #gw-sp-media-gallery .gw-thumbnails-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        #gw-sp-media-gallery .gw-thumb-item {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            border-radius: 4px; /* Strict 4px Limit */
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        #gw-sp-media-gallery .gw-thumb-item.active {
+            border-color: #27267d;
+        }
+
+        #gw-sp-media-gallery .gw-thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        #gw-sp-media-gallery .gw-thumb-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        #gw-sp-media-gallery .gw-thumb-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(30, 27, 75, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFF;
+            font-size: 16px;
+            font-weight: 700;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #gw-sp-media-gallery .gw-thumb-item.has-more .gw-thumb-overlay {
+            opacity: 1;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            #gw-sp-media-gallery .gw-thumbnails-row {
+                gap: 8px;
+            }
+            #gw-sp-media-gallery .gw-walkthrough-trigger {
+                padding: 10px 16px;
+                font-size: 12px;
+            }
+        }
+    </style>
+
+    <!-- Main Viewport -->
+    <div class="gw-main-viewport">
+        <img id="gw-active-media" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1200" alt="Wealth Kingdom Phase 3 Aerial View" class="gw-main-image">
+        
+        <div class="gw-badges">
+            <span class="gw-badge gw-badge-verified"><i class="fa-solid fa-shield-halved"></i> Verified Listing</span>
+            <span class="gw-badge gw-badge-urgent">Selling Fast</span>
+        </div>
+
+        <button class="gw-walkthrough-trigger" aria-label="Play Drone Walkthrough Video">
+            <i class="fa-solid fa-video"></i> Drone Walkthrough
+        </button>
+    </div>
+
+    <!-- Thumbnails Row -->
+    <div class="gw-thumbnails-row">
+        <div class="gw-thumb-item active" onclick="gwSwapMedia(this, 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1200')">
+            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=300" alt="Thumbnail 1">
+        </div>
+        <div class="gw-thumb-item" onclick="gwSwapMedia(this, 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200')">
+            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=300" alt="Thumbnail 2">
+        </div>
+        <div class="gw-thumb-item" onclick="gwSwapMedia(this, 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1200')">
+            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=300" alt="Thumbnail 3">
+        </div>
+        <!-- 4th Thumbnail (acting as a "View More" trigger if needed) -->
+        <div class="gw-thumb-item has-more" onclick="gwOpenGalleryModal()">
+            <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=300" alt="Thumbnail 4">
+            <div class="gw-thumb-overlay">+12</div>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            // IIFE for Safe Local Scoping
+            window.gwSwapMedia = (element, imageUrl) => {
+                const activeImg = document.getElementById('gw-active-media');
+                if(!activeImg) return;
+                
+                // Swap image source
+                activeImg.src = imageUrl;
+
+                // Update active state on thumbnails
+                const allThumbs = document.querySelectorAll('#gw-sp-media-gallery .gw-thumb-item');
+                allThumbs.forEach(thumb => thumb.classList.remove('active'));
+                element.classList.add('active');
+            };
+
+            window.gwOpenGalleryModal = () => {
+                console.log("MERN Bridge: Trigger Fullscreen Media Lightbox Array");
+                // Fallback action for static view
+                alert("This will launch the full gallery lightbox in production.");
+            };
+        })();
+    </script>
+</div>

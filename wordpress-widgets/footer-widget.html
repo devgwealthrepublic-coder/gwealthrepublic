@@ -1,0 +1,253 @@
+<!-- 
+  GWealth Nation - Global Footer Widget
+  Objective: Fully responsive, strict color palette matching, namespace isolated.
+  Instructions: Paste this entire block into an Elementor Custom HTML Widget at the bottom of the page (or Footer Template).
+-->
+<div id="gw-section-global-footer">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-section-global-footer {
+            background-color: #1E1B4B; /* legal-ink (Dark Navy) */
+            color: #FAFAFA; /* surface */
+            font-family: 'Lexend', sans-serif;
+            padding: 64px 24px 32px;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        #gw-section-global-footer * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        #gw-section-global-footer .gw-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* Top Grid Layout */
+        #gw-section-global-footer .gw-footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 48px;
+            margin-bottom: 64px;
+        }
+
+        @media (min-width: 768px) {
+            #gw-section-global-footer .gw-footer-grid {
+                grid-template-columns: 2fr 1fr 1fr; /* 3 Columns on desktop */
+                gap: 32px;
+            }
+        }
+
+        /* -------------------------------------
+           Column 1: Brand & Description 
+           ------------------------------------- */
+        #gw-section-global-footer .gw-brand-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: #FAFAFA;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        #gw-section-global-footer .gw-brand-desc {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #e5eeff; /* surface-container text for contrast */
+            margin-bottom: 24px;
+            max-width: 400px;
+        }
+
+        #gw-section-global-footer .gw-social-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        #gw-section-global-footer .gw-social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #27267d; /* primary */
+            color: #FAFAFA;
+            border-radius: 50%; /* EXCEPTION ALLOWED: 1:1 perfect circular icon */
+            text-decoration: none;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        #gw-section-global-footer .gw-social-icon:hover {
+            background-color: #3f3f95; /* primary-container */
+            transform: translateY(-2px);
+        }
+
+        #gw-section-global-footer .gw-social-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* -------------------------------------
+           Columns 2 & 3: Headings & Links 
+           ------------------------------------- */
+        #gw-section-global-footer .gw-footer-heading {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #D4AF37; /* verified-gold */
+            margin-bottom: 24px;
+        }
+
+        #gw-section-global-footer .gw-footer-links {
+            list-style: none;
+        }
+
+        #gw-section-global-footer .gw-footer-links li {
+            margin-bottom: 16px;
+        }
+
+        #gw-section-global-footer .gw-footer-links a {
+            color: #e5eeff;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+
+        #gw-section-global-footer .gw-footer-links a:hover {
+            color: #D4AF37; /* verified-gold hover */
+        }
+
+        /* -------------------------------------
+           Column 3: Contact Info 
+           ------------------------------------- */
+        #gw-section-global-footer .gw-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #e5eeff;
+            line-height: 1.5;
+        }
+
+        #gw-section-global-footer .gw-contact-item svg {
+            color: #D4AF37; /* verified-gold */
+            margin-top: 3px; /* visual alignment with text */
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+        }
+
+        /* -------------------------------------
+           Bottom Bar: Copyright & Credits 
+           ------------------------------------- */
+        #gw-section-global-footer .gw-footer-bottom {
+            border-top: 1px solid rgba(226, 232, 240, 0.1); /* trust-slate with very low opacity */
+            padding-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #a0aec0; /* subtle muted text */
+        }
+
+        @media (min-width: 992px) {
+            #gw-section-global-footer .gw-footer-bottom {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        #gw-section-global-footer .gw-developer-credit a {
+            color: #D4AF37; /* verified-gold */
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        #gw-section-global-footer .gw-developer-credit a:hover {
+            color: #FAFAFA;
+            text-decoration: underline;
+        }
+        #gw-section-global-footer .gw-brand-text {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(90deg, #D4AF37 0%, #FDE047 60%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+
+    <!-- Component HTML -->
+    <footer class="gw-container">
+        <!-- Top Grid -->
+        <div class="gw-footer-grid">
+            
+            <!-- Column 1: Brand -->
+            <div class="gw-footer-brand">
+                <a href="/" class="gw-brand-title" style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; text-decoration: none;">
+                    <img src="http://gwealthrepublic.local/wp-content/uploads/2026/07/gwealth-logo3.0.png" alt="GWealth Nation Logo" style="height: 64px; width: auto;">
+                    <span class="gw-brand-text">G-Wealth Republic</span>
+                </a>
+                <p class="gw-brand-desc">
+                    A leading institutional developer focused on delivering secure land ownership through rigorous legal verification and direct-to-consumer models.
+                </p>
+                <!-- Social Icons -->
+                <div class="gw-social-links">
+                    <a href="#" class="gw-social-icon" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.675 0H1.325C0.593 0 0 0.593 0 1.325V22.676C0 23.407 0.593 24 1.325 24H12.82V14.706H9.692V11.084H12.82V8.413C12.82 5.313 14.713 3.625 17.479 3.625C18.804 3.625 19.942 3.724 20.274 3.768V7.008L18.356 7.009C16.852 7.009 16.561 7.724 16.561 8.772V11.085H20.148L19.681 14.707H16.561V24H22.677C23.407 24 24 23.407 24 22.675V1.325C24 0.593 23.407 0 22.675 0Z"/></svg>
+                    </a>
+                    <a href="#" class="gw-social-icon" aria-label="Twitter">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Column 2: Quick Links -->
+            <div class="gw-footer-nav">
+                <h4 class="gw-footer-heading">Quick Links</h4>
+                <ul class="gw-footer-links">
+                    <li><a href="/properties/">Properties</a></li>
+                    <li><a href="/realtors/">Realtor Hub</a></li>
+                    <li><a href="/privacy-policy/">Privacy Policy</a></li>
+                    <li><a href="/terms-of-service/">Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Contact Info -->
+            <div class="gw-footer-contact">
+                <h4 class="gw-footer-heading">Contact</h4>
+                <div class="gw-contact-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <span>Plot 42, GWealth Plaza,<br>Enugu State, Nigeria.</span>
+                </div>
+                <div class="gw-contact-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    <span>+234 800 GWEALTH</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Copyright & Credits -->
+        <div class="gw-footer-bottom">
+            <div class="gw-copyright">
+                &copy; 2026 GWealth Nation. All Rights Reserved. GWealth is a registered real estate developer, not a micro-savings or investment scheme.
+            </div>
+            <div class="gw-developer-credit">
+                Developed by <a href="https://jutelabs.com" target="_blank" rel="noopener noreferrer">Jutelabs</a>
+            </div>
+        </div>
+    </footer>
+</div>

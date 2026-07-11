@@ -1,0 +1,506 @@
+<!-- 
+  GWealth Nation - Section 4: Dynamic Featured Estates Grid
+  Objective: Unified Data Bridge (WP REST API), strict 4px caps, vault motion.
+  Instructions: Paste this block into an Elementor Custom HTML Widget.
+-->
+<div id="gw-properties-grid">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-properties-grid {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            padding: 96px 0;
+            background-color: #f8f9ff; /* Base background */
+            font-family: 'Lexend', sans-serif;
+            overflow: hidden;
+        }
+
+        #gw-properties-grid * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        #gw-properties-grid .gw-container {
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* Header Section */
+        #gw-properties-grid .gw-grid-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            #gw-properties-grid .gw-grid-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+
+        #gw-properties-grid .gw-header-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            color: #1E1B4B; /* Legal Ink */
+            margin-bottom: 8px;
+        }
+
+        #gw-properties-grid .gw-header-subtitle {
+            font-size: 16px;
+            color: #4a5568;
+        }
+
+        #gw-properties-grid .gw-view-all {
+            display: inline-flex;
+            align-items: center;
+            font-weight: 600;
+            color: #27267d; /* Primary blue */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        #gw-properties-grid .gw-view-all:hover {
+            color: #bb001b; /* Crimson Red */
+        }
+
+        /* Filter Tabs */
+        #gw-properties-grid .gw-filter-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scrollbar-width: none; /* Firefox */
+        }
+        #gw-properties-grid .gw-filter-tabs::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        #gw-properties-grid .gw-tab {
+            background-color: #ffffff;
+            color: #1E1B4B;
+            border: 1px solid rgba(30, 27, 75, 0.1);
+            padding: 10px 24px;
+            border-radius: 4px; /* Strict 4px */
+            font-family: 'Lexend', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        #gw-properties-grid .gw-tab.active,
+        #gw-properties-grid .gw-tab:hover {
+            background-color: #27267d;
+            color: #ffffff;
+            border-color: #27267d;
+        }
+
+        /* Grid Layout */
+        #gw-properties-grid .gw-estates-wrapper {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 32px;
+            min-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            #gw-properties-grid .gw-estates-wrapper {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            #gw-properties-grid .gw-estates-wrapper {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Property Card */
+        #gw-properties-grid .gw-card {
+            background-color: #ffffff;
+            border-radius: 4px; /* Strict 4px */
+            overflow: hidden;
+            box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(30, 27, 75, 0.05);
+        }
+
+        #gw-properties-grid .gw-card:hover {
+            transform: translateY(-4px); /* Premium Hover Lift */
+            box-shadow: 0px 16px 40px rgba(0, 0, 0, 0.08); /* Deep shadow */
+        }
+
+        /* Card Image */
+        #gw-properties-grid .gw-card-image-wrap {
+            position: relative;
+            width: 100%;
+            padding-top: 66%; /* 3:2 aspect ratio */
+            overflow: hidden;
+            background-color: #e2e8f0;
+        }
+
+        #gw-properties-grid .gw-card-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #gw-properties-grid .gw-card:hover .gw-card-image {
+            transform: scale(1.05);
+        }
+
+        /* Card Badge */
+        #gw-properties-grid .gw-card-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background-color: #D4AF37; /* Gold */
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 4px; /* Strict 4px */
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 2;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Card Body */
+        #gw-properties-grid .gw-card-body {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        #gw-properties-grid .gw-card-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        #gw-properties-grid .gw-card-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #27267d; /* Primary Blue */
+            line-height: 1.3;
+        }
+
+        #gw-properties-grid .gw-card-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #bb001b; /* Crimson Red */
+            white-space: nowrap;
+        }
+
+        #gw-properties-grid .gw-card-location {
+            font-size: 13px;
+            color: #718096;
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        #gw-properties-grid .gw-card-location svg {
+            width: 14px;
+            height: 14px;
+            margin-right: 6px;
+            fill: currentColor;
+        }
+
+        /* Meta Data (SqM, Survey) */
+        #gw-properties-grid .gw-card-meta {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #edf2f7;
+            border-bottom: 1px solid #edf2f7;
+            padding: 16px 0;
+            margin-bottom: 24px;
+        }
+
+        #gw-properties-grid .gw-meta-item {
+            font-size: 12px;
+            color: #4a5568;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        #gw-properties-grid .gw-meta-item svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: none;
+            stroke: #27267d;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Button */
+        #gw-properties-grid .gw-btn-block {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background-color: #27267d; /* Primary Blue */
+            color: #ffffff;
+            padding: 14px 0;
+            border-radius: 4px; /* Strict 4px */
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            margin-top: auto;
+            transition: background-color 0.3s ease;
+        }
+
+        #gw-properties-grid .gw-btn-block:hover {
+            background-color: #1E1B4B; /* Legal Ink */
+        }
+
+        /* Loader */
+        #gw-properties-grid .gw-loader {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+            font-size: 15px;
+        }
+
+        /* --- VAULT MOTION --- */
+        #gw-properties-grid .gw-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            will-change: transform, opacity;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #gw-properties-grid .gw-reveal.gw-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+
+    <div class="gw-container">
+        <!-- Header -->
+        <div class="gw-grid-header gw-reveal">
+            <div>
+                <h2 class="gw-header-title">Featured Estates</h2>
+                <p class="gw-header-subtitle">Institutional-grade land assets in prime growth corridors.</p>
+            </div>
+            <a href="/properties/" class="gw-view-all">View All Listings &rarr;</a>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="gw-filter-tabs gw-reveal" style="transition-delay: 0.1s;">
+            <button class="gw-tab active" data-filter="All">All Estates</button>
+            <button class="gw-tab" data-filter="Aba">Aba Branch</button>
+            <button class="gw-tab" data-filter="Asaba">Asaba Branch</button>
+            <button class="gw-tab" data-filter="Port Harcourt">Port Harcourt</button>
+        </div>
+
+        <!-- Estates Grid -->
+        <div class="gw-estates-wrapper" id="gw-estates-wrapper">
+            <div class="gw-loader">Loading estates securely...</div>
+        </div>
+    </div>
+
+    <!-- Data Bridge & Interactions -->
+    <script>
+        (() => {
+            // Local Fallback Data (Sandbox Sandbox)
+            const fallbackEstates = [
+                {
+                    id: 1,
+                    title: "Wealth Kingdom Estate Phase 3",
+                    price: "₦550,000",
+                    location: "Aba",
+                    address: "Akirika, Aba State", // Using 'Aba State' matching the design image literally
+                    sqm: "465 SQM",
+                    survey_status: "Reg. Survey",
+                    badge: "Instant Allocation",
+                    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    id: 2,
+                    title: "GWealth Heritage Court",
+                    price: "₦1,200,000",
+                    location: "Asaba",
+                    address: "Owerri North, Imo", // Sample from design text (though Asaba is Delta, matching visual style)
+                    sqm: "500 SQM",
+                    survey_status: "C of O",
+                    badge: "Premium Title",
+                    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    id: 3,
+                    title: "Grace Garden Phase 2",
+                    price: "₦850,000",
+                    location: "Port Harcourt",
+                    address: "Port Harcourt, Rivers",
+                    sqm: "450 SQM",
+                    survey_status: "Deed Ready",
+                    badge: "Fast Developing",
+                    image: "https://images.unsplash.com/photo-1524813686514-a57563d77965?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }
+            ];
+
+            let allEstates = [];
+            const wrapper = document.getElementById('gw-estates-wrapper');
+            const tabs = document.querySelectorAll('#gw-properties-grid .gw-tab');
+
+            // --- 1. Viewport Observer for Vault Motion ---
+            const initObserver = () => {
+                const revealElements = document.querySelectorAll('#gw-properties-grid .gw-reveal');
+                const observer = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('gw-visible');
+                            obs.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                revealElements.forEach(el => observer.observe(el));
+            };
+
+            // --- 2. Render Cards ---
+            const renderCards = (estates) => {
+                if (estates.length === 0) {
+                    wrapper.innerHTML = '<div class="gw-loader">No estates found for this location.</div>';
+                    return;
+                }
+
+                wrapper.innerHTML = estates.map((estate, index) => {
+                    // Stagger delay up to 3 cards
+                    const delay = (index % 3) * 0.1;
+                    return `
+                    <div class="gw-card gw-reveal" style="transition-delay: ${delay}s;">
+                        <div class="gw-card-image-wrap">
+                            <div class="gw-card-badge">${estate.badge || 'New Offering'}</div>
+                            <img src="${estate.image}" alt="${estate.title}" class="gw-card-image" loading="lazy">
+                        </div>
+                        <div class="gw-card-body">
+                            <div class="gw-card-top-row">
+                                <h3 class="gw-card-title">${estate.title}</h3>
+                                <span class="gw-card-price">${estate.price}</span>
+                            </div>
+                            <div class="gw-card-location">
+                                <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                                ${estate.address || estate.location}
+                            </div>
+                            <div class="gw-card-meta">
+                                <div class="gw-meta-item">
+                                    <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                                    ${estate.sqm || 'N/A'}
+                                </div>
+                                <div class="gw-meta-item">
+                                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                                    ${estate.survey_status || 'In Progress'}
+                                </div>
+                            </div>
+                            <a href="/property/${estate.id || ''}" class="gw-btn-block">View Details</a>
+                        </div>
+                    </div>
+                    `;
+                }).join('');
+
+                // Re-trigger observer on newly injected elements
+                initObserver();
+            };
+
+            // --- 3. Unified Data Bridge (Fetch) ---
+            const fetchEstates = async () => {
+                try {
+                    // Attempt to fetch from WP REST API
+                    const response = await fetch('http://gwealthrepublic.local/wp-json/wp/v2/properties?per_page=6');
+                    if (!response.ok) throw new Error('API unreachable');
+                    
+                    const data = await response.json();
+                    
+                    const formatPrice = (p) => {
+                        if (!p) return 'Price on call';
+                        if (String(p).includes('₦')) return p;
+                        const num = Number(String(p).replace(/[^0-9.-]+/g,""));
+                        return isNaN(num) ? p : '₦' + num.toLocaleString();
+                    };
+
+                    // Map WordPress JSON to our Schema
+                    allEstates = data.map(post => ({
+                        id: post.id,
+                        title: post.title.rendered,
+                        price: formatPrice(post.acf?.property_price),
+                        location: post.acf?.property_location || 'Nigeria',
+                        address: post.acf?.property_location || 'Nigeria',
+                        sqm: post.acf?.property_size || 'N/A',
+                        survey_status: post.acf?.survey_status || 'Registered',
+                        badge: post.acf?.property_badge || 'Available',
+                        // In a real WP setup, you'd fetch the featured media URL. Using placeholder fallback if missing.
+                        image: post.featured_media_url || fallbackEstates[Math.floor(Math.random() * fallbackEstates.length)].image
+                    }));
+                } catch (error) {
+                    console.warn('GWealth Unified Bridge: Local API failed, initializing sandbox fallback.');
+                    allEstates = fallbackEstates; // Fail-safe Offline Sandbox
+                }
+
+                // Initial render
+                renderCards(allEstates);
+            };
+
+            // --- 4. Interactive Tabs Filter ---
+            tabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    // UI Toggle
+                    tabs.forEach(t => t.classList.remove('active'));
+                    e.target.classList.add('active');
+
+                    // Filter Logic
+                    const filterValue = e.target.getAttribute('data-filter');
+                    
+                    // Reset grid height briefly to ensure animations trigger properly
+                    wrapper.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        let filtered = [];
+                        if (filterValue === 'All') {
+                            filtered = allEstates;
+                        } else {
+                            filtered = allEstates.filter(estate => 
+                                estate.location.toLowerCase().includes(filterValue.toLowerCase())
+                            );
+                        }
+                        
+                        renderCards(filtered);
+                        wrapper.style.opacity = '1';
+                    }, 200);
+                });
+            });
+
+            // Initialize System
+            document.addEventListener('DOMContentLoaded', () => {
+                initObserver(); // Observe header and tabs
+                fetchEstates(); // Fetch data and render cards
+            });
+        })();
+    </script>
+</div>

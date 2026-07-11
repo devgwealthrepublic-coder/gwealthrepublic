@@ -1,0 +1,36 @@
+agent.md
+architecture.md
+motion-guidelines.md
+replace_fonts.py
+stitch_gwealth_nation_digital_estate_hub/
+seed.js
+# Global ignores
+node_modules/
+.env
+.env.*
+*.log
+.DS_Store
+# Dependency folders
+node_modules/
+jspm_packages/
+web_modules/
+
+# Local Environment Secret Keys (NEVER COMMIT THESE)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+wp-config-local.php
+
+# Compiled output folders
+dist/
+build/
+.cache/
+
+# IDE and OS files
+.DS_Store
+.vscode/
+.idea/
+*.log
+

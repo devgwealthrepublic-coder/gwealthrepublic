@@ -1,0 +1,112 @@
+<!-- elementor-about-section-2-protocol.html -->
+<style>
+body { margin: 0; padding: 0; overflow-x: hidden; }
+* { box-sizing: border-box; }
+/* --- Vanilla CSS: The GWealth Protocol --- */
+.gw-protocol-section {
+  background: #1a1a4b; /* Deep Dark Blue */
+  color: #ffffff;
+  padding: 80px 5%;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  text-align: center;
+}
+.gw-protocol-inner {
+  max-width: 100%;
+  margin: 0;
+}
+.gw-protocol-title {
+  font-size: 36px;
+  font-weight: 800;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.5px;
+}
+.gw-protocol-sub {
+  font-size: 16px;
+  color: #cbd5e1;
+  max-width: 600px;
+  margin: 0 auto 60px auto;
+  line-height: 1.6;
+}
+.gw-protocol-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.gw-protocol-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: left;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.gw-protocol-card:hover {
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.gw-protocol-number {
+  display: inline-block;
+  background: #27267d;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+.gw-protocol-card-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0 0 16px 0;
+  color: #ffffff;
+}
+.gw-protocol-card-desc {
+  font-size: 14px;
+  color: #94a3b8;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media(max-width: 992px) {
+  .gw-protocol-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media(max-width: 576px) {
+  .gw-protocol-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="gw-protocol-section">
+  <div class="gw-protocol-inner gw-animate">
+    <h2 class="gw-protocol-title">The GWealth Protocol</h2>
+    <p class="gw-protocol-sub">Our four-pillar framework ensures that every investment is shielded by the highest standards of Nigerian property law.</p>
+    
+    <div class="gw-protocol-grid">
+      
+      <div class="gw-protocol-card">
+        <span class="gw-protocol-number">01</span>
+        <h3 class="gw-protocol-card-title">Corporate Acquisition</h3>
+        <p class="gw-protocol-card-desc">We only acquire land directly from original family heads or state allocations, conducting a 50-year title history search before initial payment.</p>
+      </div>
+
+      <div class="gw-protocol-card">
+        <span class="gw-protocol-number">02</span>
+        <h3 class="gw-protocol-card-title">Perimeter Mapping</h3>
+        <p class="gw-protocol-card-desc">Our registered surveyors establish beaconing and scope coordinates with the Surveyor General's office to eliminate encroachment risks.</p>
+      </div>
+
+      <div class="gw-protocol-card">
+        <span class="gw-protocol-number">03</span>
+        <h3 class="gw-protocol-card-title">Title Clearance</h3>
+        <p class="gw-protocol-card-desc">We formalize Gazettes, Certificates of Occupancy, or Deeds of Assignment, ensuring all government levies are settled in full.</p>
+      </div>
+
+      <div class="gw-protocol-card">
+        <span class="gw-protocol-number">04</span>
+        <h3 class="gw-protocol-card-title">Secure Transfer</h3>
+        <p class="gw-protocol-card-desc">Upon purchase, you receive a complete legal kit including a Registered Survey and a Deed of Assignment executed by our legal team.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
