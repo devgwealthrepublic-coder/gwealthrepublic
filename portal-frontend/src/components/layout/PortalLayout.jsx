@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, Navigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { FiHome, FiMap, FiUsers, FiLogOut, FiFileText, FiCheckSquare, FiPlusSquare, FiDollarSign, FiCalendar, FiFolder, FiMail, FiMonitor } from 'react-icons/fi';
+import { FiHome, FiMap, FiUsers, FiLogOut, FiFileText, FiCheckSquare, FiPlusSquare, FiDollarSign, FiCalendar, FiFolder, FiMail, FiMonitor, FiUser, FiRadio } from 'react-icons/fi';
 
 const Sidebar = () => {
   const { user, logout, isAdmin } = useAuth();
@@ -16,8 +16,11 @@ const Sidebar = () => {
       title: null,
       items: [
         { name: 'Dashboard', path: '/dashboard', icon: <FiHome />, roles: ['admin', 'realtor'] },
-        { name: 'Properties', path: '/properties', icon: <FiMap />, roles: ['admin', 'realtor'] },
+        { name: 'Properties', path: '/properties', icon: <FiMap />, roles: ['admin'] },
+        { name: 'Broadcast Studio', path: '/broadcasts', icon: <FiRadio />, roles: ['admin'] },
         { name: 'Partner Network', path: '/partners', icon: <FiUsers />, roles: ['admin'] },
+        { name: 'My Profile', path: '/profile', icon: <FiUser />, roles: ['realtor'] },
+        { name: 'My Prospects', path: '/prospects', icon: <FiUsers />, roles: ['realtor'] },
         { name: 'Media Hub', path: '/media', icon: <FiFileText />, roles: ['realtor'] },
       ]
     },
@@ -27,7 +30,7 @@ const Sidebar = () => {
       items: [
         { name: 'Inspection Excursions', path: '/excursions', icon: <FiCalendar />, roles: ['admin'] },
         { name: 'Marketing Asset Vault', path: '/assets-vault', icon: <FiFolder />, roles: ['admin', 'realtor'] },
-        { name: 'Messages', path: '/messages', icon: <FiMail />, roles: ['admin', 'realtor'] },
+        { name: 'Messages', path: '/messages', icon: <FiMail />, roles: ['admin'] },
         { name: 'Subscribers', path: '/subscribers', icon: <FiUsers />, roles: ['admin'] },
         { name: 'Live Visitor Desk', path: '/visitors', icon: <FiMonitor />, roles: ['admin'] },
       ]

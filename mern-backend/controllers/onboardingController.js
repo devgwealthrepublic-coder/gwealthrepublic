@@ -3,7 +3,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendWelcomeEmail(partnerEmail, partnerName, partnerCode) {
     try {
-        await resend.emails.send({
+        const { data, error } = await resend.emails.send({
             // 1. Custom sender email under your verified domain
             from: 'G-Wealth Republic <no-reply@gwealthrepublic.com>',
             to: partnerEmail,
@@ -42,8 +42,11 @@ async function sendWelcomeEmail(partnerEmail, partnerName, partnerCode) {
                         <p style="margin: 0;">This email was sent via a secure, encrypted transaction channel.</p>
                     </div>
                 </div>
-            `
         });
+
+        if (error) {
+            throw error;
+        }
         console.log("Welcome email successfully dispatched to:", partnerEmail);
     } catch (error) {
         console.error("Failed to send Resend notification:", error);

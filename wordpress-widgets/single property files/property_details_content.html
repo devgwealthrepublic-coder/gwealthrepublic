@@ -1,7 +1,7 @@
 <!-- 
-  GWealth Nation - Single Property: Details Content (Component 2)
+  GWealth Nation - Single Property: Details Content (Dynamic Template)
   Objective: Metadata grid, typography box, features, vertical timeline, trust shield.
-  Instructions: Place inside Elementor's Main Column (Left), directly below Component 1.
+  Instructions: Place inside Elementor's "Shortcode" widget or "Text Editor" widget to ensure shortcodes render.
 -->
 <div id="gw-sp-details-content">
     <style>
@@ -329,19 +329,19 @@
     <div class="gw-meta-grid">
         <div class="gw-meta-card">
             <span class="gw-meta-title">Survey Status</span>
-            <div class="gw-meta-value"><i class="fa-solid fa-file-signature text-[#27267d]"></i> Survey No: AK/2024/099</div>
-            <div class="gw-meta-sub"><i class="fa-regular fa-clock"></i> Lodge-ready document</div>
+            <div class="gw-meta-value"><i class="fa-solid fa-file-signature text-[#27267d]"></i> [acf field="property_title_type"]</div>
+            <div class="gw-meta-sub"><i class="fa-regular fa-clock"></i> Surveyor: [acf field="property_surveyor_name"]</div>
         </div>
         
         <div class="gw-meta-card">
             <span class="gw-meta-title">GPS Coordinates</span>
-            <div class="gw-meta-value"><i class="fa-solid fa-location-crosshairs text-[#27267d]"></i> 4.8472° N, 7.0498° E</div>
-            <div class="gw-meta-sub" style="color: #718096;">Akpabu Owa Region</div>
+            <div class="gw-meta-value"><i class="fa-solid fa-location-crosshairs text-[#27267d]"></i> [acf field="property_gps"]</div>
+            <div class="gw-meta-sub" style="color: #718096;">[acf field="property_location"] Region</div>
         </div>
 
         <div class="gw-meta-card" style="background-color: #f0fdf4; border-color: #bbf7d0;">
             <span class="gw-meta-title">Current Status</span>
-            <div class="gw-meta-sub danger" style="margin-bottom: 4px;"><i class="fa-solid fa-fire"></i> Selling Fast (Only 12 Plots)</div>
+            <div class="gw-meta-sub danger" style="margin-bottom: 4px;"><i class="fa-solid fa-fire"></i> [acf field="property_status"] ([acf field="property_plots_remaining"] Plots Left)</div>
             <a href="https://wa.me/2340000000000" target="_blank" class="gw-whatsapp-btn">
                 <i class="fa-brands fa-whatsapp"></i> WhatsApp Hotline
             </a>
@@ -349,17 +349,17 @@
     </div>
 
     <!-- 2. Typography Block -->
-    <h1 class="gw-property-title">Wealth Kingdom Phase 3</h1>
+    <!-- Note: Elementor users can delete this h1/desc and use the native Elementor Post Title and Post Content widgets instead. -->
     <div class="gw-property-desc">
-        <p>Welcome to <strong>Wealth Kingdom Phase 3</strong>, GWealth Nation's flagship development designed for visionary investors. Located in the rapidly appreciating corridor of Akpabu, this phase offers a perfect blend of high-yield potential and institutional security.</p>
-        <p>This development is tailored for those who value transparency and legal clarity. Every plot comes with a verified history and a commitment to zero hidden fees. Whether you are looking to build a generational family home or diversify your investment portfolio, Wealth Kingdom provides the structural foundation you need.</p>
+        <!-- The Post Content will be injected automatically by WordPress/Elementor, but if you need it raw here: -->
+        [acf field="content"] <!-- Or use standard Post Content widget -->
     </div>
 
     <!-- 3. Features Grid -->
     <div class="gw-features-grid">
         <div class="gw-feature-item">
-            <i class="fa-solid fa-file-contract gw-feature-icon"></i>
-            <span class="gw-feature-text">100% C of O Global Process</span>
+            <i class="fa-solid fa-expand gw-feature-icon"></i>
+            <span class="gw-feature-text">Plot Size: [acf field="property_size"]</span>
         </div>
         <div class="gw-feature-item">
             <i class="fa-solid fa-layer-group gw-feature-icon"></i>

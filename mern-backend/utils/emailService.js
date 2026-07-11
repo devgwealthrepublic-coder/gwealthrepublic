@@ -13,8 +13,8 @@ const sendPendingEmail = async (user) => {
   }
 
   try {
-    await resend.emails.send({
-      from: 'GWealth Nation <hello@gwealthnation.com>', // Update this domain after verifying in Resend
+    const { data, error } = await resend.emails.send({
+      from: 'G-Wealth Republic <hello@gwealthrepublic.com>',
       to: user.email,
       subject: 'Welcome to GWealth Nation - Application Pending',
       html: `
@@ -28,6 +28,10 @@ const sendPendingEmail = async (user) => {
         </div>
       `,
     });
+    
+    if (error) {
+      throw error;
+    }
     console.log(`✅ Welcome email sent to ${user.email}`);
   } catch (error) {
     console.error(`❌ Error sending welcome email to ${user.email}:`, error);
@@ -44,8 +48,8 @@ const sendPayoutEmail = async (user, amount, propertyName) => {
   }
 
   try {
-    await resend.emails.send({
-      from: 'GWealth Nation <hello@gwealthnation.com>', // Update this domain
+    const { data, error } = await resend.emails.send({
+      from: 'G-Wealth Republic <hello@gwealthrepublic.com>',
       to: user.email,
       subject: 'Commission Payout Processed - GWealth Nation',
       html: `
@@ -60,6 +64,10 @@ const sendPayoutEmail = async (user, amount, propertyName) => {
         </div>
       `,
     });
+    
+    if (error) {
+      throw error;
+    }
     console.log(`✅ Payout email sent to ${user.email}`);
   } catch (error) {
     console.error(`❌ Error sending payout email to ${user.email}:`, error);

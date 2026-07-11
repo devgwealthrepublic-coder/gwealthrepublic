@@ -46,6 +46,8 @@ app.use('/api/assets',     require('./routes/assets'));
 app.use('/api',            require('./routes/messages')); // handles /api/contact and /api/messages
 app.use('/api',            require('./routes/subscribers')); // handles /api/subscribers
 app.use('/api/visitors',   require('./routes/visitors'));
+app.use('/api/leads',      require('./routes/leads'));
+app.use('/api/notices',    require('./routes/notices'));
 
 // ---- Health Check ----------------------------------------------
 app.get('/api/health', (req, res) => {

@@ -81,7 +81,7 @@ const Messages = () => {
             placeholder="Search messages..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-md focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue"
+            className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-md focus:ring-2 focus:ring-primary/20 focus:border-primary"
           />
           <FiSearch className="absolute left-3 top-3 text-slate-400" />
         </div>
@@ -108,7 +108,7 @@ const Messages = () => {
                       handleMarkRead(msg._id, msg.status);
                     }}
                     className={`p-4 cursor-pointer transition-colors hover:bg-slate-50 ${
-                      selectedMessage?._id === msg._id ? 'bg-blue-50/50 border-l-4 border-brand-blue' : 'border-l-4 border-transparent'
+                      selectedMessage?._id === msg._id ? 'bg-blue-50/50 border-l-4 border-primary' : 'border-l-4 border-transparent'
                     }`}
                   >
                     <div className="flex justify-between items-start mb-1">
@@ -117,7 +117,7 @@ const Messages = () => {
                       </h3>
                       <span className="text-xs text-slate-400 whitespace-nowrap">{new Date(msg.createdAt).toLocaleDateString()}</span>
                     </div>
-                    <p className={`text-xs mb-2 truncate ${msg.status === 'Unread' ? 'font-semibold text-brand-blue' : 'text-slate-500'}`}>
+                    <p className={`text-xs mb-2 truncate ${msg.status === 'Unread' ? 'font-semibold text-primary' : 'text-slate-500'}`}>
                       {msg.subject}
                     </p>
                     <div className="flex justify-between items-center">
@@ -143,7 +143,7 @@ const Messages = () => {
                   <h2 className="text-xl font-bold text-slate-800 mb-2">{selectedMessage.subject}</h2>
                   <div className="flex items-center gap-4 text-sm text-slate-600">
                     <span className="font-medium text-slate-800">{selectedMessage.name}</span>
-                    <a href={`mailto:${selectedMessage.email}`} className="text-brand-blue hover:underline">
+                    <a href={`mailto:${selectedMessage.email}`} className="text-primary hover:underline">
                       &lt;{selectedMessage.email}&gt;
                     </a>
                   </div>

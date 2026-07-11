@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Property     = require('../models/Property');
+const Notice       = require('../models/Notice');
 const {
   syncCreateToWordPress,
   syncUpdateToWordPress,
@@ -154,6 +155,17 @@ const createProperty = asyncHandler(async (req, res) => {
     }
   }
 
+  // 4. Auto-generate a Notice for Partners
+  try {
+    await Notice.create({
+      title: 'New Property Available',
+      message: `${propertyName} is now available in the portal. Head to the Smart Link Generator to start sharing!`,
+      type: 'success'
+    });
+  } catch (err) {
+    console.error('Failed to create notice:', err);
+  }
+
   res.status(201).json({
     success: true,
     message: 'Property created successfully.',
@@ -177,6 +189,8 @@ const updateProperty = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error('Property not found.');
   }
+
+  const oldStatus = property.status;
 
   // Merge updated fields
   const updatableFields = [
@@ -203,7 +217,22 @@ const updateProperty = asyncHandler(async (req, res) => {
     property.cloudinaryImages = req.files.images.map((f) => f.path);
   }
 
+  const newStatus = property.status;
+
   await property.save();
+
+  // Auto-generate a Notice if status changed to Sold Out
+  if (oldStatus !== 'Sold Out' && newStatus === 'Sold Out') {
+    try {
+      await Notice.create({
+        title: 'Property Sold Out',
+        message: `${property.propertyName} is officially sold out and is no longer available for marketing.`,
+        type: 'urgent'
+      });
+    } catch (err) {
+      console.error('Failed to create notice:', err);
+    }
+  }
 
   // Sync update to WordPress if it was previously published
   if (property.isPublishedToWordPress || req.body.publishToWordPress === 'true') {

@@ -11,9 +11,12 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 
 import PropertyManager from './pages/PropertyManager';
+import AdminBroadcasts from './pages/AdminBroadcasts';
 
 import Partners from './pages/Partners';
 import MediaHub from './pages/MediaHub';
+import MyProfile from './pages/MyProfile';
+import ProspectsCRM from './pages/ProspectsCRM';
 import Excursions from './pages/Excursions';
 import AssetVault from './pages/AssetVault';
 import Messages from './pages/Messages';
@@ -34,8 +37,11 @@ function App() {
           <Route element={<PortalLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/properties" element={<PropertyManager />} />
+            <Route path="/broadcasts" element={<AdminBroadcasts />} />
             <Route path="/partners" element={<Partners />} />
             <Route path="/media" element={<MediaHub />} />
+            <Route path="/profile" element={<MyProfile />} />
+            <Route path="/prospects" element={<ProspectsCRM />} />
             <Route path="/excursions" element={<Excursions />} />
             <Route path="/assets-vault" element={<AssetVault />} />
             <Route path="/messages" element={<Messages />} />

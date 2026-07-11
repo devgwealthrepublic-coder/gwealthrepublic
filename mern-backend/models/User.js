@@ -30,6 +30,14 @@ const userSchema = new mongoose.Schema(
       type:     String,
       required: [true, 'Phone number is required'],
     },
+    profilePicture: {
+      type: String,
+      default: '',
+    },
+    bio: {
+      type: String,
+      default: '',
+    },
     password: {
       type:     String,
       required: [true, 'Password is required'],
