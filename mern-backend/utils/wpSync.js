@@ -41,6 +41,8 @@ const buildWPPayload = (property) => ({
     property_location:       property.location,
     property_title_type:     property.titleType,
     property_video_embed:    property.cloudinaryVideoUrl,
+    property_video_duration: property.videoDuration,
+    property_surveyor_name:  property.surveyorName,
     property_gps:            property.gpsCoordinates,
     property_plots_remaining: property.plotsRemaining,
     // Card display fields

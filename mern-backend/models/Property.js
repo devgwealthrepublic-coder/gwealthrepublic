@@ -99,6 +99,14 @@ const propertySchema = new mongoose.Schema(
       type:    String,
       default: '',    // Cloudinary video URL
     },
+    videoDuration: {
+      type:    String,
+      default: '',    // e.g. "01:45 mins"
+    },
+    surveyorName: {
+      type:    String,
+      default: '',    // e.g. "Surv. E. Okon (NIS)"
+    },
 
     // ---- Development Timeline ------------------------------------------
     milestones: {

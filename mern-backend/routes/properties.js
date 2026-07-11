@@ -25,9 +25,10 @@ router.post(
   (req, res, next) => {
     // Accept both featuredImage (single) and images (multiple) in one request
     const upload = multer({
-      storage: require('../config/cloudinary').imageStorage,
+      storage: require('../config/cloudinary').assetStorage,
     }).fields([
       { name: 'featuredImage', maxCount: 1 },
+      { name: 'videoFile',     maxCount: 1 },
       { name: 'images',        maxCount: 15 },
     ]);
     upload(req, res, next);
@@ -42,9 +43,10 @@ router.put(
   adminOnly,
   (req, res, next) => {
     const upload = multer({
-      storage: require('../config/cloudinary').imageStorage,
+      storage: require('../config/cloudinary').assetStorage,
     }).fields([
       { name: 'featuredImage', maxCount: 1 },
+      { name: 'videoFile',     maxCount: 1 },
       { name: 'images',        maxCount: 15 },
     ]);
     upload(req, res, next);

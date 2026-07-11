@@ -102,13 +102,15 @@ const createProperty = asyncHandler(async (req, res) => {
     badge,
     status,
     gpsCoordinates,
-    cloudinaryVideoUrl,
+    videoDuration,
+    surveyorName,
     milestones,
     publishToWordPress,
   } = req.body;
 
   // Cloudinary URLs come from the upload middleware (set on req.files/req.file)
   const featuredImage    = req.files?.featuredImage?.[0]?.path || req.body.featuredImage || '';
+  const cloudinaryVideoUrl = req.files?.videoFile?.[0]?.path || req.body.cloudinaryVideoUrl || '';
   const cloudinaryImages = req.files?.images
     ? req.files.images.map((f) => f.path)
     : (req.body.cloudinaryImages || []);
@@ -129,7 +131,9 @@ const createProperty = asyncHandler(async (req, res) => {
     gpsCoordinates,
     featuredImage,
     cloudinaryImages,
-    cloudinaryVideoUrl: cloudinaryVideoUrl || '',
+    cloudinaryVideoUrl,
+    videoDuration,
+    surveyorName,
     milestones:         milestones ? JSON.parse(milestones) : [],
     wpSyncPending:      false,
   });
@@ -179,7 +183,7 @@ const updateProperty = asyncHandler(async (req, res) => {
     'propertyName', 'description', 'location', 'address',
     'pricePerPlot', 'plotsRemaining', 'plotSize', 'titleType',
     'surveyNumber', 'badge', 'status', 'gpsCoordinates',
-    'cloudinaryVideoUrl', 'milestones',
+    'videoDuration', 'surveyorName', 'milestones',
   ];
 
   updatableFields.forEach((field) => {
@@ -191,6 +195,9 @@ const updateProperty = asyncHandler(async (req, res) => {
   // Handle new media uploads if provided
   if (req.files?.featuredImage?.[0]) {
     property.featuredImage = req.files.featuredImage[0].path;
+  }
+  if (req.files?.videoFile?.[0]) {
+    property.cloudinaryVideoUrl = req.files.videoFile[0].path;
   }
   if (req.files?.images) {
     property.cloudinaryImages = req.files.images.map((f) => f.path);

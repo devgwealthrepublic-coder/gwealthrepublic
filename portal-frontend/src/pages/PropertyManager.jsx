@@ -22,10 +22,13 @@ const PropertyManager = () => {
     surveyNumber: '',
     badge: 'Verified Asset',
     status: 'Ready',
+    videoDuration: '',
+    surveyorName: '',
     publishToWordPress: false,
   });
 
   const [featuredImage, setFeaturedImage] = useState(null);
+  const [videoFile, setVideoFile] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
 
   useEffect(() => {
@@ -55,6 +58,8 @@ const PropertyManager = () => {
   const handleFileChange = (e) => {
     if (e.target.name === 'featuredImage') {
       setFeaturedImage(e.target.files[0]);
+    } else if (e.target.name === 'videoFile') {
+      setVideoFile(e.target.files[0]);
     } else if (e.target.name === 'images') {
       setGalleryImages(Array.from(e.target.files));
     }
@@ -73,9 +78,12 @@ const PropertyManager = () => {
       surveyNumber: '',
       badge: 'Verified Asset',
       status: 'Ready',
+      videoDuration: '',
+      surveyorName: '',
       publishToWordPress: false,
     });
     setFeaturedImage(null);
+    setVideoFile(null);
     setGalleryImages([]);
     setEditingId(null);
     setShowModal(false);
@@ -93,6 +101,7 @@ const PropertyManager = () => {
 
     // Append files
     if (featuredImage) data.append('featuredImage', featuredImage);
+    if (videoFile) data.append('videoFile', videoFile);
     galleryImages.forEach(file => {
       data.append('images', file);
     });
@@ -156,6 +165,8 @@ const PropertyManager = () => {
       surveyNumber: property.surveyNumber,
       badge: property.badge,
       status: property.status,
+      videoDuration: property.videoDuration || '',
+      surveyorName: property.surveyorName || '',
       publishToWordPress: property.isPublishedToWordPress || false,
     });
     setShowModal(true);
@@ -349,6 +360,16 @@ const PropertyManager = () => {
                 </div>
 
                 <div className="space-y-2">
+                  <label className="block text-label-md text-primary font-bold">Cadastral Surveyor Name</label>
+                  <input type="text" name="surveyorName" className="w-full px-4 py-3 border border-trust-slate rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-md bg-white text-gray-900 placeholder-gray-400" value={formData.surveyorName} onChange={handleInputChange} placeholder="e.g. Surv. E. Okon (NIS)" />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-label-md text-primary font-bold">Video Duration</label>
+                  <input type="text" name="videoDuration" className="w-full px-4 py-3 border border-trust-slate rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-md bg-white text-gray-900 placeholder-gray-400" value={formData.videoDuration} onChange={handleInputChange} placeholder="e.g. 01:45 mins" />
+                </div>
+
+                <div className="space-y-2">
                   <label className="block text-label-md text-primary font-bold">Property Badge</label>
                   <select name="badge" className="w-full px-4 py-3 border border-trust-slate rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-md bg-white text-gray-900 placeholder-gray-400" value={formData.badge} onChange={handleInputChange}>
                     <option value="Verified Asset">Verified Asset</option>
@@ -379,6 +400,11 @@ const PropertyManager = () => {
                       <p className="text-xs text-outline italic mt-1">This will be the main thumbnail on WordPress.</p>
                     </div>
                     <div className="space-y-2">
+                      <label className="block text-sm font-bold text-on-surface-variant">Drone Walkthrough Video</label>
+                      <input type="file" name="videoFile" accept="video/mp4,video/mov,video/webm" onChange={handleFileChange} className="w-full text-sm text-outline file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-bold file:bg-primary-container file:text-white hover:file:bg-primary cursor-pointer transition-all" />
+                      <p className="text-xs text-outline italic mt-1">Max 100MB. Upload high-res .mp4 drone footage.</p>
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
                       <label className="block text-sm font-bold text-on-surface-variant">Additional Gallery Images</label>
                       <input type="file" name="images" accept="image/*" multiple onChange={handleFileChange} className="w-full text-sm text-outline file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-bold file:bg-surface-container file:text-primary hover:file:bg-trust-slate cursor-pointer transition-all" />
                       <p className="text-xs text-outline italic mt-1">Select multiple files to create a gallery slider.</p>
