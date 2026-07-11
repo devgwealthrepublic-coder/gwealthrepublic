@@ -115,7 +115,7 @@ function gw_premium_single_post_layout($content) {
             </div>
         </div>
     </div>';
-
+    
     // Wrap the post content
     $wrapped_content = '<div class="gw-single-content-wrapper">' . $content . '</div>';
 
