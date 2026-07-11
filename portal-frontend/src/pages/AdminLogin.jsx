@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { FiLock, FiMail } from 'react-icons/fi';
+import AuthCarousel from '../components/layout/AuthCarousel';
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -106,14 +107,8 @@ const AdminLogin = () => {
       </div>
 
       {/* Right side - Branding/Image */}
-      <div className="hidden lg:flex w-1/2 bg-surface-bright flex-col justify-center items-center p-12 border-l border-trust-slate">
-        <div className="max-w-md text-center">
-          <img src="/gwealth-logo3.0.png" alt="GWealth Nation" className="w-64 mx-auto mb-8 drop-shadow-xl" />
-          <h2 className="text-3xl font-headline-md text-primary font-bold mb-4">GWealth Admin Command Center</h2>
-          <p className="text-on-surface-variant font-body-lg text-lg">
-            Manage your network of realtors, syndicate properties, and oversee the entire GWealth platform securely.
-          </p>
-        </div>
+      <div className="hidden lg:block w-1/2">
+        <AuthCarousel />
       </div>
     </div>
   );

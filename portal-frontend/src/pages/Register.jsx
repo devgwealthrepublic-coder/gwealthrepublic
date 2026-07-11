@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { usePaystackPayment } from 'react-paystack';
 import axios from 'axios';
+import AuthCarousel from '../components/layout/AuthCarousel';
 
 const subscriptionPlans = [
   { name: 'Superverse Subscription', amount: 53400 },
@@ -207,7 +208,7 @@ const Register = () => {
               <div className="flex items-start gap-3 py-1">
                 <input className="mt-1 w-5 h-5 border-trust-slate text-primary auth-radius focus:ring-primary" id="terms" type="checkbox" required />
                 <label className="text-[13px] md:text-label-md text-on-surface-variant leading-tight" htmlFor="terms">
-                  I agree to GWealth Nation's <a className="text-primary font-bold hover:underline" href="#">Terms of Service</a> and <a className="text-primary font-bold hover:underline" href="#">Privacy Policy</a>.
+                  I agree to GWealth Nation's <a className="text-primary font-bold hover:underline" href="/terms-of-service/" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a className="text-primary font-bold hover:underline" href="/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
                 </label>
               </div>
               <button 
@@ -227,13 +228,8 @@ const Register = () => {
           </div>
         </div>
         
-        {/* Right Column: Image */}
-        <div className="hidden md:block relative h-full">
-          <img alt="Nigeria Land Development" className="absolute inset-0 w-full h-full object-cover" src="/signup-bg.png" />
-          <div className="absolute bottom-8 right-8 w-32 h-32 bg-white rounded-full p-2 shadow-lg flex items-center justify-center overflow-hidden">
-            <img alt="GWealth Nation Logo" className="w-full h-full object-contain" src="/gwealth-logo3.0.png" />
-          </div>
-        </div>
+        {/* Right Column: Animated Carousel */}
+        <AuthCarousel />
       </div>
     </main>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import AuthCarousel from '../components/layout/AuthCarousel';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -129,11 +130,9 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Right Side: Image */}
-      <div className="hidden md:flex relative overflow-hidden bg-white items-center justify-center h-full">
-        <img alt="GWealth Nation Logo" className="w-[80%] max-w-[800px] object-contain" src="/gwealth-logo3.0.png" />
-      </div>
-    </main>
+        {/* Right Column: Animated Carousel */}
+        <AuthCarousel />
+      </main>
   );
 };
 

@@ -62,7 +62,7 @@ const userSchema = new mongoose.Schema(
     // ---- Office Location -----------------------------------------------
     officeLocation: {
       type: String,
-      enum: ['Aba', 'Asaba', 'Port Harcourt', 'Abuja', 'Anambra', 'Other'],
+      enum: ['Aba', 'Asaba', 'Port Harcourt', 'Abuja', 'Anambra', 'Online', 'Other'],
     },
 
     // ---- Subscription Plan ---------------------------------------------
