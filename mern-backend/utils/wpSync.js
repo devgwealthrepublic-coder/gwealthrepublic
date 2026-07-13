@@ -159,17 +159,17 @@ const compileWPContent = (property) => {
                 <!-- Main Image Container -->
                 <div class="relative group overflow-hidden rounded shadow-lg aspect-[16/9] lg:aspect-[3/2]">
                     <div class="absolute top-4 left-4 z-10 flex gap-2">
-                        ${property.status ? \`<span class="bg-secondary text-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded">\${property.status}</span>\` : ''}
-                        ${property.badge ? \`<span class="bg-primary-container text-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded flex items-center gap-1">
+                        ${property.status ? `<span class="bg-secondary text-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded">${property.status}</span>` : ''}
+                        ${property.badge ? `<span class="bg-primary-container text-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded flex items-center gap-1">
                             <span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span>
-                            \${property.badge}
-                        </span>\` : ''}
+                            ${property.badge}
+                        </span>` : ''}
                     </div>
-                    <img id="gw-main-display-image" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="\${property.propertyName}" src="\${mainImage}">
+                    <img id="gw-main-display-image" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="${property.propertyName}" src="${mainImage}">
                 </div>
                 <!-- Thumbnail Gallery -->
                 <div class="grid grid-cols-3 gap-base">
-                    \${galleryHtml}
+                    ${galleryHtml}
                 </div>
             </div>
 
@@ -177,10 +177,10 @@ const compileWPContent = (property) => {
             <div class="lg:col-span-4 space-y-gutter">
                 <div class="bg-white p-gutter rounded shadow-sm border border-trust-slate">
                     <div class="mb-6">
-                        <h1 class="font-headline-md text-headline-md text-primary mb-2">\${property.propertyName}</h1>
+                        <h1 class="font-headline-md text-headline-md text-primary mb-2">${property.propertyName}</h1>
                         <p class="text-on-surface-variant font-body-md flex items-center gap-1">
                             <span class="material-symbols-outlined text-sm">location_on</span>
-                            \${property.location} Region
+                            ${property.location} Region
                         </p>
                     </div>
                     
@@ -189,16 +189,16 @@ const compileWPContent = (property) => {
                             <p class="text-label-sm font-label-sm text-outline uppercase tracking-wider mb-1">Survey Status</p>
                             <div class="flex items-center justify-between">
                                 <span class="font-headline-md text-on-surface flex items-center gap-2">
-                                    \${property.titleType || 'N/A'}
+                                    ${property.titleType || 'N/A'}
                                     <span class="material-symbols-outlined text-verified-gold" style="font-variation-settings: 'FILL' 1;">verified_user</span>
                                 </span>
-                                <span class="text-label-sm font-label-sm text-primary">Surveyor: \${property.surveyorName || 'N/A'}</span>
+                                <span class="text-label-sm font-label-sm text-primary">Surveyor: ${property.surveyorName || 'N/A'}</span>
                             </div>
                         </div>
                         <div class="p-4 bg-surface-container-low rounded border border-surface-variant/50">
                             <p class="text-label-sm font-label-sm text-outline uppercase tracking-wider mb-1">GPS Coordinates</p>
                             <div class="flex items-center justify-between">
-                                <span class="font-headline-md text-on-surface">\${property.gpsCoordinates || 'N/A'}</span>
+                                <span class="font-headline-md text-on-surface">${property.gpsCoordinates || 'N/A'}</span>
                                 <span class="text-label-sm font-label-sm text-primary">Location</span>
                             </div>
                         </div>
@@ -206,10 +206,10 @@ const compileWPContent = (property) => {
 
                     <div class="p-4 bg-error-container/30 rounded border border-error/10 mb-6">
                         <p class="text-label-sm font-bold text-error uppercase mb-1">Current Status</p>
-                        <p class="text-body-md text-on-surface font-semibold">\${property.status || 'Investment'} \${plotsText}</p>
+                        <p class="text-body-md text-on-surface font-semibold">${property.status || 'Investment'} ${plotsText}</p>
                     </div>
 
-                    <a href="https://wa.me/2348025326721?text=\${whatsappMessage}" target="_blank" class="w-full bg-[#25D366] hover:bg-[#20bd5c] text-white py-4 rounded flex flex-col items-center justify-center transition-transform active:scale-95 group no-underline">
+                    <a href="https://wa.me/2348025326721?text=${whatsappMessage}" target="_blank" class="w-full bg-[#25D366] hover:bg-[#20bd5c] text-white py-4 rounded flex flex-col items-center justify-center transition-transform active:scale-95 group no-underline">
                         <span class="flex items-center gap-2 font-bold text-lg">
                             <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.284l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.768-5.764-5.768zm3.393 8.235c-.146.411-.849.771-1.163.821-.291.046-.669.071-1.077-.105a6.974 6.974 0 01-2.923-1.895c-1.036-1.021-1.742-2.316-1.93-2.61-.189-.294-.016-.453.131-.601.134-.132.295-.344.444-.515.148-.172.197-.294.296-.491.099-.197.049-.369-.025-.515-.074-.148-.664-1.597-.91-2.187-.243-.578-.496-.499-.684-.509-.176-.009-.379-.011-.581-.011-.202 0-.531.076-.809.377-.278.301-1.062 1.038-1.062 2.53 0 1.492 1.085 2.934 1.237 3.135.152.201 2.136 3.261 5.172 4.57.721.311 1.284.497 1.721.636.726.23 1.386.198 1.908.121.581-.086 1.785-.731 2.037-1.439.253-.708.253-1.315.177-1.439-.076-.124-.278-.197-.581-.347z"></path></svg>
                             WhatsApp Hotline
@@ -226,7 +226,7 @@ const compileWPContent = (property) => {
                     <div class="mb-10">
                         <h2 class="font-headline-md text-headline-md text-primary mb-4 border-l-4 border-primary pl-4">Property Specifications</h2>
                         <p class="text-body-lg font-body-lg text-on-surface-variant mb-8">
-                            \${property.description || 'This property represents the peak of institutional land security, offering a table-flat topography ready for immediate construction.'}
+                            ${property.description || 'This property represents the peak of institutional land security, offering a table-flat topography ready for immediate construction.'}
                         </p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="flex items-center p-4 bg-white border border-trust-slate rounded group hover:border-primary transition-colors">
@@ -235,7 +235,7 @@ const compileWPContent = (property) => {
                                 </div>
                                 <div>
                                     <p class="text-label-sm font-label-sm text-outline uppercase">Plot Size</p>
-                                    <p class="font-headline-md text-on-surface">\${property.plotSize || 'N/A'}</p>
+                                    <p class="font-headline-md text-on-surface">${property.plotSize || 'N/A'}</p>
                                 </div>
                             </div>
                             <div class="flex items-center p-4 bg-white border border-trust-slate rounded group hover:border-primary transition-colors">
