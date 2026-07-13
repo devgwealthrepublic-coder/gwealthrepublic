@@ -194,7 +194,7 @@
 
                     try {
                         // Using the global environment variable set up via WPCode
-                        const apiUrl = window.GW_API_URL || 'https://api.gwealthrepublic.com';
+                        const apiUrl = window.GW_API_URL || 'https://gwealth-backend.onrender.com/api';
                         const response = await fetch(`${apiUrl}/subscribers`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },

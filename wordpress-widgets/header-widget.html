@@ -419,7 +419,7 @@
                         statusDiv.innerHTML = '';
 
                         try {
-                            const response = await fetch((window.GW_API_URL || 'https://api.gwealthrepublic.com') + '/excursions', {
+                            const response = await fetch((window.GW_API_URL || 'https://gwealth-backend.onrender.com/api') + '/excursions', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ clientName, phone, property, branch, preferredDate })

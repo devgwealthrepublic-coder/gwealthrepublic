@@ -104,6 +104,15 @@ const Excursions = () => {
                         <div className="text-xs text-outline flex items-center gap-1 mt-1">
                           <FiPhone size={12} /> {ex.phone}
                         </div>
+                        {ex.referralCode ? (
+                          <div className="text-[10px] uppercase font-bold text-trust-gold mt-1 bg-trust-gold/10 px-2 py-0.5 rounded w-max">
+                            Ref: {ex.referralCode}
+                          </div>
+                        ) : (
+                          <div className="text-[10px] uppercase font-bold text-slate-500 mt-1 bg-slate-100 px-2 py-0.5 rounded w-max border border-slate-200">
+                            Direct Visitor
+                          </div>
+                        )}
                       </div>
                     </div>
                   </td>

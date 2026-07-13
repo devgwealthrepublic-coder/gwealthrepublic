@@ -23,6 +23,7 @@ import Messages from './pages/Messages';
 import Subscribers from './pages/Subscribers';
 import Visitors from './pages/Visitors';
 import PromoManager from './pages/PromoManager';
+import NetworkTracker from './pages/NetworkTracker';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
             <Route path="/media" element={<MediaHub />} />
             <Route path="/profile" element={<MyProfile />} />
             <Route path="/prospects" element={<ProspectsCRM />} />
+            <Route path="/network" element={<NetworkTracker />} />
             <Route path="/excursions" element={<Excursions />} />
             <Route path="/assets-vault" element={<AssetVault />} />
             <Route path="/messages" element={<Messages />} />

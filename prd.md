@@ -20,7 +20,7 @@ To deliver a rock-solid, secure, and fast system that will never break down due 
 
 WordPress Frontend (gwealthnation.com): High-speed, SEO-optimized, mobile-responsive marketing catalog showcasing physical land developments, legal credentials, and direct lead generation.
 
-MERN Stack Portal (portal.gwealthnation.com): A custom, secure backend application for realtor registrations, commission tracking, sales logs, and admin content distribution.
+MERN Stack Portal (portal.gwealthnation.com): A custom, secure backend application for realtor registrations, network tracking, and admin content distribution. *(Note: Commission tracking and sales logs will be added in a future phase. Compensation is currently handled locally.)*
 
 Automated One-Way Sync Engine: An API-driven connector where admin updates inside the MERN portal instantly push structural data to WordPress, leaving the customer-facing frontend fast, lightweight, and isolated from portal server loads.
 
@@ -109,7 +109,7 @@ Account approval system: Registered accounts enter a "Pending Approval" state un
 
 Realtor Dashboard:
 
-The Wallet: Display of total earnings, paid commissions, and pending/unpaid commissions.
+*Future Feature (The Wallet)*: Display of total earnings, paid commissions, and pending/unpaid commissions. (Currently disabled; compensation is handled locally offline).
 
 Downline Network Tracker: Tree-view or grid displaying other marketers registered via their referral code.
 
@@ -119,10 +119,10 @@ Marketing Media Hub: A highly organized folder layout populated by the Admin whe
 
 Realtor Verification Panel: Approval/rejection system for new registering realtors, and bank details confirmation.
 
-Sales & Commission Logger:
+Sales & Commission Logger *(Future Feature)*:
 
-Interface to record a new land transaction.
-
+*(Currently, all sales and commission payouts are handled locally at the office).*
+In a future update, an interface will be added to record a new land transaction.
 Inputs: Property sold, buyer info, closing price, primary selling realtor, and commission payout structure (e.g., $10\%$ direct commission, $2\%$ indirect downline commission).
 
 Unified Property & Media Manager:
@@ -260,23 +260,16 @@ Flow 2: Realtor Registration and Commission Cycle
        ├─► [Realtor closes a sale offline]
        │     │
        │     ▼
-       │   [Admin logs sale in Admin Panel]
-       │     ├─► Associates sale with Realtor ID
-       │     ├─► System automatically computes commission:
-       │     │     ├── Direct Selling Realtor: 10% (Credited to Wallet)
-       │     │     └── Upline Realtor (if exists): 2% (Credited to Wallet)
+       │   [Client makes payment locally at the Office / via Bank]
        │     │
        │     ▼
-       │   [Realtor sees wallet update in real-time]
-       │     │
-       │     ▼
-       │   [Realtor clicks "Request Payout"]
-       │     └─► Admin receives payout request ──► Pays to registered Bank ──► Marks as PAID
+       │   [Commission is paid out locally by the Admin/Finance team]
+       │     *(Note: Digital wallet tracking and automated payout requests will be introduced in a future phase)*
 
 
 7. Database Schemas (MERN Backend MongoDB State)
 
-To ensure clear tracking of realtors, properties, and payouts, the MERN database will host the following four main collections:
+To ensure clear tracking of realtors and properties, the MERN database will host the following three main collections (a fourth for Commission Ledgers will be added in the future):
 
 7.1. User Schema (Realtors & Admins)
 
@@ -315,8 +308,12 @@ To ensure clear tracking of realtors, properties, and payouts, the MERN database
 }
 
 
-7.3. Commission Ledger Schema
+7.3. Commission Ledger Schema (Planned for Future Phase)
 
+/* 
+  Currently, commissions are handled locally and offline.
+  This schema will be implemented when the digital wallet and payout system goes live.
+*/
 {
   "_id": "ObjectId('60c72b2f9b1d8b2bad0343a3')",
   "propertyId": "ObjectId('60c72b2f9b1d8b2bad0343a2')",

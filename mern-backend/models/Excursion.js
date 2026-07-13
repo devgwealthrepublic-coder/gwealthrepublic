@@ -26,6 +26,10 @@ const excursionSchema = new mongoose.Schema({
     type: String,
     default: 'Unassigned'
   },
+  referralCode: {
+    type: String,
+    default: null
+  },
   status: {
     type: String,
     enum: ['pending', 'scheduled', 'completed'],

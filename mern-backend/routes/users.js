@@ -39,6 +39,47 @@ router.get(
 );
 
 // ================================================================
+//  @route  GET /api/users/downline
+//  @desc   Get the downline network for the logged-in realtor
+//  @access Private
+// ================================================================
+router.get(
+  '/downline',
+  protect,
+  asyncHandler(async (req, res) => {
+    const currentUser = await User.findById(req.user.id);
+    if (!currentUser || !currentUser.referralCode) {
+      res.status(400);
+      throw new Error('User or referral code not found');
+    }
+
+    // Level 1: Direct Recruits
+    const level1 = await User.find({ referredBy: currentUser.referralCode })
+      .select('fullName email phone officeLocation status createdAt referralCode')
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // Level 2: Indirect Recruits
+    const level1Codes = level1.map((u) => u.referralCode).filter(Boolean);
+    const level2 = await User.find({ referredBy: { $in: level1Codes } })
+      .select('fullName email phone officeLocation status createdAt referralCode referredBy')
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // Structure the tree
+    const networkTree = level1.map((l1User) => {
+      const recruits = level2.filter((l2User) => l2User.referredBy === l1User.referralCode);
+      return {
+        ...l1User,
+        recruits,
+      };
+    });
+
+    res.json({ success: true, data: networkTree });
+  })
+);
+
+// ================================================================
 //  @route  PUT /api/users/profile
 //  @desc   Update user profile (bio, phone, location, profile picture)
 //  @access Private

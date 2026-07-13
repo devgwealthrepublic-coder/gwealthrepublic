@@ -154,9 +154,9 @@ add_action('wp_footer', function() {
             async function fetchAdvertisement() {
                 try {
                     // Fallback to local if dev, otherwise use production
-                    const apiUrl = window.GW_API_URL || 'https://api.gwealthrepublic.com';
+                    const apiUrl = window.GW_API_URL || 'https://gwealth-backend.onrender.com/api';
                     
-                    const response = await fetch(`${apiUrl}/api/advertisements/active`);
+                    const response = await fetch(`${apiUrl}/advertisements/active`);
                     if (!response.ok) throw new Error("Promo API offline");
                     
                     const resData = await response.json();

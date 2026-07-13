@@ -1,14 +1,4 @@
 <?php
-/**
- * GWealth Nation - Dynamic Property Shortcodes
- * 
- * INSTRUCTIONS:
- * 1. Install a free plugin like "WPCode" or "Code Snippets" in WordPress.
- * 2. Create a new PHP Snippet and paste this entire code.
- * 3. In Elementor's Single Post Template, use these two shortcodes:
- *    [gwealth_property_media]  (Place in the Left/Top column)
- *    [gwealth_property_details] (Place below or in the Right column)
- */
 
 // 1. Media Gallery Shortcode
 add_shortcode('gwealth_property_media', 'render_gwealth_property_media');
@@ -210,3 +200,145 @@ function render_gwealth_property_details() {
     <?php
     return ob_get_clean();
 }
+
+// 3. Booking Form Shortcode
+add_shortcode('gwealth_booking_form', 'render_gwealth_booking_form');
+function render_gwealth_booking_form() {
+    $property_title = get_the_title();
+    ob_start();
+    ?>
+    <div id="gw-booking-widget">
+        <style>
+            #gw-booking-widget { font-family: 'Lexend', sans-serif; background-color: #FAFAFA; border: 1px solid #E2E8F0; border-radius: 4px; padding: 32px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-top: 32px; }
+            #gw-booking-widget * { box-sizing: border-box; }
+            #gw-booking-widget .gw-form-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; color: #1E1B4B; margin-bottom: 8px; }
+            #gw-booking-widget .gw-form-subtitle { font-size: 13px; color: #4a5568; margin-bottom: 24px; }
+            #gw-booking-widget .gw-form-group { margin-bottom: 16px; }
+            #gw-booking-widget label { display: block; font-size: 12px; font-weight: 700; color: #1E1B4B; margin-bottom: 6px; }
+            #gw-booking-widget input, #gw-booking-widget select { width: 100%; padding: 12px; border: 1px solid #CBD5E0; border-radius: 4px; font-family: 'Lexend', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; }
+            #gw-booking-widget input:focus, #gw-booking-widget select:focus { border-color: #27267d; }
+            #gw-booking-widget .gw-submit-btn { width: 100%; background-color: #27267d; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 15px; padding: 14px; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.2s; margin-top: 8px; }
+            #gw-booking-widget .gw-submit-btn:hover { background-color: #1e1d61; }
+            #gw-booking-widget .gw-form-message { margin-top: 16px; font-size: 13px; font-weight: 700; display: none; padding: 12px; border-radius: 4px; }
+            #gw-booking-widget .gw-msg-success { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; display: block; }
+            #gw-booking-widget .gw-msg-error { background-color: #fef2f2; color: #991b1b; border: 1px solid #fecaca; display: block; }
+        </style>
+
+        <h4 class="gw-form-title">Book an Inspection</h4>
+        <p class="gw-form-subtitle">Schedule a free site tour with our experts.</p>
+
+        <form id="gwExcursionForm">
+            <input type="hidden" id="gwReferralCode" name="referralCode" value="">
+
+            <div class="gw-form-group">
+                <label for="gwProperty">Selected Property</label>
+                <input type="text" id="gwProperty" name="property" value="<?php echo esc_attr($property_title); ?>" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 700; cursor: not-allowed;">
+            </div>
+
+            <div class="gw-form-group">
+                <label for="gwName">Full Name</label>
+                <input type="text" id="gwName" name="clientName" placeholder="e.g. John Doe" required>
+            </div>
+            
+            <div class="gw-form-group">
+                <label for="gwPhone">Phone Number (WhatsApp Active)</label>
+                <input type="tel" id="gwPhone" name="phone" placeholder="+234..." required>
+            </div>
+
+            <div class="gw-form-group">
+                <label for="gwBranch">Nearest GWealth Branch</label>
+                <select id="gwBranch" name="branch" required>
+                    <option value="" disabled selected>Select Branch</option>
+                    <option value="Aba">Aba</option>
+                    <option value="Asaba">Asaba</option>
+                    <option value="Port Harcourt">Port Harcourt</option>
+                    <option value="Abuja">Abuja</option>
+                    <option value="Anambra">Anambra</option>
+                </select>
+            </div>
+
+            <div class="gw-form-group">
+                <label for="gwDate">Preferred Inspection Date</label>
+                <input type="date" id="gwDate" name="preferredDate" required>
+            </div>
+
+            <button type="submit" class="gw-submit-btn" id="gwSubmitBtn">Confirm Booking</button>
+            <div id="gwFormMessage" class="gw-form-message"></div>
+        </form>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // 1. Referral Tracking Logic
+                const urlParams = new URLSearchParams(window.location.search);
+                const refCode = urlParams.get('ref');
+                
+                if (refCode) {
+                    localStorage.setItem('gwealth_referral', refCode);
+                }
+                
+                const storedRef = localStorage.getItem('gwealth_referral');
+                if (storedRef) {
+                    document.getElementById('gwReferralCode').value = storedRef;
+                }
+
+                // 2. Form Submission Logic
+                const form = document.getElementById('gwExcursionForm');
+                const btn = document.getElementById('gwSubmitBtn');
+                const msgBox = document.getElementById('gwFormMessage');
+
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    // Reset UI
+                    btn.disabled = true;
+                    btn.innerText = 'Submitting...';
+                    msgBox.className = 'gw-form-message';
+                    msgBox.style.display = 'none';
+
+                    // Gather Data
+                    const formData = {
+                        clientName: document.getElementById('gwName').value,
+                        phone: document.getElementById('gwPhone').value,
+                        branch: document.getElementById('gwBranch').value,
+                        preferredDate: document.getElementById('gwDate').value,
+                        property: document.getElementById('gwProperty').value,
+                        referralCode: document.getElementById('gwReferralCode').value || null
+                    };
+
+                    try {
+                        // Dynamically determine the backend URL based on the environment
+                        const isLocal = window.location.hostname === 'localhost' || window.location.hostname.includes('.local');
+                        const API_BASE_URL = isLocal ? 'http://localhost:5000' : 'https://gwealth-backend.onrender.com'; 
+                        const API_URL = `${API_BASE_URL}/api/excursions`;
+                        
+                        const response = await fetch(API_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(formData)
+                        });
+
+                        const result = await response.json();
+
+                        if (response.ok && result.success) {
+                            msgBox.innerText = 'Inspection booked successfully! A coordinator will contact you shortly.';
+                            msgBox.classList.add('gw-msg-success');
+                            form.reset();
+                        } else {
+                            throw new Error(result.message || 'Failed to book inspection');
+                        }
+                    } catch (error) {
+                        msgBox.innerText = error.message;
+                        msgBox.classList.add('gw-msg-error');
+                    } finally {
+                        btn.disabled = false;
+                        btn.innerText = 'Confirm Booking';
+                        msgBox.style.display = 'block';
+                    }
+                });
+            });
+        </script>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+

@@ -20,6 +20,7 @@ const Sidebar = () => {
         { name: 'Broadcast Studio', path: '/broadcasts', icon: <FiRadio />, roles: ['admin'] },
         { name: 'Partner Network', path: '/partners', icon: <FiUsers />, roles: ['admin'] },
         { name: 'My Profile', path: '/profile', icon: <FiUser />, roles: ['realtor'] },
+        { name: 'My Network', path: '/network', icon: <FiUsers />, roles: ['realtor'] },
         { name: 'My Prospects', path: '/prospects', icon: <FiUsers />, roles: ['realtor'] },
         { name: 'Media Hub', path: '/media', icon: <FiFileText />, roles: ['realtor'] },
         { name: 'Promotions & Ads', path: '/promos', icon: <FiFolder />, roles: ['admin'] },
