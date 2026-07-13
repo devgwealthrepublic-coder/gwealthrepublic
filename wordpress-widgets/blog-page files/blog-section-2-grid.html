@@ -1,7 +1,5 @@
 <!-- 
   GWealth Nation - Blog Page Section 2: Post Grid
-  Objective: Dynamic, paginated blog grid fetching from WP REST API.
-  Instructions: Paste this block into an Elementor Custom HTML Widget below the Hero section.
 -->
 <div id="gw-blog-grid-section">
     <style>
@@ -387,7 +385,7 @@
 
                     // Extract Author
                     let authorName = 'GWealth Admin';
-                    if (post._embedded && post._embedded['author'] && post._embedded['author'][0]) {
+                    if (post._embedded && post._embedded['author'] && post._embedded['author'][0] && post._embedded['author'][0].name) {
                         authorName = post._embedded['author'][0].name;
                     }
 

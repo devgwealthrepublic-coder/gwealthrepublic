@@ -16,10 +16,38 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     // Check if user data exists in local storage
     const storedUser = localStorage.getItem('gwealth_user');
+    const storedToken = localStorage.getItem('gwealth_token');
+    
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+    if (storedToken) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+    }
+    
+    // Global Axios Interceptor to catch 401 Unauthorized globally
+    const interceptor = axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          // Token expired or invalid - force logout silently
+          setUser(null);
+          localStorage.removeItem('gwealth_user');
+          localStorage.removeItem('gwealth_token');
+          delete axios.defaults.headers.common['Authorization'];
+          if (window.location.pathname !== '/login' && window.location.pathname !== '/admin-login') {
+             window.location.href = '/login';
+          }
+        }
+        return Promise.reject(error);
+      }
+    );
+
     setLoading(false);
+
+    return () => {
+      axios.interceptors.response.eject(interceptor);
+    };
   }, []);
 
   const login = async (email, password) => {
@@ -28,6 +56,7 @@ export const AuthProvider = ({ children }) => {
       
       setUser(data.data);
       localStorage.setItem('gwealth_user', JSON.stringify(data.data));
+      localStorage.setItem('gwealth_token', data.token);
       // Store token in memory/axios defaults for Authorization header fallback
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
       
@@ -46,6 +75,7 @@ export const AuthProvider = ({ children }) => {
       
       setUser(data.data);
       localStorage.setItem('gwealth_user', JSON.stringify(data.data));
+      localStorage.setItem('gwealth_token', data.token);
       // Store token in memory/axios defaults for Authorization header fallback
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
       
@@ -78,6 +108,8 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setUser(null);
       localStorage.removeItem('gwealth_user');
+      localStorage.removeItem('gwealth_token');
+      // Remove auth header
       delete axios.defaults.headers.common['Authorization'];
     }
   };

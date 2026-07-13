@@ -1,7 +1,5 @@
 <!-- 
   GWealth Nation - Homepage Latest Posts Section
-  Objective: Dynamic grid fetching the 3 latest blog posts from WP REST API.
-  Instructions: Paste this block into an Elementor Custom HTML Widget on the Home Page.
 -->
 <div id="gw-latest-posts-section">
     <style>
@@ -305,7 +303,7 @@
 
                     // Extract Author
                     let authorName = 'GWealth Admin';
-                    if (post._embedded && post._embedded['author'] && post._embedded['author'][0]) {
+                    if (post._embedded && post._embedded['author'] && post._embedded['author'][0] && post._embedded['author'][0].name) {
                         authorName = post._embedded['author'][0].name;
                     }
 

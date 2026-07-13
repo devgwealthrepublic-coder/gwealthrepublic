@@ -1,0 +1,262 @@
+<!-- 
+  GWealth Nation - Corporate Registration & Guarantee Section
+  Objective: CAC Details and Legal Vetting Process
+-->
+<div id="gw-cert-corporate">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-cert-corporate {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%); /* Fullbleed breakout */
+            background-color: #FAFAFA; /* Light gray surface */
+            padding: 96px 0;
+            font-family: 'Lexend', sans-serif;
+            overflow: hidden;
+        }
+
+        #gw-cert-corporate * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container & Grid */
+        #gw-cert-corporate .gw-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 56px;
+            align-items: center;
+        }
+
+        @media (min-width: 992px) {
+            #gw-cert-corporate .gw-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Left Content: Legal Guarantee */
+        #gw-cert-corporate .gw-pre-headline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #27267d; /* Primary Blue */
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        #gw-cert-corporate .gw-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 32px;
+            color: #1E1B4B; /* Legal Ink */
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        @media (min-width: 768px) {
+            #gw-cert-corporate .gw-title { font-size: 40px; }
+        }
+
+        #gw-cert-corporate .gw-description {
+            font-size: 16px;
+            color: #4a5568;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        /* Check List */
+        #gw-cert-corporate .gw-check-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        #gw-cert-corporate .gw-check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        #gw-cert-corporate .gw-check-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(39, 38, 125, 0.1);
+            color: #27267d;
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+
+        #gw-cert-corporate .gw-check-text {
+            font-size: 15px;
+            color: #1E1B4B;
+            font-weight: 500;
+            line-height: 1.5;
+            margin-top: 4px;
+        }
+
+        /* Right Content: License Card */
+        #gw-cert-corporate .gw-license-wrapper {
+            position: relative;
+        }
+
+        #gw-cert-corporate .gw-license-bg-img {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            bottom: -20px;
+            left: -20px;
+            background-image: url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'); /* Legal/Signing vibe */
+            background-size: cover;
+            background-position: center;
+            border-radius: 12px;
+            opacity: 0.15;
+            z-index: 1;
+            filter: grayscale(100%);
+        }
+
+        #gw-cert-corporate .gw-license-card {
+            position: relative;
+            z-index: 2;
+            background-color: #ffffff;
+            border: 1px solid #E2E8F0;
+            border-top: 6px solid #D4AF37; /* Gold Trim */
+            border-radius: 8px;
+            padding: 48px;
+            box-shadow: 0px 24px 48px rgba(30, 27, 75, 0.08);
+            text-align: center;
+        }
+
+        #gw-cert-corporate .gw-seal {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px dashed #D4AF37;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px auto;
+            color: #D4AF37;
+            font-size: 32px;
+            background-color: #fffaf0;
+        }
+
+        #gw-cert-corporate .gw-license-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            color: #1E1B4B;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        #gw-cert-corporate .gw-license-rc {
+            font-size: 20px;
+            font-weight: 700;
+            color: #bb001b; /* Crimson Red */
+            margin-bottom: 32px;
+            font-family: monospace;
+            background-color: rgba(187, 0, 27, 0.05);
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px dashed rgba(187, 0, 27, 0.3);
+        }
+
+        #gw-cert-corporate .gw-license-details {
+            text-align: left;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 24px;
+        }
+
+        #gw-cert-corporate .gw-detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        #gw-cert-corporate .gw-detail-label {
+            color: #718096;
+            font-weight: 500;
+        }
+
+        #gw-cert-corporate .gw-detail-value {
+            color: #1E1B4B;
+            font-weight: 700;
+            text-align: right;
+        }
+    </style>
+
+    <div class="gw-container">
+        
+        <!-- Left: Legal Guarantee -->
+        <div class="gw-content-left">
+            <span class="gw-pre-headline"><i class="fa-solid fa-shield-halved"></i> The GWealth Guarantee</span>
+            <h2 class="gw-title">Rigorous Corporate Vetting & Diligence</h2>
+            <p class="gw-description">
+                Trust is the foundation of our entire operation. Before a single plot of land is acquired or offered to the public, it undergoes an exhaustive, multi-layered verification process by our elite panel of legal consultants and government surveyors.
+            </p>
+            
+            <div class="gw-check-list">
+                <div class="gw-check-item">
+                    <div class="gw-check-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <div class="gw-check-text">Comprehensive Land Registry Searches to ensure zero encumbrances or family disputes.</div>
+                </div>
+                <div class="gw-check-item">
+                    <div class="gw-check-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                    <div class="gw-check-text">Perimeter tracing and beacon installation by certified, government-approved Surveyors.</div>
+                </div>
+                <div class="gw-check-item">
+                    <div class="gw-check-icon"><i class="fa-solid fa-file-signature"></i></div>
+                    <div class="gw-check-text">Execution of Irrevocable Power of Attorney and universally recognized Deeds of Assignment.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Corporate License Card -->
+        <div class="gw-content-right">
+            <div class="gw-license-wrapper">
+                <div class="gw-license-bg-img"></div>
+                <div class="gw-license-card">
+                    <div class="gw-seal"><i class="fa-solid fa-award"></i></div>
+                    <h3 class="gw-license-title">G-Wealth King Republic Ltd.</h3>
+                    <div class="gw-license-rc">RC NO: 9087307</div>
+                    
+                    <div class="gw-license-details">
+                        <div class="gw-detail-row">
+                            <span class="gw-detail-label">Status</span>
+                            <span class="gw-detail-value" style="color: #10B981;">Active & Compliant</span>
+                        </div>
+                        <div class="gw-detail-row">
+                            <span class="gw-detail-label">Registration Type</span>
+                            <span class="gw-detail-value">Limited Liability Company (LLC)</span>
+                        </div>
+                        <div class="gw-detail-row">
+                            <span class="gw-detail-label">Primary Sector</span>
+                            <span class="gw-detail-value">Real Estate Development</span>
+                        </div>
+                        <div class="gw-detail-row">
+                            <span class="gw-detail-label">Jurisdiction</span>
+                            <span class="gw-detail-value">Federal Republic of Nigeria</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

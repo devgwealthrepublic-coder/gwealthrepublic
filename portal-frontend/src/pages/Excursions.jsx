@@ -118,7 +118,7 @@ const Excursions = () => {
                   </td>
                   <td className="p-4">
                     {ex.status === 'pending' ? (
-                      <select 
+                        <select 
                         className="p-2 border border-trust-slate rounded-md text-sm outline-none focus:border-primary w-full max-w-xs"
                         onChange={(e) => handleAssign(ex._id, e.target.value, ex.phone)}
                         defaultValue=""
@@ -126,7 +126,6 @@ const Excursions = () => {
                         <option value="" disabled>Assign Coordinator...</option>
                         <option value="Chinedu Okafor (PH)">Chinedu Okafor (PH)</option>
                         <option value="Emeka Nnamdi (Aba)">Emeka Nnamdi (Aba)</option>
-                        <option value="Sandra Ike (Asaba)">Sandra Ike (Asaba)</option>
                       </select>
                     ) : (
                       <div className="flex items-center gap-2 text-sm font-bold text-on-surface">

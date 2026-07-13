@@ -318,21 +318,18 @@
                 <div class="gw-offices-grid">
                     <div class="gw-office-card">
                         <i class="fa-regular fa-circle-check gw-office-icon"></i>
-                        <h3 class="gw-office-title">Aba Office 1</h3>
-                        <p class="gw-office-address">181 Ikot Ekpene Road, Ogbor Hill, Aba.</p>
-                        <a href="https://www.google.com/maps/dir/?api=1&destination=181+Ikot+Ekpene+Road,+Ogbor+Hill,+Aba,+Nigeria" target="_blank" class="gw-office-link"><i class="fa-solid fa-diamond-turn-right"></i> Get Directions</a>
+                        <h3 class="gw-office-title">Head Office (Aba)</h3>
+                        <p class="gw-office-address">1 no 97 Ikot ekpene Rd Ogbor Hill Aba Abia state</p>
                     </div>
                     <div class="gw-office-card">
                         <i class="fa-regular fa-circle-check gw-office-icon"></i>
-                        <h3 class="gw-office-title">Aba Office 2</h3>
-                        <p class="gw-office-address">97 Ikot Ekpene Road, Ogbor Hill, Aba.</p>
-                        <a href="https://www.google.com/maps/dir/?api=1&destination=97+Ikot+Ekpene+Road,+Ogbor+Hill,+Aba,+Nigeria" target="_blank" class="gw-office-link"><i class="fa-solid fa-diamond-turn-right"></i> Get Directions</a>
+                        <h3 class="gw-office-title">Branch Office (PH / Aba)</h3>
+                        <p class="gw-office-address">373 Ikwere Rd by Orazi, off GRA Port Harcourt<br><br>ABAYI UMUOJIMA ROAD, AT UMUOJIMA JUNCTION, HALLOWED SHOPPING MALL PLAZA, ABA, ABIA STATE.</p>
                     </div>
                     <div class="gw-office-card">
-                        <i class="fa-regular fa-circle-check gw-office-icon"></i>
-                        <h3 class="gw-office-title">Asaba Office</h3>
-                        <p class="gw-office-address">74 Anwai Road, Asaba.</p>
-                        <a href="https://www.google.com/maps/dir/?api=1&destination=74+Anwai+Road,+Asaba,+Nigeria" target="_blank" class="gw-office-link"><i class="fa-solid fa-diamond-turn-right"></i> Get Directions</a>
+                        <i class="fa-solid fa-headset gw-office-icon"></i>
+                        <h3 class="gw-office-title">Contact Information</h3>
+                        <p class="gw-office-address"><strong>Tel:</strong> 07076376885 | +234 802 532 6721<br><strong>Email:</strong> gwealthking@gmail.com<br><strong>R.C NO:</strong> 9087307</p>
                     </div>
                 </div>
             </div>
@@ -352,9 +349,9 @@
                 </div>
                 <div class="gw-priority-card variant">
                     <span class="gw-priority-badge"><i class="fa-regular fa-circle-check"></i> Premium Service</span>
-                    <h4 class="gw-priority-headline">Request Asaba Inspection</h4>
-                    <p class="gw-priority-desc">Explore Delta state luxury listings with our expert legal consultants.</p>
-                    <button class="gw-btn-priority white" onclick="bookInspection('Asaba')">Book Now</button>
+                    <h4 class="gw-priority-headline">Request Port Harcourt Inspection</h4>
+                    <p class="gw-priority-desc">Explore Rivers state luxury listings with our expert legal consultants.</p>
+                    <button class="gw-btn-priority white" onclick="bookInspection('Port Harcourt')">Book Now</button>
                 </div>
 
                 <div class="gw-trust-card">
@@ -375,6 +372,42 @@
             <h3 id="gw-modal-title" class="gw-modal-title"></h3>
             <p id="gw-modal-text" class="gw-modal-text"></p>
             <button id="gw-modal-close" class="gw-btn-submit" style="width: auto; padding: 10px 32px;">Close</button>
+        </div>
+    </div>
+
+    <!-- Excursion Booking Modal Overlay -->
+    <div id="gw-excursion-modal" class="gw-modal-overlay">
+        <div class="gw-modal-content" style="max-width: 500px; text-align: left; padding: 30px;">
+            <h3 class="gw-modal-title" style="margin-bottom: 24px; font-size: 22px;">Book Site Inspection</h3>
+            <form id="gw-excursion-form">
+                <input type="hidden" id="gw-excursion-branch" value="">
+                
+                <div class="gw-form-grid" style="gap: 16px; margin-bottom: 20px;">
+                    <div class="gw-input-group">
+                        <label for="gw-exc-name" class="gw-label">Full Name</label>
+                        <input type="text" id="gw-exc-name" class="gw-input" placeholder="e.g. John Doe" required>
+                    </div>
+                    <div class="gw-input-group">
+                        <label for="gw-exc-phone" class="gw-label">Phone Number (WhatsApp preferred)</label>
+                        <input type="tel" id="gw-exc-phone" class="gw-input" placeholder="+234..." required>
+                    </div>
+                    <div class="gw-input-group">
+                        <label for="gw-exc-property" class="gw-label">Which property are you interested in?</label>
+                        <select id="gw-exc-property" class="gw-select" required>
+                            <option value="">Loading properties...</option>
+                        </select>
+                    </div>
+                    <div class="gw-input-group">
+                        <label for="gw-exc-date" class="gw-label">Preferred Date</label>
+                        <input type="date" id="gw-exc-date" class="gw-input" required>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button type="submit" id="gw-exc-submit" class="gw-btn-submit" style="flex: 1;">Confirm Booking</button>
+                    <button type="button" id="gw-exc-close" class="gw-btn-submit" style="flex: 1; background-color: #94a3b8; box-shadow: none;">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
     
@@ -446,17 +479,97 @@
                 });
             }
 
-            // 2. BOOK NOW BUTTON LOGIC
-            window.bookInspection = function(location) {
-                document.getElementById('gw-form-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                const subjectSelect = document.getElementById('gw-subject');
-                if (subjectSelect) subjectSelect.value = 'Schedule Inspection';
-                const messageBox = document.getElementById('gw-message');
-                if (messageBox) {
-                    messageBox.value = `I would like to request a Priority Inspection for your estates in ${location}.`;
-                    messageBox.focus(); 
+            // 2. BOOK NOW BUTTON LOGIC (Excursion API Bridge & WP Fetch)
+            const excursionModal = document.getElementById('gw-excursion-modal');
+            const excursionForm = document.getElementById('gw-excursion-form');
+            const excSubmitBtn = document.getElementById('gw-exc-submit');
+            const propertySelect = document.getElementById('gw-exc-property');
+
+            let propertiesLoaded = false;
+
+            // Fetch properties from WP REST API to populate the select dropdown
+            const loadProperties = async () => {
+                if (propertiesLoaded) return;
+                try {
+                    const res = await fetch('/wp-json/wp/v2/properties?per_page=100');
+                    if (!res.ok) throw new Error('Network response was not ok');
+                    const properties = await res.json();
+                    
+                    propertySelect.innerHTML = '<option value="">Select a property...</option>';
+                    properties.forEach(prop => {
+                        const option = document.createElement('option');
+                        // Use rendered title or fallback to slug
+                        option.value = prop.title ? prop.title.rendered : prop.slug;
+                        option.textContent = prop.title ? prop.title.rendered : prop.slug;
+                        propertySelect.appendChild(option);
+                    });
+                    propertiesLoaded = true;
+                } catch (error) {
+                    console.error('Error fetching properties:', error);
+                    propertySelect.innerHTML = '<option value="">Error loading properties (Type manually)</option>';
+                    // Fallback to text input if API fails
+                    const inputFallback = document.createElement('input');
+                    inputFallback.type = 'text';
+                    inputFallback.id = 'gw-exc-property';
+                    inputFallback.className = 'gw-input';
+                    inputFallback.placeholder = 'e.g. Wealth Kingdom Estate';
+                    inputFallback.required = true;
+                    propertySelect.parentNode.replaceChild(inputFallback, propertySelect);
                 }
             };
+
+            window.bookInspection = function(location) {
+                document.getElementById('gw-excursion-branch').value = location;
+                excursionModal.classList.add('show');
+                loadProperties(); // Load properties when modal opens
+            };
+
+            document.getElementById('gw-exc-close').addEventListener('click', () => {
+                excursionModal.classList.remove('show');
+            });
+
+            if (excursionForm) {
+                excursionForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const clientName = document.getElementById('gw-exc-name').value;
+                    const phone = document.getElementById('gw-exc-phone').value;
+                    const property = document.getElementById('gw-exc-property').value;
+                    const preferredDate = document.getElementById('gw-exc-date').value;
+                    const branch = document.getElementById('gw-excursion-branch').value;
+
+                    // Loading State
+                    const originalBtnText = excSubmitBtn.innerHTML;
+                    excSubmitBtn.innerHTML = 'Booking... <i class="fa-solid fa-spinner fa-spin"></i>';
+                    excSubmitBtn.disabled = true;
+
+                    try {
+                        const response = await fetch((window.GW_API_URL || 'https://api.gwealthrepublic.com') + '/excursions', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ clientName, phone, property, branch, preferredDate })
+                        });
+                        
+                        const data = await response.json();
+
+                        if (response.ok && data.success) {
+                            excursionForm.reset();
+                            excursionModal.classList.remove('show');
+                            showModal('success', 'Inspection Scheduled!', 'Your site inspection request has been logged. A regional coordinator will contact you shortly to confirm the time.');
+                        } else {
+                            throw new Error(data.message || 'Failed to book excursion');
+                        }
+
+                    } catch (error) {
+                        console.error('Excursion API Error:', error);
+                        excursionModal.classList.remove('show');
+                        showModal('error', 'Booking Error', 'There was an issue scheduling your inspection. Please try again later.');
+                    } finally {
+                        excSubmitBtn.innerHTML = originalBtnText;
+                        excSubmitBtn.disabled = false;
+                    }
+                });
+            }
         });
     </script>
 </div>

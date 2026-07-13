@@ -75,6 +75,7 @@ app.use('/api',            require('./routes/subscribers')); // handles /api/sub
 app.use('/api/visitors',   require('./routes/visitors'));
 app.use('/api/leads',      require('./routes/leads'));
 app.use('/api/notices',    require('./routes/notices'));
+app.use('/api/advertisements', require('./routes/advertisements'));
 
 // ---- Health Check ----------------------------------------------
 app.get('/api/health', (req, res) => {

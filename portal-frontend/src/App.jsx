@@ -22,6 +22,7 @@ import AssetVault from './pages/AssetVault';
 import Messages from './pages/Messages';
 import Subscribers from './pages/Subscribers';
 import Visitors from './pages/Visitors';
+import PromoManager from './pages/PromoManager';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
             <Route path="/messages" element={<Messages />} />
             <Route path="/subscribers" element={<Subscribers />} />
             <Route path="/visitors" element={<Visitors />} />
+            <Route path="/promos" element={<PromoManager />} />
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
           </Route>
         </Routes>

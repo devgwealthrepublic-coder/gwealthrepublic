@@ -1,0 +1,220 @@
+<!-- 
+  GWealth Nation - Land Titles Explained Section
+  Objective: Break down real estate jargon and build trust
+-->
+<div id="gw-cert-titles">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-cert-titles {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%); /* Fullbleed breakout */
+            background-color: #ffffff;
+            padding: 96px 0;
+            font-family: 'Lexend', sans-serif;
+            overflow: hidden;
+        }
+
+        #gw-cert-titles * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container & Header */
+        #gw-cert-titles .gw-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        #gw-cert-titles .gw-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        #gw-cert-titles .gw-pre-headline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #D4AF37; /* Gold */
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        #gw-cert-titles .gw-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 32px;
+            color: #1E1B4B; /* Legal Ink */
+            margin-bottom: 16px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        @media (min-width: 768px) {
+            #gw-cert-titles .gw-title { font-size: 40px; }
+        }
+
+        #gw-cert-titles .gw-subtitle {
+            font-size: 16px;
+            color: #4a5568;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Grid Layout */
+        #gw-cert-titles .gw-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        @media (min-width: 768px) {
+            #gw-cert-titles .gw-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (min-width: 1024px) {
+            #gw-cert-titles .gw-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* Title Cards */
+        #gw-cert-titles .gw-card {
+            background-color: #f8f9ff;
+            border: 1px solid rgba(30, 27, 75, 0.05);
+            border-radius: 8px;
+            padding: 40px 32px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #gw-cert-titles .gw-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0px 24px 48px rgba(30, 27, 75, 0.08);
+            border-color: rgba(39, 38, 125, 0.15);
+            background-color: #ffffff;
+        }
+
+        /* Top Accent Line */
+        #gw-cert-titles .gw-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #1a1a4b 0%, #27267d 60%, #bb001b 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        #gw-cert-titles .gw-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        #gw-cert-titles .gw-icon-box {
+            width: 64px;
+            height: 64px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #27267d;
+            box-shadow: 0px 8px 16px rgba(30, 27, 75, 0.06);
+            margin-bottom: 24px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        #gw-cert-titles .gw-card:hover .gw-icon-box {
+            background-color: #27267d;
+            color: #ffffff;
+        }
+
+        #gw-cert-titles .gw-card-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1E1B4B;
+            margin-bottom: 16px;
+        }
+
+        #gw-cert-titles .gw-card-desc {
+            font-size: 15px;
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        /* Tags */
+        #gw-cert-titles .gw-tag-list {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        #gw-cert-titles .gw-tag {
+            background-color: rgba(39, 38, 125, 0.05);
+            color: #27267d;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 100px;
+        }
+    </style>
+
+    <div class="gw-container">
+        
+        <div class="gw-header">
+            <span class="gw-pre-headline"><i class="fa-solid fa-folder-open"></i> Demystifying Documentation</span>
+            <h2 class="gw-title">What You Actually Receive</h2>
+            <p class="gw-subtitle">We don't just sell land; we deliver ironclad legal ownership. Here is a breakdown of the documents that secure your investment.</p>
+        </div>
+
+        <div class="gw-grid">
+            
+            <!-- Card 1 -->
+            <div class="gw-card">
+                <div class="gw-icon-box"><i class="fa-solid fa-map"></i></div>
+                <h3 class="gw-card-title">Registered Survey Plan</h3>
+                <p class="gw-card-desc">This document maps out the exact coordinates and boundaries of your specific plot. It is lodged at the Surveyor General's office to mathematically prove the land exists and belongs to you.</p>
+                <div class="gw-tag-list">
+                    <span class="gw-tag">Coordinates</span>
+                    <span class="gw-tag">Boundaries</span>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="gw-card">
+                <div class="gw-icon-box"><i class="fa-solid fa-file-contract"></i></div>
+                <h3 class="gw-card-title">Deed of Assignment</h3>
+                <p class="gw-card-desc">The ultimate proof of transfer. This legal agreement unequivocally states that G-Wealth Republic has permanently transferred all rights, ownership, and interest of the land to you, the buyer.</p>
+                <div class="gw-tag-list">
+                    <span class="gw-tag">Transfer of Rights</span>
+                    <span class="gw-tag">Legal Proof</span>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="gw-card">
+                <div class="gw-icon-box"><i class="fa-solid fa-scroll"></i></div>
+                <h3 class="gw-card-title">Certificate of Occupancy</h3>
+                <p class="gw-card-desc">The highest level of land certification issued by the State Government, proving that the land is free from all known acquisition. Select premium estates in our portfolio hold global C of O titles.</p>
+                <div class="gw-tag-list">
+                    <span class="gw-tag">Government Issued</span>
+                    <span class="gw-tag">Highest Security</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

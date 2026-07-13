@@ -13,7 +13,7 @@ const sendTokenResponse = (user, statusCode, res) => {
   const cookieOptions = {
     httpOnly: true,
     secure:   process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     maxAge:   30 * 24 * 60 * 60 * 1000, // 30 days in ms
   };
 
@@ -213,6 +213,8 @@ router.post('/logout', (req, res) => {
   res.cookie('token', '', {
     httpOnly: true,
     expires:  new Date(0),
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
   });
   res.json({ success: true, message: 'Logged out successfully.' });
 });

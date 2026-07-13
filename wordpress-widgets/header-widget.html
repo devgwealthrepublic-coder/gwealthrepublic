@@ -1,7 +1,5 @@
 <!-- 
   GWealth Nation - Global Header Widget
-  Objective: Fully responsive, 4px strict radius limit, namespace isolated.
-  Instructions: Paste this entire block into an Elementor Custom HTML Widget at the top of the page.
 -->
 <div id="gw-section-global-header">
     <style>
@@ -202,6 +200,38 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
+        /* --- GLOBAL MODAL STYLES --- */
+        #gw-section-global-header .gw-modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(30, 27, 75, 0.85); backdrop-filter: blur(4px);
+            z-index: 99999; display: none; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        #gw-section-global-header .gw-modal-overlay.show { display: flex; opacity: 1; }
+        #gw-section-global-header .gw-modal-content {
+            background-color: #FFFFFF; border-radius: 8px; padding: 30px; max-width: 500px;
+            width: 90%; text-align: left; box-shadow: 0px 24px 48px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px); transition: transform 0.3s ease;
+        }
+        #gw-section-global-header .gw-modal-overlay.show .gw-modal-content { transform: translateY(0); }
+        #gw-section-global-header .gw-modal-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 22px; color: #1E1B4B; margin-bottom: 24px; }
+        
+        #gw-section-global-header .gw-form-grid { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
+        #gw-section-global-header .gw-input-group { display: flex; flex-direction: column; gap: 8px; }
+        #gw-section-global-header .gw-label { font-size: 12px; font-weight: 500; color: #4a5568; }
+        #gw-section-global-header .gw-input, #gw-section-global-header .gw-select {
+            background-color: #FAFAFA; border: 1px solid #E2E8F0; border-radius: 4px; padding: 14px 16px;
+            font-family: 'Lexend', sans-serif; font-size: 14px; color: #1E1B4B; width: 100%; transition: all 0.2s ease;
+        }
+        #gw-section-global-header .gw-input:focus, #gw-section-global-header .gw-select:focus {
+            outline: none; border-color: #27267d; box-shadow: 0 0 0 3px rgba(39, 38, 125, 0.1); background-color: #FFFFFF;
+        }
+        #gw-section-global-header .gw-btn-submit {
+            background-color: #27267d; color: #FFFFFF; border: none; border-radius: 4px; padding: 16px 32px;
+            font-family: 'Lexend', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        #gw-section-global-header .gw-btn-submit:hover { background-color: #1E1B4B; }
     </style>
 
     <!-- Component HTML -->
@@ -217,7 +247,7 @@
             <nav class="gw-desktop-nav">
                 <a href="/" class="gw-nav-link">Home</a>
                 <a href="/about/" class="gw-nav-link">About Us</a>
-                <a href="/properties/" class="gw-nav-link">Property Hub</a>
+                <a href="/properties-hub/" class="gw-nav-link">Property Hub</a>
                 <a href="/realtors/" class="gw-nav-link">Realtor Hub</a>
                 <a href="/blog/" class="gw-nav-link">Blog</a>
                 <a href="/contact/" class="gw-nav-link">Contact Us</a>
@@ -225,7 +255,7 @@
 
             <!-- Right: CTA Button -->
             <div class="gw-header-cta">
-                <a href="/contact/" class="gw-btn-primary">Book Inspection</a>
+                <button type="button" class="gw-btn-primary" onclick="openGlobalBookingModal()">Book Inspection</button>
             </div>
 
             <!-- Mobile: Toggle Button -->
@@ -240,14 +270,56 @@
         <div class="gw-mobile-nav">
             <a href="/" class="gw-nav-link">Home</a>
             <a href="/about/" class="gw-nav-link">About Us</a>
-            <a href="/properties/" class="gw-nav-link">Property Hub</a>
+            <a href="/properties-hub/" class="gw-nav-link">Property Hub</a>
             <a href="/realtors/" class="gw-nav-link">Realtor Hub</a>
             <a href="/blog/" class="gw-nav-link">Blog</a>
             <a href="/contact/" class="gw-nav-link">Contact Us</a>
             
-            <a href="/contact/" class="gw-btn-primary gw-mobile-btn">Book Inspection</a>
+            <button type="button" class="gw-btn-primary gw-mobile-btn" onclick="openGlobalBookingModal()">Book Inspection</button>
         </div>
     </header>
+
+    <!-- Global Excursion Booking Modal -->
+    <div id="gw-global-excursion-modal" class="gw-modal-overlay">
+        <div class="gw-modal-content">
+            <h3 class="gw-modal-title">Book Site Inspection</h3>
+            <form id="gw-global-excursion-form">
+                <div class="gw-form-grid">
+                    <div class="gw-input-group">
+                        <label for="gw-glb-name" class="gw-label">Full Name</label>
+                        <input type="text" id="gw-glb-name" class="gw-input" placeholder="e.g. John Doe" required>
+                    </div>
+                    <div class="gw-input-group">
+                        <label for="gw-glb-phone" class="gw-label">Phone Number (WhatsApp preferred)</label>
+                        <input type="tel" id="gw-glb-phone" class="gw-input" placeholder="+234..." required>
+                    </div>
+                    <div class="gw-input-group">
+                        <label for="gw-glb-branch" class="gw-label">Select Branch</label>
+                        <select id="gw-glb-branch" class="gw-select" required>
+                            <option value="Aba">Aba Branch</option>
+                            <option value="Port Harcourt">Port Harcourt Branch</option>
+                        </select>
+                    </div>
+                    <div class="gw-input-group">
+                        <label for="gw-glb-property" class="gw-label">Which property are you interested in?</label>
+                        <select id="gw-glb-property" class="gw-select" required>
+                            <option value="">Loading properties...</option>
+                        </select>
+                    </div>
+                    <div class="gw-input-group">
+                        <label for="gw-glb-date" class="gw-label">Preferred Date</label>
+                        <input type="date" id="gw-glb-date" class="gw-input" required>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button type="submit" id="gw-glb-submit" class="gw-btn-submit" style="flex: 1;">Confirm Booking</button>
+                    <button type="button" id="gw-glb-close" class="gw-btn-submit" style="flex: 1; background-color: #94a3b8; box-shadow: none;">Cancel</button>
+                </div>
+                <div id="gw-glb-status" style="margin-top: 15px; font-size: 14px; text-align: center; font-weight: 500;"></div>
+            </form>
+        </div>
+    </div>
 
     <!-- Scoped Component Logic (IIFE) -->
     <script>
@@ -285,6 +357,89 @@
                         link.classList.add('active');
                     }
                 });
+                
+                // Modal Logic
+                const modal = document.getElementById('gw-global-excursion-modal');
+                const propertySelect = document.getElementById('gw-glb-property');
+                const form = document.getElementById('gw-global-excursion-form');
+                const submitBtn = document.getElementById('gw-glb-submit');
+                const statusDiv = document.getElementById('gw-glb-status');
+                let propertiesLoaded = false;
+
+                window.openGlobalBookingModal = async function() {
+                    modal.classList.add('show');
+                    if (mobileNav && mobileNav.classList.contains('open')) {
+                        mobileNav.classList.remove('open');
+                        const spans = toggleBtn.querySelectorAll('span');
+                        spans[0].style.transform = 'none'; spans[1].style.opacity = '1'; spans[2].style.transform = 'none';
+                    }
+
+                    if (propertiesLoaded) return;
+                    try {
+                        const res = await fetch('/wp-json/wp/v2/properties?per_page=100');
+                        if (!res.ok) throw new Error('Network error');
+                        const properties = await res.json();
+                        propertySelect.innerHTML = '<option value="">Select a property...</option>';
+                        properties.forEach(prop => {
+                            const option = document.createElement('option');
+                            option.value = prop.title ? prop.title.rendered : prop.slug;
+                            option.textContent = prop.title ? prop.title.rendered : prop.slug;
+                            propertySelect.appendChild(option);
+                        });
+                        propertiesLoaded = true;
+                    } catch (error) {
+                        propertySelect.innerHTML = '<option value="">Error loading properties (Type manually)</option>';
+                        const inputFallback = document.createElement('input');
+                        inputFallback.type = 'text'; inputFallback.id = 'gw-glb-property'; inputFallback.className = 'gw-input';
+                        inputFallback.placeholder = 'e.g. Wealth Kingdom Estate'; inputFallback.required = true;
+                        propertySelect.parentNode.replaceChild(inputFallback, propertySelect);
+                    }
+                };
+
+                const closeBtn = document.getElementById('gw-glb-close');
+                if(closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        modal.classList.remove('show');
+                        statusDiv.innerHTML = '';
+                    });
+                }
+
+                if (form) {
+                    form.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const clientName = document.getElementById('gw-glb-name').value;
+                        const phone = document.getElementById('gw-glb-phone').value;
+                        const branch = document.getElementById('gw-glb-branch').value;
+                        const property = document.getElementById('gw-glb-property').value;
+                        const preferredDate = document.getElementById('gw-glb-date').value;
+
+                        const originalText = submitBtn.innerHTML;
+                        submitBtn.innerHTML = 'Booking...';
+                        submitBtn.disabled = true;
+                        statusDiv.innerHTML = '';
+
+                        try {
+                            const response = await fetch((window.GW_API_URL || 'https://api.gwealthrepublic.com') + '/excursions', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ clientName, phone, property, branch, preferredDate })
+                            });
+                            const data = await response.json();
+                            if (response.ok && data.success) {
+                                form.reset();
+                                statusDiv.style.color = '#10B981';
+                                statusDiv.innerHTML = 'Inspection Scheduled! We will contact you shortly.';
+                                setTimeout(() => { modal.classList.remove('show'); statusDiv.innerHTML = ''; }, 3000);
+                            } else { throw new Error(data.message || 'Failed to book'); }
+                        } catch (error) {
+                            statusDiv.style.color = '#EF4444';
+                            statusDiv.innerHTML = 'Error scheduling inspection. Please try again.';
+                        } finally {
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                        }
+                    });
+                }
             });
         })();
     </script>

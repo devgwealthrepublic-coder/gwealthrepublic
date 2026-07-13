@@ -1,7 +1,6 @@
 <!-- 
-  GWealth Nation - Blog Page Section 3: CTA / Newsletter
-  Objective: High-conversion newsletter signup section matching the design system.
-  Instructions: Paste this block into an Elementor Custom HTML Widget below the Post Grid.
+  GWealth Nation - Newsletter CTA Section
+  Objective: High-conversion newsletter signup section matching the design system with LIVE backend API integration.
 -->
 <div id="gw-blog-cta">
     <style>
@@ -87,6 +86,7 @@
             font-size: 14px;
             outline: none;
             transition: all 0.3s ease;
+            color: #1e293b;
         }
 
         #gw-blog-cta .gw-input:focus {
@@ -103,13 +103,31 @@
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
             white-space: nowrap;
         }
 
         #gw-blog-cta .gw-btn-submit:hover {
             background-color: #e02830;
         }
+
+        #gw-blog-cta .gw-btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Status Message Styles */
+        #gw-blog-cta .gw-cta-status {
+            margin-top: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            min-height: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #gw-blog-cta .gw-cta-status.show { opacity: 1; }
+        #gw-blog-cta .gw-cta-status.success { color: #34d399; } /* Green */
+        #gw-blog-cta .gw-cta-status.error { color: #f87171; } /* Red */
 
         /* Decorative Elements */
         #gw-blog-cta .gw-deco-circle-1 {
@@ -146,9 +164,70 @@
         <h2 class="gw-cta-title">Don't Miss Out on Market Updates</h2>
         <p class="gw-cta-subtitle">Join over 5,000 investors receiving exclusive insights, property alerts, and expert analysis directly to their inbox.</p>
         
-        <form class="gw-newsletter-form" onsubmit="event.preventDefault(); alert('Newsletter Subscription Sent!');">
-            <input type="email" class="gw-input" placeholder="Enter your email address" required>
-            <button type="submit" class="gw-btn-submit">Subscribe Now</button>
+        <form id="gw-blog-newsletter-form" class="gw-newsletter-form">
+            <input type="email" id="gw-blog-nl-email" class="gw-input" placeholder="Enter your email address" required>
+            <button type="submit" id="gw-blog-nl-submit" class="gw-btn-submit">Subscribe Now</button>
         </form>
+
+        <div id="gw-blog-nl-status" class="gw-cta-status"></div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('gw-blog-newsletter-form');
+            const emailInput = document.getElementById('gw-blog-nl-email');
+            const submitBtn = document.getElementById('gw-blog-nl-submit');
+            const statusDiv = document.getElementById('gw-blog-nl-status');
+
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const email = emailInput.value.trim();
+                    if (!email) return;
+
+                    // Loading State
+                    const originalBtnText = submitBtn.innerText;
+                    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+                    submitBtn.disabled = true;
+                    statusDiv.className = 'gw-cta-status'; 
+                    statusDiv.innerText = '';
+
+                    try {
+                        // Using the global environment variable set up via WPCode
+                        const apiUrl = window.GW_API_URL || 'https://api.gwealthrepublic.com';
+                        const response = await fetch(`${apiUrl}/subscribers`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email })
+                        });
+                        
+                        const data = await response.json();
+
+                        if (response.ok && data.success) {
+                            form.reset();
+                            statusDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> ' + data.message;
+                            statusDiv.className = 'gw-cta-status show success';
+                        } else {
+                            throw new Error(data.message || 'Subscription failed');
+                        }
+
+                    } catch (error) {
+                        console.error('Newsletter Error:', error);
+                        statusDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> ' + error.message;
+                        statusDiv.className = 'gw-cta-status show error';
+                    } finally {
+                        submitBtn.innerText = originalBtnText;
+                        submitBtn.disabled = false;
+                        
+                        // Hide status after 5 seconds if success
+                        if (statusDiv.classList.contains('success')) {
+                            setTimeout(() => {
+                                statusDiv.classList.remove('show');
+                            }, 5000);
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 </div>

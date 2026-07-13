@@ -1,7 +1,5 @@
 <!-- 
   GWealth Nation - Section 6: Dynamic FAQ Accordion
-  Objective: Institutional-grade accordion, vault motion, pure CSS grid transitions.
-  Instructions: Paste this block into an Elementor Custom HTML Widget.
 -->
 <div id="gw-faq-section">
     <style>
@@ -11,9 +9,15 @@
             width: 100vw;
             margin-left: calc(-50vw + 50%); /* Fullbleed breakout */
             background-color: #ffffff; /* Pure white surface */
-            padding: 96px 0;
+            padding: 64px 0; /* Reduced padding for mobile */
             font-family: 'Lexend', sans-serif;
             overflow: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            #gw-faq-section {
+                padding: 96px 0;
+            }
         }
 
         #gw-faq-section * {
@@ -51,10 +55,11 @@
         #gw-faq-section .gw-title {
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 800;
-            font-size: 32px;
+            font-size: 28px; /* Mobile font size */
             color: #1E1B4B; /* Legal Ink */
             margin: 0 0 12px 0;
             letter-spacing: -0.02em;
+            line-height: 1.2;
         }
 
         @media (min-width: 768px) {
@@ -64,7 +69,7 @@
         }
 
         #gw-faq-section .gw-subtitle {
-            font-size: 16px;
+            font-size: 15px;
             color: #4a5568;
             line-height: 1.6;
             margin: 0 auto;
@@ -105,14 +110,22 @@
             align-items: center;
             background: transparent;
             border: none;
-            padding: 24px;
+            padding: 20px; /* Reduced for mobile */
             cursor: pointer;
             text-align: left;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 16px;
+            font-size: 15px; /* Scaled down for mobile */
             font-weight: 700;
             color: #1E1B4B;
             transition: color 0.3s ease;
+            gap: 16px;
+        }
+        
+        @media (min-width: 768px) {
+            #gw-faq-section .gw-accordion-trigger {
+                padding: 24px;
+                font-size: 16px;
+            }
         }
 
         #gw-faq-section .gw-accordion-item.active .gw-accordion-trigger {
@@ -237,6 +250,45 @@
                 <div class="gw-accordion-content-wrapper">
                     <div class="gw-accordion-content">
                         <p class="gw-accordion-inner">We provide highly flexible, interest-free installment options ranging from 3 to 12 months across various estates. A minimal initial deposit is required to secure the current market price and lock down your plot.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="gw-accordion-item gw-reveal" style="transition-delay: 0.5s;">
+                <button class="gw-accordion-trigger">
+                    <span>How does the referral program (Realtor Hub) work?</span>
+                    <div class="gw-icon-wrap"><i class="fa-solid fa-plus"></i></div>
+                </button>
+                <div class="gw-accordion-content-wrapper">
+                    <div class="gw-accordion-content">
+                        <p class="gw-accordion-inner">You can sign up as a partner through our Realtor Hub. Once approved, you gain access to marketing materials and earn attractive commissions on every closed sale generated through your unique referral link or physical introductions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 6 -->
+            <div class="gw-accordion-item gw-reveal" style="transition-delay: 0.6s;">
+                <button class="gw-accordion-trigger">
+                    <span>What happens if I want a refund?</span>
+                    <div class="gw-icon-wrap"><i class="fa-solid fa-plus"></i></div>
+                </button>
+                <div class="gw-accordion-content-wrapper">
+                    <div class="gw-accordion-content">
+                        <p class="gw-accordion-inner">We have a transparent Refund Policy. If you discontinue your subscription due to personal or financial reasons, you can apply for a refund. Please note this is subject to an administrative deduction as legally outlined in our Terms of Service.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 7 -->
+            <div class="gw-accordion-item gw-reveal" style="transition-delay: 0.7s;">
+                <button class="gw-accordion-trigger">
+                    <span>Where are your offices located?</span>
+                    <div class="gw-icon-wrap"><i class="fa-solid fa-plus"></i></div>
+                </button>
+                <div class="gw-accordion-content-wrapper">
+                    <div class="gw-accordion-content">
+                        <p class="gw-accordion-inner">We currently have two major branches in Nigeria: No 373 Ikwere Rd by Orazi, off GRA Port Harcourt, Rivers State, and No 97 Ikot Ekpene Rd Ogbor Hill Aba, Abia State.</p>
                     </div>
                 </div>
             </div>

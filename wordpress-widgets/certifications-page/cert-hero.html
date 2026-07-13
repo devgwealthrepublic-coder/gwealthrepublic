@@ -1,0 +1,156 @@
+<!-- 
+  GWealth Nation - Certifications Hero Section
+  Objective: Institutional Trust & Legal Security
+-->
+<div id="gw-cert-hero">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-cert-hero {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%); /* Fullbleed breakout */
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Lexend', sans-serif;
+            background-color: #0b1c30; /* Dark premium background */
+            overflow: hidden;
+            padding: 80px 24px;
+        }
+
+        #gw-cert-hero * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Background Image with Overlay */
+        #gw-cert-hero .gw-hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1542621323-22ea67c0a969?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'); /* Luxury architecture/documents vibe */
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+
+        #gw-cert-hero .gw-hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(11, 28, 48, 0.9) 0%, rgba(39, 38, 125, 0.8) 100%);
+            z-index: 2;
+        }
+
+        /* Content Container */
+        #gw-cert-hero .gw-hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+            text-align: center;
+            color: #ffffff;
+            animation: gw-fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* Typography */
+        #gw-cert-hero .gw-hero-pretitle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #D4AF37; /* Gold accent */
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        #gw-cert-hero .gw-hero-pretitle i {
+            font-size: 16px;
+        }
+
+        #gw-cert-hero .gw-hero-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 40px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        @media (min-width: 768px) {
+            #gw-cert-hero .gw-hero-title { font-size: 56px; }
+        }
+
+        #gw-cert-hero .gw-hero-subtitle {
+            font-size: 16px;
+            font-weight: 300;
+            color: #e2e8f0;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (min-width: 768px) {
+            #gw-cert-hero .gw-hero-subtitle { font-size: 18px; }
+        }
+
+        /* Badges */
+        #gw-cert-hero .gw-badges {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        #gw-cert-hero .gw-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        #gw-cert-hero .gw-badge i {
+            color: #10B981; /* Green success check */
+        }
+
+        @keyframes gw-fade-up {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+    <div class="gw-hero-bg"></div>
+    <div class="gw-hero-overlay"></div>
+    
+    <div class="gw-hero-content">
+        <span class="gw-hero-pretitle"><i class="fa-solid fa-scale-balanced"></i> Regulatory Assurance</span>
+        <h1 class="gw-hero-title">Institutional Trust &<br>Legal Security</h1>
+        <p class="gw-hero-subtitle">At G-Wealth Republic, every square meter of land is backed by verifiable legal documentation, government approvals, and strict corporate compliance. We engineer peace of mind.</p>
+        
+        <div class="gw-badges">
+            <div class="gw-badge"><i class="fa-solid fa-check-circle"></i> CAC Registered</div>
+            <div class="gw-badge"><i class="fa-solid fa-check-circle"></i> FIRS Compliant</div>
+            <div class="gw-badge"><i class="fa-solid fa-check-circle"></i> Dispute-Free Titles</div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,250 @@
+<!-- 
+  GWealth Nation - Document Vault & Legal CTA
+  Objective: Showcase sample documents and drive conversions to legal consult
+-->
+<div id="gw-cert-vault">
+    <style>
+        /* --- SCOPED CSS NAMESPACE --- */
+        #gw-cert-vault {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%); /* Fullbleed breakout */
+            background-color: #0b1c30; /* Dark premium background matching hero */
+            padding: 96px 0;
+            font-family: 'Lexend', sans-serif;
+            overflow: hidden;
+            color: #ffffff;
+        }
+
+        #gw-cert-vault * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container & Layout */
+        #gw-cert-vault .gw-container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 24px;
+            text-align: center;
+        }
+
+        #gw-cert-vault .gw-pre-headline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #D4AF37; /* Gold */
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        #gw-cert-vault .gw-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 32px;
+            color: #ffffff;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        @media (min-width: 768px) {
+            #gw-cert-vault .gw-title { font-size: 40px; }
+        }
+
+        #gw-cert-vault .gw-subtitle {
+            font-size: 16px;
+            color: #e2e8f0;
+            line-height: 1.6;
+            margin-bottom: 56px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* CSS Document Mockup (Vault) */
+        #gw-cert-vault .gw-docs-container {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 64px;
+            flex-wrap: wrap;
+        }
+
+        #gw-cert-vault .gw-doc-mockup {
+            width: 280px;
+            height: 380px;
+            background-color: #ffffff;
+            border-radius: 4px;
+            padding: 24px;
+            box-shadow: 0px 24px 48px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: transform 0.4s ease;
+            transform: rotate(-2deg);
+        }
+
+        #gw-cert-vault .gw-doc-mockup:nth-child(2) {
+            transform: rotate(3deg) translateY(20px);
+        }
+
+        #gw-cert-vault .gw-doc-mockup:hover {
+            transform: translateY(-10px) rotate(0deg);
+            z-index: 10;
+        }
+
+        /* Document internal lines */
+        #gw-cert-vault .gw-doc-header {
+            height: 12px;
+            background-color: #27267d;
+            width: 60%;
+            margin: 0 auto 20px auto;
+            border-radius: 2px;
+        }
+
+        #gw-cert-vault .gw-doc-line {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 2px;
+            width: 100%;
+        }
+
+        #gw-cert-vault .gw-doc-line.short { width: 70%; }
+        #gw-cert-vault .gw-doc-line.medium { width: 85%; }
+        #gw-cert-vault .gw-doc-line.bold { height: 10px; background-color: #D4AF37; margin: 12px 0; }
+
+        /* Watermark */
+        #gw-cert-vault .gw-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 32px;
+            color: rgba(187, 0, 27, 0.15); /* Faint crimson red */
+            border: 4px solid rgba(187, 0, 27, 0.15);
+            padding: 8px 16px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+
+        #gw-cert-vault .gw-doc-label {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #D4AF37;
+            color: #1E1B4B;
+            font-size: 14px;
+            font-weight: 800;
+            padding: 8px 16px;
+            border-radius: 4px;
+            white-space: nowrap;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        /* Call to Action Box */
+        #gw-cert-vault .gw-cta-box {
+            background: linear-gradient(135deg, #1a1a4b 0%, #27267d 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        #gw-cert-vault .gw-cta-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        #gw-cert-vault .gw-cta-desc {
+            font-size: 15px;
+            color: #e2e8f0;
+            margin-bottom: 32px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #gw-cert-vault .gw-btn-primary {
+            display: inline-block;
+            background-color: #D4AF37;
+            color: #1E1B4B;
+            font-family: 'Lexend', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 16px 32px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        #gw-cert-vault .gw-btn-primary:hover {
+            background-color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0px 8px 16px rgba(212, 175, 55, 0.3);
+        }
+
+    </style>
+
+    <div class="gw-container">
+        
+        <span class="gw-pre-headline"><i class="fa-solid fa-lock"></i> Secure Document Vault</span>
+        <h2 class="gw-title">Transparency in Every Page</h2>
+        <p class="gw-subtitle">We believe in complete transparency. Our document structures are industry-standard, recognized by courts, banks, and government registries nationwide.</p>
+
+        <!-- Pure CSS Document Mockups -->
+        <div class="gw-docs-container">
+            
+            <!-- Mockup 1: Deed of Assignment -->
+            <div class="gw-doc-mockup">
+                <div class="gw-watermark">SAMPLE</div>
+                <div class="gw-doc-header"></div>
+                <div class="gw-doc-line bold"></div>
+                <div class="gw-doc-line"></div>
+                <div class="gw-doc-line medium"></div>
+                <div class="gw-doc-line short"></div>
+                <div style="margin-top: 16px;"></div>
+                <div class="gw-doc-line"></div>
+                <div class="gw-doc-line medium"></div>
+                <div class="gw-doc-line short"></div>
+                <div class="gw-doc-line bold" style="margin-top: 24px; width: 40%;"></div>
+                <div class="gw-doc-label">Deed of Assignment</div>
+            </div>
+
+            <!-- Mockup 2: Survey Plan -->
+            <div class="gw-doc-mockup">
+                <div class="gw-watermark" style="color: rgba(39, 38, 125, 0.15); border-color: rgba(39, 38, 125, 0.15);">SPECIMEN</div>
+                <div class="gw-doc-header" style="width: 40%;"></div>
+                <div style="width: 100%; height: 120px; border: 2px dashed #e2e8f0; display: flex; align-items: center; justify-content: center; color: #e2e8f0; font-weight: bold; margin-bottom: 12px;">PLOT MAP</div>
+                <div class="gw-doc-line medium"></div>
+                <div class="gw-doc-line"></div>
+                <div class="gw-doc-line short"></div>
+                <div class="gw-doc-label" style="background-color: #27267d; color: #ffffff;">Registered Survey</div>
+            </div>
+
+        </div>
+
+        <!-- CTA Box -->
+        <div class="gw-cta-box">
+            <h3 class="gw-cta-title">Need to Speak with our Legal Desk?</h3>
+            <p class="gw-cta-desc">Whether you are an individual investor or buying on behalf of a cooperative, our legal team is available to answer any questions regarding titles, transfers, and corporate acquisitions.</p>
+            <a href="/contact/" class="gw-btn-primary">Book Free Legal Consult</a>
+        </div>
+
+    </div>
+</div>

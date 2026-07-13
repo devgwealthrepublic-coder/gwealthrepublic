@@ -22,6 +22,7 @@ const Sidebar = () => {
         { name: 'My Profile', path: '/profile', icon: <FiUser />, roles: ['realtor'] },
         { name: 'My Prospects', path: '/prospects', icon: <FiUsers />, roles: ['realtor'] },
         { name: 'Media Hub', path: '/media', icon: <FiFileText />, roles: ['realtor'] },
+        { name: 'Promotions & Ads', path: '/promos', icon: <FiFolder />, roles: ['admin'] },
       ]
     },
     {
