@@ -171,15 +171,15 @@ const PromoManager = () => {
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
                 <label className="block text-sm font-bold text-on-surface mb-1">Headline / Title</label>
-                <input type="text" required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full p-3 border border-trust-slate rounded-md outline-none bg-white" placeholder="e.g. Flash Sale: 20% Off Epe" />
+                <input type="text" required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full p-3 border border-trust-slate rounded-md outline-none bg-white text-gray-900" placeholder="e.g. Flash Sale: 20% Off Epe" />
               </div>
               <div>
                 <label className="block text-sm font-bold text-on-surface mb-1">Target Link (Optional)</label>
-                <input type="url" value={formData.actionUrl} onChange={e => setFormData({...formData, actionUrl: e.target.value})} className="w-full p-3 border border-trust-slate rounded-md outline-none bg-white" placeholder="https://" />
+                <input type="url" value={formData.actionUrl} onChange={e => setFormData({...formData, actionUrl: e.target.value})} className="w-full p-3 border border-trust-slate rounded-md outline-none bg-white text-gray-900" placeholder="https://" />
               </div>
               <div>
                 <label className="block text-sm font-bold text-on-surface mb-1">Flyer Image</label>
-                <input type="file" required accept="image/*" onChange={e => setFile(e.target.files[0])} className="w-full p-3 border border-trust-slate rounded-md bg-white" />
+                <input type="file" required accept="image/*" onChange={e => setFile(e.target.files[0])} className="w-full p-3 border border-trust-slate rounded-md bg-white text-gray-900" />
               </div>
               <div className="flex items-center gap-3 pt-2">
                 <input type="checkbox" id="isActive" checked={formData.isActive} onChange={e => setFormData({...formData, isActive: e.target.checked})} className="w-5 h-5 accent-primary" />

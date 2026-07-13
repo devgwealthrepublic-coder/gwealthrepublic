@@ -146,15 +146,21 @@ add_action('wp_footer', function() {
             // Wait a few seconds before popping up so the user can see the homepage first
             const POPUP_DELAY_MS = 2500; 
 
+            // Check for test mode
+            const urlParams = new URLSearchParams(window.location.search);
+            const isTestMode = urlParams.has('test_promo');
+
             // Only show once per session to avoid spamming
-            if (sessionStorage.getItem('gw_promo_seen')) {
+            if (!isTestMode && sessionStorage.getItem('gw_promo_seen')) {
                 return;
             }
 
             async function fetchAdvertisement() {
                 try {
-                    // Fallback to local if dev, otherwise use production
-                    const apiUrl = window.GW_API_URL || 'https://gwealth-backend.onrender.com/api';
+                    // Dynamically determine the backend URL based on environment
+                    const isLocal = window.location.hostname === 'localhost' || window.location.hostname.includes('.local');
+                    const defaultApiUrl = isLocal ? 'http://localhost:5000/api' : 'https://gwealth-backend.onrender.com/api';
+                    const apiUrl = window.GW_API_URL || defaultApiUrl;
                     
                     const response = await fetch(`${apiUrl}/advertisements/active`);
                     if (!response.ok) throw new Error("Promo API offline");

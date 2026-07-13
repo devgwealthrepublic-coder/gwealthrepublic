@@ -419,7 +419,7 @@
                                     ${estate.survey_status || 'In Progress'}
                                 </div>
                             </div>
-                            <a href="/property/${estate.id || ''}" class="gw-btn-block">View Details</a>
+                            <a href="${estate.link || '/property/' + (estate.slug || estate.id)}" class="gw-btn-block">View Details</a>
                         </div>
                     </div>
                     `;
@@ -448,6 +448,8 @@
                     // Map WordPress JSON to our Schema
                     allEstates = data.map(post => ({
                         id: post.id,
+                        slug: post.slug,
+                        link: post.link,
                         title: post.title.rendered,
                         price: formatPrice(post.acf?.property_price),
                         location: post.acf?.property_location || 'Nigeria',

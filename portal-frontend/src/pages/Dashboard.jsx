@@ -50,9 +50,7 @@ const Dashboard = () => {
           setNotices(noticesRes.data.data || []);
           
           if (propsList.length > 0) {
-             const firstProp = propsList[0];
-             const slug = firstProp.propertyName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-             setSelectedProperty(slug);
+             setSelectedProperty('properties-hub/');
           }
 
           setStats(prev => ({
@@ -80,7 +78,7 @@ const Dashboard = () => {
   };
 
   const handleCopyLink = () => {
-    const link = `https://gwealthrepublic.com/properties/${selectedProperty}?ref=${user?.referralCode}`;
+    const link = `https://gwealthrepublic.com/${selectedProperty}?ref=${user?.referralCode}`;
     navigator.clipboard.writeText(link);
     setCopiedLink(true);
     setTimeout(() => setCopiedLink(false), 2000);
@@ -192,8 +190,9 @@ const Dashboard = () => {
                   value={selectedProperty}
                   onChange={(e) => setSelectedProperty(e.target.value)}
                 >
+                  <option value="properties-hub/">All Properties (Hub)</option>
                   {properties.map(p => {
-                    const slug = p.propertyName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+                    const slug = p.wpPostId ? `property/${p.wpPostId}` : `property/${p.propertyName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')}`;
                     return (
                       <option key={p._id} value={slug}>{p.propertyName}</option>
                     );
@@ -202,7 +201,7 @@ const Dashboard = () => {
               </div>
               
               <div className="p-4 bg-slate-50 rounded-lg border border-slate-200 break-all font-mono text-sm text-slate-700">
-                https://gwealthrepublic.com/properties/{selectedProperty}?ref={user?.referralCode}
+                https://gwealthrepublic.com/{selectedProperty}?ref={user?.referralCode}
               </div>
               
               <button 

@@ -111,7 +111,7 @@ const PropertyManager = () => {
 
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5000/api/properties/${editingId}`, data, {
+        await axios.put(`/api/properties/${editingId}`, data, {
           headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('gwealth_token')}` }
         });
       } else {
@@ -119,8 +119,6 @@ const PropertyManager = () => {
           headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('gwealth_token')}` }
         });
       }
-      resetForm();
-      fetchProperties();
       resetForm();
       fetchProperties();
     } catch (err) {
@@ -150,13 +148,17 @@ const PropertyManager = () => {
 
   const handleSyncToWP = async (id) => {
     try {
-      const { data } = await axios.post(`http://localhost:5000/api/properties/${id}/publish`, {}, {
+      const { data } = await axios.post(`/api/properties/${id}/publish`, {}, {
           headers: { Authorization: `Bearer ${localStorage.getItem('gwealth_token')}` }
       });
-      alert(data.message);
+      if (!data.success) {
+         alert('WordPress Sync Failed: ' + data.message);
+      } else {
+         alert(data.message);
+      }
       fetchProperties();
     } catch (error) {
-      alert('Failed to sync to WordPress');
+      alert('Failed to connect to the server for WordPress sync.');
     }
   };
 
@@ -168,6 +170,22 @@ const PropertyManager = () => {
       location: property.location,
       address: property.address,
       pricePerPlot: property.pricePerPlot,
+      plotSize: property.plotSize || '',
+      titleType: property.titleType || '',
+      surveyNumber: property.surveyNumber || '',
+      surveyorName: property.surveyorName || '',
+      videoDuration: property.videoDuration || '',
+      badge: property.badge || 'Verified Asset',
+      status: property.status || 'Ready',
+      publishToWordPress: property.isPublishedToWordPress || false,
+    });
+    setShowModal(true);
+  };
+
+  const generateSurveyNumber = () => {
+    const randomNum = Math.floor(1000 + Math.random() * 9000);
+    setFormData({ ...formData, surveyNumber: `GW/AB/${randomNum}/26` });
+  };
       plotsRemaining: property.plotsRemaining || '',
       plotSize: property.plotSize,
       titleType: property.titleType,
@@ -312,9 +330,9 @@ const PropertyManager = () => {
 
       {/* Property Modal Form */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-          <div className="absolute inset-0 bg-inverse-surface/80 backdrop-blur-sm" onClick={resetForm}></div>
-          <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col border border-trust-slate animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-start justify-center p-4 sm:p-6 pt-10 overflow-y-auto">
+          <div className="fixed inset-0 bg-inverse-surface/80 backdrop-blur-sm" onClick={resetForm}></div>
+          <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-4xl flex flex-col border border-trust-slate animate-fade-in my-auto">
             
             <div className="bg-white z-10 border-b border-trust-slate px-6 py-5 flex justify-between items-center rounded-t-xl shrink-0">
               <h2 className="text-xl md:text-2xl font-headline-md font-bold text-primary">
@@ -368,22 +386,25 @@ const PropertyManager = () => {
 
                 <div className="space-y-2">
                   <label className="block text-label-md text-primary font-bold">Legal Title Type</label>
-                  <input type="text" name="titleType" className="w-full px-4 py-3 border border-trust-slate rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-md bg-white text-gray-900 placeholder-gray-400" value={formData.titleType} onChange={handleInputChange} placeholder="e.g. Registered Survey & Deed" />
+                  <input type="text" name="titleType" className="w-full px-4 py-3 border border-trust-slate rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-md bg-white text-gray-900 placeholder-gray-400" value={formData.titleType} onChange={handleInputChange} placeholder="Optional (e.g. Registered Survey & Deed)" />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-label-md text-primary font-bold">Survey File Number</label>
-                  <input type="text" name="surveyNumber" className="w-full px-4 py-3 border border-trust-slate rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-md bg-white text-gray-900 placeholder-gray-400" value={formData.surveyNumber} onChange={handleInputChange} placeholder="e.g. AB/1234/26" />
+                  <div className="flex justify-between items-center">
+                    <label className="block text-label-md text-primary font-bold">Survey File Number</label>
+                    <button type="button" onClick={generateSurveyNumber} className="text-xs font-bold text-blue-600 hover:text-blue-800 underline bg-blue-50 px-2 py-1 rounded">Auto-Generate</button>
+                  </div>
+                  <input type="text" name="surveyNumber" className="w-full px-4 py-3 border border-trust-slate rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-md bg-white text-gray-900 placeholder-gray-400" value={formData.surveyNumber} onChange={handleInputChange} placeholder="Optional (e.g. AB/1234/26)" />
                 </div>
 
                 <div className="space-y-2">
                   <label className="block text-label-md text-primary font-bold">Cadastral Surveyor Name</label>
-                  <input type="text" name="surveyorName" className="w-full px-4 py-3 border border-trust-slate rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-md bg-white text-gray-900 placeholder-gray-400" value={formData.surveyorName} onChange={handleInputChange} placeholder="e.g. Surv. E. Okon (NIS)" />
+                  <input type="text" name="surveyorName" className="w-full px-4 py-3 border border-trust-slate rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-md bg-white text-gray-900 placeholder-gray-400" value={formData.surveyorName} onChange={handleInputChange} placeholder="Optional (e.g. Surv. E. Okon (NIS))" />
                 </div>
 
                 <div className="space-y-2">
                   <label className="block text-label-md text-primary font-bold">Video Duration</label>
-                  <input type="text" name="videoDuration" className="w-full px-4 py-3 border border-trust-slate rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-md bg-white text-gray-900 placeholder-gray-400" value={formData.videoDuration} onChange={handleInputChange} placeholder="e.g. 01:45 mins" />
+                  <input type="text" name="videoDuration" className="w-full px-4 py-3 border border-trust-slate rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-md bg-white text-gray-900 placeholder-gray-400" value={formData.videoDuration} onChange={handleInputChange} placeholder="Optional (e.g. 01:45 mins)" />
                 </div>
 
                 <div className="space-y-2">
@@ -433,7 +454,7 @@ const PropertyManager = () => {
                   <label className="flex items-center gap-3 cursor-pointer">
                     <input type="checkbox" name="publishToWordPress" checked={formData.publishToWordPress} onChange={handleInputChange} className="w-5 h-5 rounded border-trust-slate text-primary focus:ring-primary" />
                     <div>
-                      <span className="block font-bold text-primary font-label-md">Publish to WordPress (gwealthnation.com)</span>
+                      <span className="block font-bold text-primary font-label-md">Publish to WordPress (gwealthrepublic.com)</span>
                       <span className="text-sm text-on-surface-variant">Checking this will instantly push or update this property on the public website via the Sync Engine.</span>
                     </div>
                   </label>

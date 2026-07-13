@@ -59,7 +59,7 @@ const AdminLogin = () => {
                   className="w-full pl-11 pr-4 py-3 border border-trust-slate rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all font-body-md text-gray-900 bg-white placeholder-gray-400" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@gwealthnation.com"
+                  placeholder="admin@gwealthrepublic.com"
                   required
                 />
               </div>

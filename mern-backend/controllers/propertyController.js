@@ -139,7 +139,7 @@ const createProperty = asyncHandler(async (req, res) => {
     wpSyncPending:      false,
   });
 
-  // 2. Sync to WordPress (if the admin checked "Publish to gwealthnation.com")
+  // 2. Sync to WordPress (if the admin checked "Publish to gwealthrepublic.com")
   if (publishToWordPress === 'true' || publishToWordPress === true) {
     const wpId = await syncCreateToWordPress(property);
 

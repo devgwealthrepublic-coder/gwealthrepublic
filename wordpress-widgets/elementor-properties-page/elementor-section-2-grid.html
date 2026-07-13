@@ -317,6 +317,8 @@
           // Map WP JSON to our Schema
           allProperties = data.map(post => ({
             id: post.id,
+            slug: post.slug,
+            link: post.link,
             propertyName: post.title.rendered,
             priceRaw: extractNumber(post.acf?.property_price),
             priceString: post.acf?.property_price,
@@ -431,7 +433,7 @@
                 </div>
               </div>
 
-              <a href="/property/${p.id}" class="gw-card-btn">
+              <a href="${p.link || '/property/' + (p.slug || p.id)}" class="gw-card-btn">
                 View Property Details &rarr;
               </a>
             </div>
