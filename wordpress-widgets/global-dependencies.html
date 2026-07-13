@@ -154,3 +154,23 @@
         border-radius: 4px !important;
     }
 </style>
+
+<!-- 8. GLOBAL ENVIRONMENT CONFIGURATION -->
+<script>
+    (() => {
+        // Automatically detect if we are running locally or on the live server
+        window.GW_ENV = window.location.hostname.includes('.local') || window.location.hostname === 'localhost' ? 'local' : 'production';
+        window.GW_PORTAL_URL = window.GW_ENV === 'local' ? 'http://localhost:5173' : 'https://portal.gwealthrepublic.com';
+        window.GW_API_URL = window.GW_ENV === 'local' ? 'http://localhost:5000/api' : 'https://api.gwealthrepublic.com';
+
+        // Helper function to rewrite HTML links dynamically based on environment
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.GW_ENV === 'local') {
+                // If running locally, automatically patch live portal links back to localhost
+                document.querySelectorAll('a[href^="https://portal.gwealthrepublic.com"]').forEach(link => {
+                    link.href = link.href.replace('https://portal.gwealthrepublic.com', window.GW_PORTAL_URL);
+                });
+            }
+        });
+    })();
+</script>

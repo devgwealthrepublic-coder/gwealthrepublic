@@ -15,7 +15,7 @@ const ProspectsCRM = () => {
     notes: ''
   });
 
-  const API_URL = 'http://localhost:5000/api/leads';
+  const API_URL = '/api/leads';
 
   useEffect(() => {
     fetchLeads();

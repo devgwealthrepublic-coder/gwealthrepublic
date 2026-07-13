@@ -16,7 +16,7 @@ const Partners = () => {
     setLoading(true);
     try {
       // Pointing to the MERN backend API
-      const { data } = await axios.get('http://localhost:5000/api/users');
+      const { data } = await axios.get('/api/users');
       // Filter out admins so we only manage partners (realtors)
       setUsers(data.data.filter(u => u.role === 'realtor'));
     } catch (error) {

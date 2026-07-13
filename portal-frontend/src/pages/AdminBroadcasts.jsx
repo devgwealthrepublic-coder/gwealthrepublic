@@ -13,7 +13,7 @@ const AdminBroadcasts = () => {
     type: 'info'
   });
 
-  const API_URL = 'http://localhost:5000/api/notices';
+  const API_URL = '/api/notices';
 
   useEffect(() => {
     fetchNotices();

@@ -24,8 +24,8 @@ const Dashboard = () => {
       try {
         if (isAdmin) {
           const [usersRes, propertiesRes] = await Promise.all([
-            axios.get('http://localhost:5000/api/users', { withCredentials: true }),
-            axios.get('http://localhost:5000/api/properties')
+            axios.get('/api/users', { withCredentials: true }),
+            axios.get('/api/properties')
           ]);
           
           const usersList = usersRes.data.data || [];
@@ -41,8 +41,8 @@ const Dashboard = () => {
         } else {
           // Fetch data for Partner Dashboard
           const [propertiesRes, noticesRes] = await Promise.all([
-            axios.get('http://localhost:5000/api/properties'),
-            axios.get('http://localhost:5000/api/notices', { withCredentials: true })
+            axios.get('/api/properties'),
+            axios.get('/api/notices', { withCredentials: true })
           ]);
           
           const propsList = propertiesRes.data.data || [];

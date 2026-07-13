@@ -17,7 +17,7 @@ const Visitors = () => {
     try {
       setLoading(true);
       // We already set axios defaults in context, but just to be sure we hit the right endpoint
-      const { data } = await axios.get('http://localhost:5000/api/visitors', { withCredentials: true });
+      const { data } = await axios.get('/api/visitors', { withCredentials: true });
       setVisitors(data.data);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch visitors');

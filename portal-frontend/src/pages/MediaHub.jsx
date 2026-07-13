@@ -12,7 +12,7 @@ const MediaHub = () => {
 
   const fetchProperties = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/properties');
+      const { data } = await axios.get('/api/properties');
       setProperties(data.data);
     } catch (error) {
       console.error("Failed to fetch properties", error);

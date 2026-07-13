@@ -10,7 +10,7 @@ const Messages = () => {
   const [selectedMessage, setSelectedMessage] = useState(null);
 
   // Use the same base URL pattern as other frontend components
-  const API_URL = 'http://localhost:5000/api/messages';
+  const API_URL = '/api/messages';
 
   useEffect(() => {
     fetchMessages();

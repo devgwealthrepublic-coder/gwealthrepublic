@@ -7,10 +7,37 @@ const connectDB    = require('./config/db');
 const { retrySyncPendingProperties } = require('./utils/wpSync');
 const Property     = require('./models/Property');
 
+const helmet       = require('helmet');
+const rateLimit    = require('express-rate-limit');
+const mongoSanitize= require('express-mongo-sanitize');
+const xss          = require('xss-clean');
+const hpp          = require('hpp');
+
 // ---- Connect to MongoDB ----------------------------------------
 connectDB();
 
 const app = express();
+
+// ---- Security Middleware ---------------------------------------
+// 1. Set security HTTP headers
+app.use(helmet());
+
+// 2. Rate Limiting: max 100 requests per 10 mins per IP
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, 
+  max: 100,
+  message: { success: false, message: 'Too many requests from this IP, please try again after 10 minutes.' }
+});
+app.use('/api', limiter);
+
+// 3. Prevent NoSQL injection
+app.use(mongoSanitize());
+
+// 4. Prevent XSS attacks
+app.use(xss());
+
+// 5. Prevent HTTP Parameter Pollution
+app.use(hpp());
 
 // ---- Core Middleware -------------------------------------------
 app.use(express.json());

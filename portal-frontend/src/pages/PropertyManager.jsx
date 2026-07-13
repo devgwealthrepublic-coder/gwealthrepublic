@@ -38,7 +38,7 @@ const PropertyManager = () => {
   const fetchProperties = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get('http://localhost:5000/api/properties');
+      const { data } = await axios.get('/api/properties');
       setProperties(data.data || []);
     } catch (error) {
       console.error("Failed to fetch properties", error);
@@ -112,7 +112,7 @@ const PropertyManager = () => {
           headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('gwealth_token')}` }
         });
       } else {
-        await axios.post('http://localhost:5000/api/properties', data, {
+        await axios.post('/api/properties', data, {
           headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('gwealth_token')}` }
         });
       }

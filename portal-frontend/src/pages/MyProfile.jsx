@@ -20,7 +20,7 @@ const MyProfile = () => {
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
-  const API_URL = 'http://localhost:5000/api/users';
+  const API_URL = '/api/users';
 
   useEffect(() => {
     fetchProfile();
