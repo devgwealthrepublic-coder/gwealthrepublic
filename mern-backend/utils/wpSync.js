@@ -323,7 +323,7 @@ const compileWPContent = (property) => {
             });
         </script>
     </div>
-  \`;
+  `;
 };
 
 const buildWPPayload = (property) => ({
