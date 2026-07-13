@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FiRadio, FiPlus, FiTrash2, FiAlertCircle, FiCheckCircle, FiInfo } from 'react-icons/fi';
+import { FiRadio, FiPlus, FiTrash2, FiAlertCircle, FiCheckCircle, FiInfo, FiEdit2 } from 'react-icons/fi';
 
 const AdminBroadcasts = () => {
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [editingId, setEditingId] = useState(null);
   
   const [formData, setFormData] = useState({
     title: '',
@@ -33,9 +34,15 @@ const AdminBroadcasts = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(API_URL, formData, { withCredentials: true });
-      setNotices([data.data, ...notices]);
+      if (editingId) {
+        const { data } = await axios.put(`${API_URL}/${editingId}`, formData, { withCredentials: true });
+        setNotices(notices.map(n => n._id === editingId ? data.data : n));
+      } else {
+        const { data } = await axios.post(API_URL, formData, { withCredentials: true });
+        setNotices([data.data, ...notices]);
+      }
       setShowModal(false);
+      setEditingId(null);
       setFormData({ title: '', message: '', type: 'info' });
     } catch (err) {
       alert(err.response?.data?.message || 'Error publishing broadcast');
@@ -106,13 +113,26 @@ const AdminBroadcasts = () => {
                     <h3 className="font-bold text-lg">{notice.title}</h3>
                     <p className="text-xs opacity-70 mb-2 font-medium uppercase tracking-wider">{new Date(notice.createdAt).toLocaleString()}</p>
                   </div>
-                  <button 
-                    onClick={() => handleDelete(notice._id)}
-                    className="p-2 text-slate-400 hover:text-red-600 hover:bg-white/50 rounded transition-colors"
-                    title="Delete Broadcast"
-                  >
-                    <FiTrash2 size={18} />
-                  </button>
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={() => {
+                        setEditingId(notice._id);
+                        setFormData({ title: notice.title, message: notice.message, type: notice.type });
+                        setShowModal(true);
+                      }}
+                      className="p-2 text-slate-400 hover:text-primary hover:bg-white/50 rounded transition-colors"
+                      title="Edit Broadcast"
+                    >
+                      <FiEdit2 size={18} />
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(notice._id)}
+                      className="p-2 text-slate-400 hover:text-red-600 hover:bg-white/50 rounded transition-colors"
+                      title="Delete Broadcast"
+                    >
+                      <FiTrash2 size={18} />
+                    </button>
+                  </div>
                 </div>
                 <p className="text-sm opacity-90 leading-relaxed whitespace-pre-wrap">{notice.message}</p>
               </div>
@@ -127,9 +147,9 @@ const AdminBroadcasts = () => {
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-200">
             <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
               <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                <FiRadio className="text-primary" /> Create Broadcast
+                <FiRadio className="text-primary" /> {editingId ? 'Edit Broadcast' : 'Create Broadcast'}
               </h2>
-              <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-600">
+              <button onClick={() => { setShowModal(false); setEditingId(null); setFormData({ title: '', message: '', type: 'info' }); }} className="text-slate-400 hover:text-slate-600">
                 &times;
               </button>
             </div>
@@ -173,9 +193,9 @@ const AdminBroadcasts = () => {
                 ></textarea>
               </div>
               <div className="pt-4 flex justify-end gap-3">
-                <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded font-medium">Cancel</button>
+                <button type="button" onClick={() => { setShowModal(false); setEditingId(null); setFormData({ title: '', message: '', type: 'info' }); }} className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded font-medium">Cancel</button>
                 <button type="submit" className="px-6 py-2 bg-primary text-white rounded font-bold hover:bg-primary-container flex items-center gap-2">
-                  <FiRadio /> Publish Now
+                  <FiRadio /> {editingId ? 'Update Notice' : 'Publish Now'}
                 </button>
               </div>
             </form>

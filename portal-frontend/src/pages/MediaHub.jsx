@@ -67,9 +67,9 @@ const MediaHub = () => {
                 </p>
                 
                 <div className="mt-auto flex flex-col gap-3">
-                  {property.images && property.images.length > 0 ? (
-                    <a href={property.images[0]} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-surface text-primary border border-trust-slate hover:bg-primary-container hover:text-white hover:border-primary font-bold text-sm rounded-md transition-colors shadow-sm">
-                      <FiDownload size={16} /> Download Images ({property.images.length})
+                  {property.cloudinaryImages && property.cloudinaryImages.length > 0 ? (
+                    <a href={property.cloudinaryImages[0]} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-surface text-primary border border-trust-slate hover:bg-primary-container hover:text-white hover:border-primary font-bold text-sm rounded-md transition-colors shadow-sm">
+                      <FiDownload size={16} /> Download Images ({property.cloudinaryImages.length})
                     </a>
                   ) : (
                      property.featuredImage && (
@@ -85,7 +85,7 @@ const MediaHub = () => {
                     </a>
                   )}
                   
-                  {(!property.images?.length && !property.featuredImage && !property.cloudinaryVideoUrl) && (
+                  {(!property.cloudinaryImages?.length && !property.featuredImage && !property.cloudinaryVideoUrl) && (
                     <p className="text-sm text-outline italic text-center py-2 bg-surface rounded-md border border-trust-slate border-dashed">No additional media</p>
                   )}
                 </div>

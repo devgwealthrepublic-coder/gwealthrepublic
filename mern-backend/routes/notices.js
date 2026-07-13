@@ -83,4 +83,29 @@ router.delete(
   })
 );
 
+// PUT /api/notices/:id - Update a notice (Admin only)
+router.put(
+  '/:id',
+  protect,
+  adminOnly,
+  asyncHandler(async (req, res) => {
+    const { title, message, type } = req.body;
+    
+    const notice = await Notice.findById(req.params.id);
+
+    if (!notice) {
+      res.status(404);
+      throw new Error('Notice not found');
+    }
+
+    notice.title = title || notice.title;
+    notice.message = message || notice.message;
+    notice.type = type || notice.type;
+
+    const updatedNotice = await notice.save();
+    
+    res.json({ success: true, data: updatedNotice });
+  })
+);
+
 module.exports = router;
