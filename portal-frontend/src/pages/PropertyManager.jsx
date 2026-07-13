@@ -12,6 +12,7 @@ const PropertyManager = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, id: null });
+  const [syncResponse, setSyncResponse] = useState({ isOpen: false, success: false, message: '' });
   
   const [formData, setFormData] = useState({
     propertyName: '',
@@ -151,14 +152,18 @@ const PropertyManager = () => {
       const { data } = await axios.post(`/api/properties/${id}/publish`, {}, {
           headers: { Authorization: `Bearer ${localStorage.getItem('gwealth_token')}` }
       });
-      if (!data.success) {
-         alert('WordPress Sync Failed: ' + data.message);
-      } else {
-         alert(data.message);
-      }
+      setSyncResponse({
+          isOpen: true,
+          success: data.success,
+          message: data.success ? data.message : 'WordPress Sync Failed: ' + data.message
+      });
       fetchProperties();
     } catch (error) {
-      alert('Failed to connect to the server for WordPress sync.');
+      setSyncResponse({
+          isOpen: true,
+          success: false,
+          message: 'Failed to connect to the server for WordPress sync.'
+      });
     }
   };
 
@@ -478,6 +483,26 @@ const PropertyManager = () => {
         confirmText="Delete"
         isDanger={true}
       />
+
+      {/* Sync Response Modal */}
+      {syncResponse.isOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setSyncResponse({ ...syncResponse, isOpen: false })}></div>
+          <div className="relative bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 text-center animate-fade-in-up">
+            <div className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4 ${syncResponse.success ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+              {syncResponse.success ? <FiCheckCircle size={32} /> : <FiAlertCircle size={32} />}
+            </div>
+            <h3 className="text-xl font-bold mb-2 text-primary">{syncResponse.success ? 'Sync Successful' : 'Sync Failed'}</h3>
+            <p className="text-on-surface-variant mb-6">{syncResponse.message}</p>
+            <button 
+              onClick={() => setSyncResponse({ ...syncResponse, isOpen: false })}
+              className={`w-full py-3 rounded-md font-bold text-white transition-colors ${syncResponse.success ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}`}
+            >
+              Okay
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -257,8 +257,8 @@
 (function() {
   const initGrid = () => {
     try {
-      // Configuration - Switch to WordPress REST API
-      const API_BASE_URL = 'http://gwealthrepublic.local/wp-json/wp/v2/properties?per_page=100'; 
+      // Configuration - Switch to WordPress REST API (Relative path for live environment)
+      const API_BASE_URL = '/wp-json/wp/v2/properties?per_page=100'; 
 
       // Fallback premium images matching the homepage logic
       const fallbackImages = [

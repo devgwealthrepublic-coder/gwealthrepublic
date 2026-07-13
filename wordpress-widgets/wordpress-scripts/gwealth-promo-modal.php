@@ -15,16 +15,16 @@ add_action('wp_footer', function() {
     if ( is_admin() ) return;
     ?>
     <style>
-        /* GWealth Premium Modal CSS Tokens */
+        /* GWealth Ultra-Premium Modal CSS Tokens */
         #gw-promo-modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(15, 23, 42, 0.6); /* Slate 900 with opacity */
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(15, 23, 42, 0.85); /* Deep slate blur */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 999999;
             display: flex;
             align-items: center;
@@ -32,7 +32,8 @@ add_action('wp_footer', function() {
             padding: 20px;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            font-family: 'Inter', sans-serif;
         }
 
         #gw-promo-modal-overlay.gw-active {
@@ -41,15 +42,15 @@ add_action('wp_footer', function() {
         }
 
         .gw-promo-modal-content {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 16px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.1) inset;
+            background: linear-gradient(145deg, #1E1B4B 0%, #0B0A1C 100%);
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(212, 175, 55, 0.2) inset;
             width: 100%;
-            max-width: 600px;
+            max-width: 500px;
             position: relative;
-            transform: scale(0.95) translateY(20px);
+            transform: scale(0.9) translateY(30px);
             opacity: 0;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -58,85 +59,107 @@ add_action('wp_footer', function() {
         #gw-promo-modal-overlay.gw-active .gw-promo-modal-content {
             transform: scale(1) translateY(0);
             opacity: 1;
-            transition-delay: 0.1s;
+            transition-delay: 0.15s;
         }
 
         .gw-promo-close-btn {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0,0,0,0.5);
-            color: white;
-            border: none;
-            width: 32px;
-            height: 32px;
+            top: 16px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #D4AF37;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             z-index: 10;
-            font-size: 18px;
-            transition: background 0.2s ease, transform 0.2s ease;
+            font-size: 20px;
+            transition: all 0.3s ease;
             backdrop-filter: blur(4px);
         }
 
         .gw-promo-close-btn:hover {
-            background: rgba(0,0,0,0.8);
-            transform: scale(1.1);
+            background: #D4AF37;
+            color: #1E1B4B;
+            transform: rotate(90deg);
+        }
+
+        .gw-promo-image-wrapper {
+            width: 100%;
+            position: relative;
         }
 
         .gw-promo-flyer-img {
             width: 100%;
             height: auto;
-            max-height: 70vh;
-            object-fit: contain;
-            background: #0f172a;
+            max-height: 60vh;
+            object-fit: cover;
             display: block;
+            border-bottom: 2px solid #D4AF37;
         }
 
         .gw-promo-footer {
-            padding: 20px;
+            padding: 32px 24px;
             text-align: center;
-            background: white;
-            border-top: 1px solid #e2e8f0;
+            position: relative;
+            z-index: 2;
         }
 
         .gw-promo-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin: 0 0 15px 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            margin: 0 0 8px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .gw-promo-subtitle {
+            font-size: 0.95rem;
+            color: #A0AEC0;
+            margin-bottom: 24px;
         }
 
         .gw-promo-cta {
             display: inline-block;
-            background: #2563eb; /* Primary Blue */
-            color: white;
+            background: linear-gradient(135deg, #D4AF37 0%, #AA8A2A 100%);
+            color: #1E1B4B;
             text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            transition: background 0.2s ease, transform 0.2s ease;
-            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+            border: 2px solid transparent;
         }
 
         .gw-promo-cta:hover {
-            background: #1d4ed8;
-            transform: translateY(-2px);
-            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(212, 175, 55, 0.4);
+            background: transparent;
+            border-color: #D4AF37;
+            color: #D4AF37;
         }
     </style>
 
     <div id="gw-promo-modal-overlay">
         <div class="gw-promo-modal-content">
-            <button class="gw-promo-close-btn" id="gw-promo-close" aria-label="Close Advertisement">&times;</button>
-            <img src="" alt="Advertisement Flyer" class="gw-promo-flyer-img" id="gw-promo-img">
+            <button class="gw-promo-close-btn" id="gw-promo-close" aria-label="Close">&times;</button>
+            <div class="gw-promo-image-wrapper">
+                <img src="" alt="Premium Real Estate Offer" class="gw-promo-flyer-img" id="gw-promo-img">
+            </div>
             <div class="gw-promo-footer">
-                <h3 class="gw-promo-title" id="gw-promo-title">Loading Special Offer...</h3>
-                <a href="#" class="gw-promo-cta" id="gw-promo-link">Explore Now</a>
+                <h3 class="gw-promo-title" id="gw-promo-title">Loading Offer...</h3>
+                <p class="gw-promo-subtitle">Exclusive opportunity for GWealth investors.</p>
+                <a href="#" class="gw-promo-cta" id="gw-promo-link">Claim Offer Now</a>
             </div>
         </div>
     </div>

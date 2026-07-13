@@ -40,94 +40,122 @@ const compileWPContent = (property) => {
     </div>
   `).join('');
 
+  const whatsappMessage = encodeURIComponent(`Hi GWealth, I am interested in ${property.propertyName}. Please provide more information.`);
+
   return `
     <div id="gw-sp-container">
       <style>
-        #gw-sp-container { width: 100%; max-width: 1000px; margin: 0 auto; font-family: 'Inter', sans-serif; color: #4a5568; }
+        #gw-sp-container { width: 100%; max-width: 1000px; margin: 0 auto; font-family: 'Inter', sans-serif; color: #1e293b; animation: gwFadeIn 0.8s ease-out; }
+        @keyframes gwFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         #gw-sp-container * { box-sizing: border-box; }
-        .gw-main-viewport { position: relative; width: 100%; border-radius: 8px; overflow: hidden; background-color: #E2E8F0; margin-bottom: 16px; aspect-ratio: 16 / 9; }
-        .gw-main-image { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .gw-badges { position: absolute; top: 16px; left: 16px; display: flex; gap: 8px; flex-wrap: wrap; z-index: 2; }
-        .gw-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 700; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(0,0,0,0.15); }
-        .gw-badge-verified { background-color: #D4AF37; color: #1E1B4B; }
-        .gw-badge-urgent { background-color: #bb001b; color: #FFFFFF; }
-        .gw-walkthrough-trigger { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.9); padding: 12px 24px; border-radius: 4px; font-weight: 700; font-size: 14px; color: #27267d; border: none; cursor: pointer; box-shadow: 0px 8px 24px rgba(30,27,75,0.2); transition: transform 0.2s; }
-        .gw-walkthrough-trigger:hover { transform: translate(-50%, -52%); background: #ffffff; }
-        .gw-thumbnails-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 32px; }
-        .gw-thumb-item { width: 100%; aspect-ratio: 4 / 3; border-radius: 6px; overflow: hidden; cursor: pointer; border: 2px solid transparent; }
-        .gw-thumb-item.active { border-color: #27267d; }
+        .gw-main-viewport { position: relative; width: 100%; border-radius: 16px; overflow: hidden; background-color: #0f172a; margin-bottom: 24px; aspect-ratio: 16 / 9; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .gw-main-image { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.4s ease; }
+        .gw-badges { position: absolute; top: 20px; left: 20px; display: flex; gap: 10px; flex-wrap: wrap; z-index: 2; }
+        .gw-badge { display: inline-flex; align-items: center; padding: 8px 16px; border-radius: 50px; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0px 8px 20px rgba(0,0,0,0.2); backdrop-filter: blur(4px); }
+        .gw-badge-verified { background-color: rgba(212, 175, 55, 0.95); color: #1E1B4B; border: 1px solid #D4AF37; }
+        .gw-badge-urgent { background-color: rgba(187, 0, 27, 0.95); color: #FFFFFF; border: 1px solid #bb001b; }
+        
+        .gw-video-overlay { position: absolute; bottom: 30px; right: 30px; z-index: 5; }
+        .gw-pulse-btn { display: flex; align-items: center; gap: 10px; background: rgba(15, 23, 42, 0.8); color: white; padding: 12px 24px; border-radius: 50px; font-weight: 700; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(8px); transition: all 0.3s ease; box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); animation: gwPulse 2s infinite; }
+        .gw-pulse-btn:hover { background: #D4AF37; color: #1E1B4B; transform: scale(1.05); animation: none; border-color: #D4AF37; }
+        @keyframes gwPulse { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
+        
+        .gw-thumbnails-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; margin-bottom: 40px; }
+        .gw-thumb-item { width: 100%; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease; opacity: 0.6; }
+        .gw-thumb-item:hover { opacity: 0.9; transform: translateY(-3px); }
+        .gw-thumb-item.active { border-color: #D4AF37; opacity: 1; box-shadow: 0 10px 20px rgba(212,175,55,0.2); }
         .gw-thumb-item img { width: 100%; height: 100%; object-fit: cover; }
         
-        .gw-meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 48px; }
-        .gw-meta-card { background-color: #FAFAFA; border: 1px solid #E2E8F0; border-radius: 6px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
-        .gw-meta-title { font-size: 11px; font-weight: 700; color: #718096; text-transform: uppercase; }
-        .gw-meta-value { font-size: 15px; font-weight: 700; color: #1E1B4B; }
-        .gw-meta-sub { font-size: 12px; font-weight: 600; color: #D4AF37; }
+        .gw-meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 48px; }
+        .gw-meta-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 8px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .gw-meta-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+        .gw-meta-title { font-size: 12px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+        .gw-meta-value { font-size: 16px; font-weight: 800; color: #1E1B4B; }
+        .gw-meta-sub { font-size: 13px; font-weight: 600; color: #D4AF37; }
         
-        .gw-property-desc { font-size: 16px; line-height: 1.8; margin-bottom: 32px; color: #334155; }
+        .gw-status-card { background: linear-gradient(135deg, #1E1B4B 0%, #0B0A1C 100%); border: none; color: white; }
+        .gw-status-card .gw-meta-title { color: #94a3b8; }
+        .gw-status-card .gw-meta-value { color: #ffffff; }
         
-        .gw-features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 48px; }
-        .gw-feature-item { display: flex; align-items: center; gap: 12px; border: 1px solid #E2E8F0; border-radius: 6px; padding: 16px; background-color: #FFFFFF; font-weight: 600; color: #1e293b; font-size: 14px;}
+        .gw-whatsapp-btn { background-color: #25D366; color: white; padding: 14px; border-radius: 8px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 800; font-size: 15px; margin-top: 12px; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3); }
+        .gw-whatsapp-btn:hover { background-color: #1ea952; transform: translateY(-2px); color: white; box-shadow: 0 15px 25px rgba(37, 211, 102, 0.4); }
         
-        .gw-trust-shield { background-color: #1E1B4B; border-radius: 8px; padding: 32px; color: #FFFFFF; }
-        .gw-shield-header { margin-bottom: 24px; }
-        .gw-shield-title { font-size: 20px; font-weight: 700; color: #D4AF37; margin-bottom: 4px; }
-        .gw-shield-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; }
-        .gw-shield-col h5 { font-size: 14px; font-weight: 700; color: #D4AF37; margin-bottom: 8px; }
-        .gw-shield-col p { font-size: 13px; color: #E2E8F0; line-height: 1.5;}
+        .gw-property-desc { font-size: 17px; line-height: 1.8; margin-bottom: 40px; color: #475569; padding: 0 10px; }
+        
+        .gw-features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 48px; }
+        .gw-feature-item { display: flex; align-items: center; gap: 16px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; background-color: #ffffff; font-weight: 700; color: #1e293b; font-size: 15px; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .gw-feature-item:hover { border-color: #D4AF37; background: #fffcf5; }
+        .gw-feature-icon { width: 32px; height: 32px; background: #e0e7ff; color: #4f46e5; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        
+        .gw-trust-shield { background: linear-gradient(135deg, #1E1B4B 0%, #2e2a6b 100%); border-radius: 16px; padding: 40px; color: #FFFFFF; box-shadow: 0 20px 40px rgba(30, 27, 75, 0.2); position: relative; overflow: hidden; }
+        .gw-trust-shield::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 60%); pointer-events: none; }
+        .gw-shield-header { margin-bottom: 32px; text-align: center; }
+        .gw-shield-title { font-size: 26px; font-weight: 800; color: #D4AF37; margin-bottom: 8px; letter-spacing: 1px; }
+        .gw-shield-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 32px; }
+        .gw-shield-col h5 { font-size: 16px; font-weight: 800; color: #D4AF37; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .gw-shield-col p { font-size: 14px; color: #cbd5e1; line-height: 1.6; margin: 0; }
       </style>
 
       <div class="gw-main-viewport">
         <img id="gw-active-media-${property._id}" src="${mainImage}" class="gw-main-image">
         <div class="gw-badges">
-          ${property.badge ? `<span class="gw-badge gw-badge-verified">${property.badge}</span>` : ''}
+          ${property.badge ? `<span class="gw-badge gw-badge-verified">✓ ${property.badge}</span>` : ''}
           ${property.status ? `<span class="gw-badge gw-badge-urgent">${property.status}</span>` : ''}
         </div>
         ${property.cloudinaryVideoUrl ? `
-        <button class="gw-walkthrough-trigger" onclick="window.open('${property.cloudinaryVideoUrl}', '_blank')">
-            ▶ Watch Drone Walkthrough
-        </button>` : ''}
+        <div class="gw-video-overlay">
+          <a href="${property.cloudinaryVideoUrl}" target="_blank" class="gw-pulse-btn">
+              ▶ Watch Drone Walkthrough
+          </a>
+        </div>` : ''}
       </div>
 
-      <div class="gw-thumbnails-row">
-        ${galleryHtml}
-      </div>
+      ${galleryHtml ? `<div class="gw-thumbnails-row">${galleryHtml}</div>` : ''}
 
       <div class="gw-meta-grid">
+        ${property.titleType ? `
         <div class="gw-meta-card">
           <span class="gw-meta-title">Survey Status</span>
-          <div class="gw-meta-value">${property.titleType || 'N/A'}</div>
-          <div class="gw-meta-sub">Surveyor: ${property.surveyorName || 'N/A'}</div>
-        </div>
+          <div class="gw-meta-value">${property.titleType}</div>
+          ${property.surveyorName ? `<div class="gw-meta-sub">Surveyor: ${property.surveyorName}</div>` : ''}
+        </div>` : ''}
+        
+        ${property.gpsCoordinates ? `
         <div class="gw-meta-card">
           <span class="gw-meta-title">GPS Coordinates</span>
-          <div class="gw-meta-value">${property.gpsCoordinates || 'N/A'}</div>
-          <div class="gw-meta-sub" style="color: #718096;">${property.location} Region</div>
-        </div>
-        <div class="gw-meta-card" style="background-color: #f0fdf4; border-color: #bbf7d0;">
-          <span class="gw-meta-title">Current Status</span>
-          <div class="gw-meta-sub" style="color: #bb001b; margin-bottom: 8px;">
-            ${property.status} (${property.plotsRemaining || 0} Plots Left)
-          </div>
-          <a href="https://wa.me/2340000000000" target="_blank" style="background-color: #25D366; color: white; padding: 12px; border-radius: 4px; text-decoration: none; display: block; text-align: center; font-weight: bold; font-size: 14px;">WhatsApp Hotline</a>
+          <div class="gw-meta-value">${property.gpsCoordinates}</div>
+          <div class="gw-meta-sub" style="color: #64748b;">${property.location} Region</div>
+        </div>` : ''}
+
+        <div class="gw-meta-card gw-status-card">
+          <span class="gw-meta-title">Investment Status</span>
+          <div class="gw-meta-value">${property.status}</div>
+          ${property.plotsRemaining ? `<div class="gw-meta-sub" style="color: #fbbf24;">${property.plotsRemaining} Plots Left</div>` : ''}
+          <a href="https://wa.me/2348025326721?text=${whatsappMessage}" target="_blank" class="gw-whatsapp-btn">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            WhatsApp Inquiry
+          </a>
         </div>
       </div>
 
-      <div class="gw-property-desc">
-        ${property.description}
-      </div>
+      ${property.description ? `<div class="gw-property-desc">${property.description}</div>` : ''}
 
       <div class="gw-features-grid">
+        ${property.plotSize ? `
         <div class="gw-feature-item">
-          Plot Size: ${property.plotSize || 'N/A'}
-        </div>
+          <div class="gw-feature-icon">📏</div>
+          Plot Size: ${property.plotSize}
+        </div>` : ''}
         <div class="gw-feature-item">
+          <div class="gw-feature-icon">📜</div>
           100% C of O Global Process
         </div>
         <div class="gw-feature-item">
+          <div class="gw-feature-icon">⛰️</div>
           Dry, Table-flat Land
         </div>
         <div class="gw-feature-item">
+          <div class="gw-feature-icon">🛡️</div>
           24/7 Gated Security Patrol
         </div>
       </div>
@@ -135,19 +163,19 @@ const compileWPContent = (property) => {
       <div class="gw-trust-shield">
         <div class="gw-shield-header">
           <div class="gw-shield-title">The GWealth Trust Shield</div>
-          <div style="font-size: 14px; color: #A0AEC0;">Guaranteed legal protection for every plot owner.</div>
+          <div style="font-size: 15px; color: #cbd5e1;">Guaranteed legal protection for every plot owner.</div>
         </div>
         <div class="gw-shield-grid">
           <div class="gw-shield-col">
-            <h5>Zero Hidden Fees</h5>
+            <h5>✓ Zero Hidden Fees</h5>
             <p>The price you see covers primary paperwork and developmental levy.</p>
           </div>
           <div class="gw-shield-col">
-            <h5>C of O Priority</h5>
+            <h5>✓ C of O Priority</h5>
             <p>Institutional processing of your individual Deed of Assignment.</p>
           </div>
           <div class="gw-shield-col">
-            <h5>Refund Policy</h5>
+            <h5>✓ Refund Policy</h5>
             <p>Transparent refund structure if legal standards are not met.</p>
           </div>
         </div>
@@ -157,7 +185,11 @@ const compileWPContent = (property) => {
         function gwSwapMedia(element, imageUrl) {
             const activeImg = document.getElementById('gw-active-media-${property._id}');
             if(!activeImg) return;
-            activeImg.src = imageUrl;
+            activeImg.style.opacity = '0';
+            setTimeout(() => {
+                activeImg.src = imageUrl;
+                activeImg.style.opacity = '1';
+            }, 300);
             const allThumbs = element.parentElement.querySelectorAll('.gw-thumb-item');
             allThumbs.forEach(thumb => thumb.classList.remove('active'));
             element.classList.add('active');
