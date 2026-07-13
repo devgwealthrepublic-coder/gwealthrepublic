@@ -207,85 +207,199 @@ function render_gwealth_booking_form() {
     $property_title = get_the_title();
     ob_start();
     ?>
-    <div id="gw-booking-widget">
-        <style>
-            #gw-booking-widget { font-family: 'Lexend', sans-serif; background-color: #FAFAFA; border: 1px solid #E2E8F0; border-radius: 4px; padding: 32px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-top: 32px; }
-            #gw-booking-widget * { box-sizing: border-box; }
-            #gw-booking-widget .gw-form-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; color: #1E1B4B; margin-bottom: 8px; }
-            #gw-booking-widget .gw-form-subtitle { font-size: 13px; color: #4a5568; margin-bottom: 24px; }
-            #gw-booking-widget .gw-form-group { margin-bottom: 16px; }
-            #gw-booking-widget label { display: block; font-size: 12px; font-weight: 700; color: #1E1B4B; margin-bottom: 6px; }
-            #gw-booking-widget input, #gw-booking-widget select { width: 100%; padding: 12px; border: 1px solid #CBD5E0; border-radius: 4px; font-family: 'Lexend', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; }
-            #gw-booking-widget input:focus, #gw-booking-widget select:focus { border-color: #27267d; }
-            #gw-booking-widget .gw-submit-btn { width: 100%; background-color: #27267d; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 15px; padding: 14px; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.2s; margin-top: 8px; }
-            #gw-booking-widget .gw-submit-btn:hover { background-color: #1e1d61; }
-            #gw-booking-widget .gw-form-message { margin-top: 16px; font-size: 13px; font-weight: 700; display: none; padding: 12px; border-radius: 4px; }
-            #gw-booking-widget .gw-msg-success { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; display: block; }
-            #gw-booking-widget .gw-msg-error { background-color: #fef2f2; color: #991b1b; border: 1px solid #fecaca; display: block; }
-        </style>
+    
+    <!-- Trigger Button -->
+    <button id="gwOpenBookingBtn" class="gw-open-booking-modal-btn">
+        <i class="fa-solid fa-calendar-check"></i> Book an Inspection
+    </button>
 
-        <h4 class="gw-form-title">Book an Inspection</h4>
-        <p class="gw-form-subtitle">Schedule a free site tour with our experts.</p>
-
-        <form id="gwExcursionForm">
-            <input type="hidden" id="gwReferralCode" name="referralCode" value="">
-
-            <div class="gw-form-group">
-                <label for="gwProperty">Selected Property</label>
-                <input type="text" id="gwProperty" name="property" value="<?php echo esc_attr($property_title); ?>" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 700; cursor: not-allowed;">
-            </div>
-
-            <div class="gw-form-group">
-                <label for="gwName">Full Name</label>
-                <input type="text" id="gwName" name="clientName" placeholder="e.g. John Doe" required>
-            </div>
+    <!-- Modal Background -->
+    <div id="gwBookingModalOverlay" class="gw-booking-modal-overlay">
+        <!-- Modal Content -->
+        <div id="gw-booking-widget" class="gw-booking-modal-content">
+            <button id="gwCloseBookingBtn" class="gw-close-modal-btn">&times;</button>
             
-            <div class="gw-form-group">
-                <label for="gwPhone">Phone Number (WhatsApp Active)</label>
-                <input type="tel" id="gwPhone" name="phone" placeholder="+234..." required>
-            </div>
-
-            <div class="gw-form-group">
-                <label for="gwBranch">Nearest GWealth Branch</label>
-                <select id="gwBranch" name="branch" required>
-                    <option value="" disabled selected>Select Branch</option>
-                    <option value="Aba">Aba</option>
-                    <option value="Asaba">Asaba</option>
-                    <option value="Port Harcourt">Port Harcourt</option>
-                    <option value="Abuja">Abuja</option>
-                    <option value="Anambra">Anambra</option>
-                </select>
-            </div>
-
-            <div class="gw-form-group">
-                <label for="gwDate">Preferred Inspection Date</label>
-                <input type="date" id="gwDate" name="preferredDate" required>
-            </div>
-
-            <button type="submit" class="gw-submit-btn" id="gwSubmitBtn">Confirm Booking</button>
-            <div id="gwFormMessage" class="gw-form-message"></div>
-        </form>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // 1. Referral Tracking Logic
-                const urlParams = new URLSearchParams(window.location.search);
-                const refCode = urlParams.get('ref');
-                
-                if (refCode) {
-                    localStorage.setItem('gwealth_referral', refCode);
+            <style>
+                /* Trigger Button Styles */
+                .gw-open-booking-modal-btn {
+                    background-color: #27267d;
+                    color: #ffffff;
+                    border: none;
+                    padding: 14px 28px;
+                    font-family: 'Plus Jakarta Sans', sans-serif;
+                    font-weight: 800;
+                    font-size: 16px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 10px;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 15px rgba(39, 38, 125, 0.3);
                 }
-                
-                const storedRef = localStorage.getItem('gwealth_referral');
-                if (storedRef) {
-                    document.getElementById('gwReferralCode').value = storedRef;
+                .gw-open-booking-modal-btn:hover {
+                    background-color: #1e1d61;
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 20px rgba(39, 38, 125, 0.4);
                 }
 
-                // 2. Form Submission Logic
-                const form = document.getElementById('gwExcursionForm');
-                const btn = document.getElementById('gwSubmitBtn');
-                const msgBox = document.getElementById('gwFormMessage');
+                /* Modal Overlay Styles */
+                .gw-booking-modal-overlay {
+                    position: fixed;
+                    top: 0; left: 0; width: 100vw; height: 100vh;
+                    background: rgba(15, 23, 42, 0.8);
+                    backdrop-filter: blur(8px);
+                    z-index: 999999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity 0.3s ease;
+                }
+                .gw-booking-modal-overlay.active {
+                    opacity: 1;
+                    pointer-events: auto;
+                }
 
+                /* Close Button */
+                .gw-close-modal-btn {
+                    position: absolute;
+                    top: 16px; right: 16px;
+                    background: transparent;
+                    border: none;
+                    font-size: 28px;
+                    color: #64748b;
+                    cursor: pointer;
+                    line-height: 1;
+                    transition: color 0.2s;
+                    z-index: 10;
+                }
+                .gw-close-modal-btn:hover { color: #bb001b; }
+
+                /* Form Widget inside Modal */
+                #gw-booking-widget { 
+                    position: relative;
+                    width: 90%; max-width: 500px;
+                    font-family: 'Lexend', sans-serif; 
+                    background-color: #ffffff; 
+                    border-radius: 12px; 
+                    padding: 32px; 
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.2); 
+                    transform: translateY(20px);
+                    transition: transform 0.3s ease;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                }
+                .gw-booking-modal-overlay.active #gw-booking-widget {
+                    transform: translateY(0);
+                }
+
+                #gw-booking-widget * { box-sizing: border-box; }
+                #gw-booking-widget .gw-form-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 24px; font-weight: 800; color: #1E1B4B; margin-bottom: 8px; }
+                #gw-booking-widget .gw-form-subtitle { font-size: 14px; color: #64748b; margin-bottom: 24px; line-height: 1.5; }
+                #gw-booking-widget .gw-form-group { margin-bottom: 16px; text-align: left; }
+                #gw-booking-widget label { display: block; font-size: 13px; font-weight: 700; color: #1E1B4B; margin-bottom: 6px; }
+                #gw-booking-widget input, #gw-booking-widget select { width: 100%; padding: 12px 16px; border: 1px solid #CBD5E0; border-radius: 6px; font-family: 'Lexend', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+                #gw-booking-widget input:focus, #gw-booking-widget select:focus { border-color: #27267d; box-shadow: 0 0 0 3px rgba(39, 38, 125, 0.1); }
+                #gw-booking-widget .gw-submit-btn { width: 100%; background-color: #27267d; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 16px; padding: 16px; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.2s; margin-top: 16px; }
+                #gw-booking-widget .gw-submit-btn:hover { background-color: #1e1d61; }
+                #gw-booking-widget .gw-form-message { margin-top: 16px; font-size: 14px; font-weight: 700; display: none; padding: 16px; border-radius: 6px; text-align: left; }
+                #gw-booking-widget .gw-msg-success { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; display: block; }
+                #gw-booking-widget .gw-msg-error { background-color: #fef2f2; color: #991b1b; border: 1px solid #fecaca; display: block; }
+            </style>
+
+            <h4 class="gw-form-title">Book an Inspection</h4>
+            <p class="gw-form-subtitle">Schedule a free site tour with our experts.</p>
+
+            <form id="gwExcursionForm">
+                <input type="hidden" id="gwReferralCode" name="referralCode" value="">
+
+                <div class="gw-form-group">
+                    <label for="gwProperty">Selected Property</label>
+                    <input type="text" id="gwProperty" name="property" value="<?php echo esc_attr($property_title); ?>" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 700; cursor: not-allowed;">
+                </div>
+
+                <div class="gw-form-group">
+                    <label for="gwName">Full Name</label>
+                    <input type="text" id="gwName" name="clientName" placeholder="e.g. John Doe" required>
+                </div>
+                
+                <div class="gw-form-group">
+                    <label for="gwPhone">Phone Number (WhatsApp Active)</label>
+                    <input type="tel" id="gwPhone" name="phone" placeholder="+234..." required>
+                </div>
+
+                <div class="gw-form-group">
+                    <label for="gwBranch">Nearest GWealth Branch</label>
+                    <select id="gwBranch" name="branch" required>
+                        <option value="" disabled selected>Select Branch</option>
+                        <option value="Aba">Aba</option>
+                        <option value="Asaba">Asaba</option>
+                        <option value="Port Harcourt">Port Harcourt</option>
+                        <option value="Abuja">Abuja</option>
+                        <option value="Anambra">Anambra</option>
+                    </select>
+                </div>
+
+                <div class="gw-form-group">
+                    <label for="gwDate">Preferred Inspection Date</label>
+                    <input type="date" id="gwDate" name="preferredDate" required>
+                </div>
+
+                <button type="submit" class="gw-submit-btn" id="gwSubmitBtn">Confirm Booking</button>
+                <div id="gwFormMessage" class="gw-form-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 0. Modal Logic
+            const openBtn = document.getElementById('gwOpenBookingBtn');
+            const closeBtn = document.getElementById('gwCloseBookingBtn');
+            const modal = document.getElementById('gwBookingModalOverlay');
+
+            if (openBtn && modal) {
+                openBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    modal.classList.add('active');
+                });
+            }
+            if (closeBtn && modal) {
+                closeBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    modal.classList.remove('active');
+                });
+            }
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                    }
+                });
+            }
+
+            // 1. Referral Tracking Logic
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+            
+            if (refCode) {
+                localStorage.setItem('gwealth_referral', refCode);
+            }
+            
+            const storedRef = localStorage.getItem('gwealth_referral');
+            if (storedRef) {
+                const refInput = document.getElementById('gwReferralCode');
+                if(refInput) refInput.value = storedRef;
+            }
+
+            // 2. Form Submission Logic
+            const form = document.getElementById('gwExcursionForm');
+            const btn = document.getElementById('gwSubmitBtn');
+            const msgBox = document.getElementById('gwFormMessage');
+
+            if (form) {
                 form.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     
@@ -306,7 +420,6 @@ function render_gwealth_booking_form() {
                     };
 
                     try {
-                        // Dynamically determine the backend URL based on the environment
                         const isLocal = window.location.hostname === 'localhost' || window.location.hostname.includes('.local');
                         const API_BASE_URL = isLocal ? 'http://localhost:5000' : 'https://gwealth-backend.onrender.com'; 
                         const API_URL = `${API_BASE_URL}/api/excursions`;
@@ -323,6 +436,11 @@ function render_gwealth_booking_form() {
                             msgBox.innerText = 'Inspection booked successfully! A coordinator will contact you shortly.';
                             msgBox.classList.add('gw-msg-success');
                             form.reset();
+                            
+                            // Auto close modal after 3 seconds
+                            setTimeout(() => {
+                                modal.classList.remove('active');
+                            }, 3000);
                         } else {
                             throw new Error(result.message || 'Failed to book inspection');
                         }
@@ -335,9 +453,9 @@ function render_gwealth_booking_form() {
                         msgBox.style.display = 'block';
                     }
                 });
-            });
-        </script>
-    </div>
+            }
+        });
+    </script>
     <?php
     return ob_get_clean();
 }
