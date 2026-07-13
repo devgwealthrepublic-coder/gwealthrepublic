@@ -34,169 +34,296 @@ const getWPAuthHeader = () => {
  */
 const compileWPContent = (property) => {
   const mainImage = property.featuredImage || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1200';
-  const galleryHtml = (property.cloudinaryImages || []).map((img, idx) => `
-    <div class="gw-thumb-item ${idx === 0 ? 'active' : ''}" onclick="gwSwapMedia(this, '${img}')">
-        <img src="${img}" alt="Thumbnail ${idx + 1}">
-    </div>
-  `).join('');
+  const cloudinaryImages = property.cloudinaryImages || [];
+  
+  let galleryHtml = '';
+  if (cloudinaryImages.length > 0) {
+     galleryHtml = cloudinaryImages.map((img, idx) => `
+        <div class="aspect-video rounded overflow-hidden shadow-sm border border-trust-slate">
+            <img class="w-full h-full object-cover hover:opacity-90 cursor-pointer transition-opacity gw-gallery-img" data-alt="Thumbnail ${idx + 1}" src="${img}">
+        </div>
+     `).join('');
+  }
 
   const whatsappMessage = encodeURIComponent(`Hi GWealth, I am interested in ${property.propertyName}. Please provide more information.`);
 
+  const plotsText = property.plotsRemaining ? `(${property.plotsRemaining} Plots Left)` : '';
+
   return `
-    <div id="gw-sp-container">
-      <style>
-        #gw-sp-container { width: 100%; max-width: 1000px; margin: 0 auto; font-family: 'Inter', sans-serif; color: #1e293b; animation: gwFadeIn 0.8s ease-out; }
-        @keyframes gwFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        #gw-sp-container * { box-sizing: border-box; }
-        .gw-main-viewport { position: relative; width: 100%; border-radius: 16px; overflow: hidden; background-color: #0f172a; margin-bottom: 24px; aspect-ratio: 16 / 9; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        .gw-main-image { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.4s ease; }
-        .gw-badges { position: absolute; top: 20px; left: 20px; display: flex; gap: 10px; flex-wrap: wrap; z-index: 2; }
-        .gw-badge { display: inline-flex; align-items: center; padding: 8px 16px; border-radius: 50px; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0px 8px 20px rgba(0,0,0,0.2); backdrop-filter: blur(4px); }
-        .gw-badge-verified { background-color: rgba(212, 175, 55, 0.95); color: #1E1B4B; border: 1px solid #D4AF37; }
-        .gw-badge-urgent { background-color: rgba(187, 0, 27, 0.95); color: #FFFFFF; border: 1px solid #bb001b; }
-        
-        .gw-video-overlay { position: absolute; bottom: 30px; right: 30px; z-index: 5; }
-        .gw-pulse-btn { display: flex; align-items: center; gap: 10px; background: rgba(15, 23, 42, 0.8); color: white; padding: 12px 24px; border-radius: 50px; font-weight: 700; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(8px); transition: all 0.3s ease; box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); animation: gwPulse 2s infinite; }
-        .gw-pulse-btn:hover { background: #D4AF37; color: #1E1B4B; transform: scale(1.05); animation: none; border-color: #D4AF37; }
-        @keyframes gwPulse { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
-        
-        .gw-thumbnails-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; margin-bottom: 40px; }
-        .gw-thumb-item { width: 100%; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; cursor: pointer; border: 3px solid transparent; transition: all 0.3s ease; opacity: 0.6; }
-        .gw-thumb-item:hover { opacity: 0.9; transform: translateY(-3px); }
-        .gw-thumb-item.active { border-color: #D4AF37; opacity: 1; box-shadow: 0 10px 20px rgba(212,175,55,0.2); }
-        .gw-thumb-item img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .gw-meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 48px; }
-        .gw-meta-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 8px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .gw-meta-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
-        .gw-meta-title { font-size: 12px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
-        .gw-meta-value { font-size: 16px; font-weight: 800; color: #1E1B4B; }
-        .gw-meta-sub { font-size: 13px; font-weight: 600; color: #D4AF37; }
-        
-        .gw-status-card { background: linear-gradient(135deg, #1E1B4B 0%, #0B0A1C 100%); border: none; color: white; }
-        .gw-status-card .gw-meta-title { color: #94a3b8; }
-        .gw-status-card .gw-meta-value { color: #ffffff; }
-        
-        .gw-whatsapp-btn { background-color: #25D366; color: white; padding: 14px; border-radius: 8px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 800; font-size: 15px; margin-top: 12px; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3); }
-        .gw-whatsapp-btn:hover { background-color: #1ea952; transform: translateY(-2px); color: white; box-shadow: 0 15px 25px rgba(37, 211, 102, 0.4); }
-        
-        .gw-property-desc { font-size: 17px; line-height: 1.8; margin-bottom: 40px; color: #475569; padding: 0 10px; }
-        
-        .gw-features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 48px; }
-        .gw-feature-item { display: flex; align-items: center; gap: 16px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; background-color: #ffffff; font-weight: 700; color: #1e293b; font-size: 15px; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-        .gw-feature-item:hover { border-color: #D4AF37; background: #fffcf5; }
-        .gw-feature-icon { width: 32px; height: 32px; background: #e0e7ff; color: #4f46e5; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-        
-        .gw-trust-shield { background: linear-gradient(135deg, #1E1B4B 0%, #2e2a6b 100%); border-radius: 16px; padding: 40px; color: #FFFFFF; box-shadow: 0 20px 40px rgba(30, 27, 75, 0.2); position: relative; overflow: hidden; }
-        .gw-trust-shield::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 60%); pointer-events: none; }
-        .gw-shield-header { margin-bottom: 32px; text-align: center; }
-        .gw-shield-title { font-size: 26px; font-weight: 800; color: #D4AF37; margin-bottom: 8px; letter-spacing: 1px; }
-        .gw-shield-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 32px; }
-        .gw-shield-col h5 { font-size: 16px; font-weight: 800; color: #D4AF37; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .gw-shield-col p { font-size: 14px; color: #cbd5e1; line-height: 1.6; margin: 0; }
-      </style>
+    <div id="gw-sp-container" class="bg-surface font-body-md text-on-surface">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <script id="tailwind-config">
+        try{
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                extend: {
+                    "colors": {
+                            "on-primary": "#ffffff",
+                            "secondary-fixed-dim": "#ffb3ad",
+                            "on-tertiary-fixed-variant": "#6d3900",
+                            "on-tertiary-container": "#f6a967",
+                            "inverse-surface": "#213145",
+                            "error": "#ba1a1a",
+                            "surface-container-high": "#dce9ff",
+                            "surface-container-lowest": "#ffffff",
+                            "surface-container": "#e5eeff",
+                            "primary": "#27267d",
+                            "tertiary-container": "#723c00",
+                            "on-primary-container": "#b2b2ff",
+                            "tertiary": "#512900",
+                            "outline-variant": "#c7c5d3",
+                            "on-tertiary-fixed": "#2e1500",
+                            "on-surface-variant": "#464651",
+                            "error-container": "#ffdad6",
+                            "surface": "#FAFAFA",
+                            "inverse-on-surface": "#eaf1ff",
+                            "primary-fixed": "#e2dfff",
+                            "on-error-container": "#93000a",
+                            "tertiary-fixed": "#ffdcc2",
+                            "surface-dim": "#cbdbf5",
+                            "primary-container": "#3f3f95",
+                            "trust-slate": "#E2E8F0",
+                            "surface-bright": "#f8f9ff",
+                            "on-error": "#ffffff",
+                            "on-surface": "#0b1c30",
+                            "on-secondary-container": "#fffbff",
+                            "surface-tint": "#5454ab",
+                            "background": "#f8f9ff",
+                            "tertiary-fixed-dim": "#ffb77c",
+                            "on-secondary-fixed": "#410004",
+                            "on-primary-fixed-variant": "#3c3c92",
+                            "primary-fixed-dim": "#c1c1ff",
+                            "on-primary-fixed": "#0c0367",
+                            "legal-ink": "#1E1B4B",
+                            "surface-variant": "#d3e4fe",
+                            "on-secondary-fixed-variant": "#930013",
+                            "secondary": "#bb001b",
+                            "on-background": "#0b1c30",
+                            "surface-container-low": "#eff4ff",
+                            "inverse-primary": "#c1c1ff",
+                            "secondary-container": "#e02830",
+                            "on-secondary": "#ffffff",
+                            "on-tertiary": "#ffffff",
+                            "verified-gold": "#D4AF37",
+                            "surface-container-highest": "#d3e4fe",
+                            "secondary-fixed": "#ffdad7",
+                            "outline": "#777683"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "4px",
+                            "lg": "4px",
+                            "xl": "4px",
+                            "full": "9999px"
+                    },
+                    "spacing": {
+                            "base": "8px",
+                            "margin-desktop": "64px",
+                            "margin-mobile": "16px",
+                            "gutter": "24px",
+                            "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                            "headline-lg-mobile": ["Montserrat"],
+                            "label-md": ["Inter"],
+                            "headline-lg": ["Montserrat"],
+                            "body-md": ["Inter"],
+                            "display-lg": ["Montserrat"],
+                            "headline-md": ["Montserrat"],
+                            "label-sm": ["Inter"],
+                            "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                            "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
+                            "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                            "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                            "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                            "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                            "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+                },
+            }
+        }catch(_e){}
+        </script>
 
-      <div class="gw-main-viewport">
-        <img id="gw-active-media-${property._id}" src="${mainImage}" class="gw-main-image">
-        <div class="gw-badges">
-          ${property.badge ? `<span class="gw-badge gw-badge-verified">✓ ${property.badge}</span>` : ''}
-          ${property.status ? `<span class="gw-badge gw-badge-urgent">${property.status}</span>` : ''}
+        <!-- Main Structure -->
+        <div class="pt-12 pb-20 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+            <!-- Hero & Media Section -->
+            <section class="grid grid-cols-1 lg:grid-cols-12 gap-gutter mb-12">
+            <div class="lg:col-span-8 space-y-gutter">
+                <!-- Main Image Container -->
+                <div class="relative group overflow-hidden rounded shadow-lg aspect-[16/9] lg:aspect-[3/2]">
+                    <div class="absolute top-4 left-4 z-10 flex gap-2">
+                        ${property.status ? \`<span class="bg-secondary text-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded">\${property.status}</span>\` : ''}
+                        ${property.badge ? \`<span class="bg-primary-container text-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                            \${property.badge}
+                        </span>\` : ''}
+                    </div>
+                    <img id="gw-main-display-image" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="\${property.propertyName}" src="\${mainImage}">
+                </div>
+                <!-- Thumbnail Gallery -->
+                <div class="grid grid-cols-3 gap-base">
+                    \${galleryHtml}
+                </div>
+            </div>
+
+            <!-- Lead Gen & Quick Stats Sidebar -->
+            <div class="lg:col-span-4 space-y-gutter">
+                <div class="bg-white p-gutter rounded shadow-sm border border-trust-slate">
+                    <div class="mb-6">
+                        <h1 class="font-headline-md text-headline-md text-primary mb-2">\${property.propertyName}</h1>
+                        <p class="text-on-surface-variant font-body-md flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">location_on</span>
+                            \${property.location} Region
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="p-4 bg-surface-container-low rounded border border-surface-variant/50">
+                            <p class="text-label-sm font-label-sm text-outline uppercase tracking-wider mb-1">Survey Status</p>
+                            <div class="flex items-center justify-between">
+                                <span class="font-headline-md text-on-surface flex items-center gap-2">
+                                    \${property.titleType || 'N/A'}
+                                    <span class="material-symbols-outlined text-verified-gold" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+                                </span>
+                                <span class="text-label-sm font-label-sm text-primary">Surveyor: \${property.surveyorName || 'N/A'}</span>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-surface-container-low rounded border border-surface-variant/50">
+                            <p class="text-label-sm font-label-sm text-outline uppercase tracking-wider mb-1">GPS Coordinates</p>
+                            <div class="flex items-center justify-between">
+                                <span class="font-headline-md text-on-surface">\${property.gpsCoordinates || 'N/A'}</span>
+                                <span class="text-label-sm font-label-sm text-primary">Location</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-error-container/30 rounded border border-error/10 mb-6">
+                        <p class="text-label-sm font-bold text-error uppercase mb-1">Current Status</p>
+                        <p class="text-body-md text-on-surface font-semibold">\${property.status || 'Investment'} \${plotsText}</p>
+                    </div>
+
+                    <a href="https://wa.me/2348025326721?text=\${whatsappMessage}" target="_blank" class="w-full bg-[#25D366] hover:bg-[#20bd5c] text-white py-4 rounded flex flex-col items-center justify-center transition-transform active:scale-95 group no-underline">
+                        <span class="flex items-center gap-2 font-bold text-lg">
+                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.284l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.768-5.764-5.768zm3.393 8.235c-.146.411-.849.771-1.163.821-.291.046-.669.071-1.077-.105a6.974 6.974 0 01-2.923-1.895c-1.036-1.021-1.742-2.316-1.93-2.61-.189-.294-.016-.453.131-.601.134-.132.295-.344.444-.515.148-.172.197-.294.296-.491.099-.197.049-.369-.025-.515-.074-.148-.664-1.597-.91-2.187-.243-.578-.496-.499-.684-.509-.176-.009-.379-.011-.581-.011-.202 0-.531.076-.809.377-.278.301-1.062 1.038-1.062 2.53 0 1.492 1.085 2.934 1.237 3.135.152.201 2.136 3.261 5.172 4.57.721.311 1.284.497 1.721.636.726.23 1.386.198 1.908.121.581-.086 1.785-.731 2.037-1.439.253-.708.253-1.315.177-1.439-.076-.124-.278-.197-.581-.347z"></path></svg>
+                            WhatsApp Hotline
+                        </span>
+                        <span class="text-[11px] opacity-90 uppercase tracking-widest font-bold mt-1">Secure Your Plot Now</span>
+                    </a>
+                </div>
+            </div>
+            </section>
+
+            <!-- Property Description & Stats Grid -->
+            <section class="grid grid-cols-1 lg:grid-cols-12 gap-gutter mb-20">
+                <div class="lg:col-span-8">
+                    <div class="mb-10">
+                        <h2 class="font-headline-md text-headline-md text-primary mb-4 border-l-4 border-primary pl-4">Property Specifications</h2>
+                        <p class="text-body-lg font-body-lg text-on-surface-variant mb-8">
+                            \${property.description || 'This property represents the peak of institutional land security, offering a table-flat topography ready for immediate construction.'}
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-4 bg-white border border-trust-slate rounded group hover:border-primary transition-colors">
+                                <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary mr-4 group-hover:bg-primary group-hover:text-white transition-colors">
+                                    <span class="material-symbols-outlined">square_foot</span>
+                                </div>
+                                <div>
+                                    <p class="text-label-sm font-label-sm text-outline uppercase">Plot Size</p>
+                                    <p class="font-headline-md text-on-surface">\${property.plotSize || 'N/A'}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-4 bg-white border border-trust-slate rounded group hover:border-primary transition-colors">
+                                <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary mr-4 group-hover:bg-primary group-hover:text-white transition-colors">
+                                    <span class="material-symbols-outlined">description</span>
+                                </div>
+                                <div>
+                                    <p class="text-label-sm font-label-sm text-outline uppercase">Documentation</p>
+                                    <p class="font-headline-md text-on-surface text-lg">100% C of O Global Process</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-4 bg-white border border-trust-slate rounded group hover:border-primary transition-colors">
+                                <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary mr-4 group-hover:bg-primary group-hover:text-white transition-colors">
+                                    <span class="material-symbols-outlined">landscape</span>
+                                </div>
+                                <div>
+                                    <p class="text-label-sm font-label-sm text-outline uppercase">Topography</p>
+                                    <p class="font-headline-md text-on-surface text-lg">Dry, Table-flat Land</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-4 bg-white border border-trust-slate rounded group hover:border-primary transition-colors">
+                                <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary mr-4 group-hover:bg-primary group-hover:text-white transition-colors">
+                                    <span class="material-symbols-outlined">verified_user</span>
+                                </div>
+                                <div>
+                                    <p class="text-label-sm font-label-sm text-outline uppercase">Security</p>
+                                    <p class="font-headline-md text-on-surface text-lg">24/7 Gated Security Patrol</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- The GWealth Trust Shield Section -->
+            <section class="bg-primary-container text-white p-8 md:p-12 rounded shadow-xl relative overflow-hidden trust-shield-glow">
+                <!-- Decorative Shield Icon Background -->
+                <div class="absolute -right-20 -bottom-20 opacity-10 pointer-events-none">
+                    <span class="material-symbols-outlined text-[300px]" style="font-variation-settings: 'FILL' 1;">shield</span>
+                </div>
+                <div class="relative z-10">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="material-symbols-outlined text-verified-gold text-4xl" style="font-variation-settings: 'FILL' 1;">shield</span>
+                        <h2 class="font-display-lg text-display-lg text-white m-0">The GWealth Trust Shield</h2>
+                    </div>
+                    <p class="text-on-primary-container font-body-lg mb-12 max-w-2xl">
+                        Guaranteed legal protection for every plot owner. Our institutional framework ensures your investment is shielded from any external claims or legal ambiguities.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-headline-md text-headline-md text-verified-gold m-0">Zero Hidden Fees</h3>
+                            <p class="text-on-primary-container font-body-md opacity-90 m-0">
+                                The price you see covers primary paperwork and developmental levy. We eliminate the "Omo Onile" anxiety through total transparency.
+                            </p>
+                        </div>
+                        <div class="space-y-4">
+                            <h3 class="font-headline-md text-headline-md text-verified-gold m-0">C of O Priority</h3>
+                            <p class="text-on-primary-container font-body-md opacity-90 m-0">
+                                Institutional processing of your individual Deed of Assignment. We handle the bureaucratic heavy lifting for you.
+                            </p>
+                        </div>
+                        <div class="space-y-4">
+                            <h3 class="font-headline-md text-headline-md text-verified-gold m-0">Refund Policy</h3>
+                            <p class="text-on-primary-container font-body-md opacity-90 m-0">
+                                Transparent refund structure if legal standards are not met. Your capital is protected by our corporate guarantee.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-        ${property.cloudinaryVideoUrl ? `
-        <div class="gw-video-overlay">
-          <a href="${property.cloudinaryVideoUrl}" target="_blank" class="gw-pulse-btn">
-              ▶ Watch Drone Walkthrough
-          </a>
-        </div>` : ''}
-      </div>
 
-      ${galleryHtml ? `<div class="gw-thumbnails-row">${galleryHtml}</div>` : ''}
-
-      <div class="gw-meta-grid">
-        ${property.titleType ? `
-        <div class="gw-meta-card">
-          <span class="gw-meta-title">Survey Status</span>
-          <div class="gw-meta-value">${property.titleType}</div>
-          ${property.surveyorName ? `<div class="gw-meta-sub">Surveyor: ${property.surveyorName}</div>` : ''}
-        </div>` : ''}
-        
-        ${property.gpsCoordinates ? `
-        <div class="gw-meta-card">
-          <span class="gw-meta-title">GPS Coordinates</span>
-          <div class="gw-meta-value">${property.gpsCoordinates}</div>
-          <div class="gw-meta-sub" style="color: #64748b;">${property.location} Region</div>
-        </div>` : ''}
-
-        <div class="gw-meta-card gw-status-card">
-          <span class="gw-meta-title">Investment Status</span>
-          <div class="gw-meta-value">${property.status}</div>
-          ${property.plotsRemaining ? `<div class="gw-meta-sub" style="color: #fbbf24;">${property.plotsRemaining} Plots Left</div>` : ''}
-          <a href="https://wa.me/2348025326721?text=${whatsappMessage}" target="_blank" class="gw-whatsapp-btn">
-            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-            WhatsApp Inquiry
-          </a>
-        </div>
-      </div>
-
-      ${property.description ? `<div class="gw-property-desc">${property.description}</div>` : ''}
-
-      <div class="gw-features-grid">
-        ${property.plotSize ? `
-        <div class="gw-feature-item">
-          <div class="gw-feature-icon">📏</div>
-          Plot Size: ${property.plotSize}
-        </div>` : ''}
-        <div class="gw-feature-item">
-          <div class="gw-feature-icon">📜</div>
-          100% C of O Global Process
-        </div>
-        <div class="gw-feature-item">
-          <div class="gw-feature-icon">⛰️</div>
-          Dry, Table-flat Land
-        </div>
-        <div class="gw-feature-item">
-          <div class="gw-feature-icon">🛡️</div>
-          24/7 Gated Security Patrol
-        </div>
-      </div>
-
-      <div class="gw-trust-shield">
-        <div class="gw-shield-header">
-          <div class="gw-shield-title">The GWealth Trust Shield</div>
-          <div style="font-size: 15px; color: #cbd5e1;">Guaranteed legal protection for every plot owner.</div>
-        </div>
-        <div class="gw-shield-grid">
-          <div class="gw-shield-col">
-            <h5>✓ Zero Hidden Fees</h5>
-            <p>The price you see covers primary paperwork and developmental levy.</p>
-          </div>
-          <div class="gw-shield-col">
-            <h5>✓ C of O Priority</h5>
-            <p>Institutional processing of your individual Deed of Assignment.</p>
-          </div>
-          <div class="gw-shield-col">
-            <h5>✓ Refund Policy</h5>
-            <p>Transparent refund structure if legal standards are not met.</p>
-          </div>
-        </div>
-      </div>
-
-      <script>
-        function gwSwapMedia(element, imageUrl) {
-            const activeImg = document.getElementById('gw-active-media-${property._id}');
-            if(!activeImg) return;
-            activeImg.style.opacity = '0';
-            setTimeout(() => {
-                activeImg.src = imageUrl;
-                activeImg.style.opacity = '1';
-            }, 300);
-            const allThumbs = element.parentElement.querySelectorAll('.gw-thumb-item');
-            allThumbs.forEach(thumb => thumb.classList.remove('active'));
-            element.classList.add('active');
-        }
-      </script>
+        <script>
+            // Micro-interactions for gallery
+            document.querySelectorAll('.gw-gallery-img').forEach(img => {
+                img.addEventListener('click', function() {
+                    const mainImg = document.getElementById('gw-main-display-image');
+                    const temp = mainImg.src;
+                    const tempAlt = mainImg.getAttribute('data-alt');
+                    mainImg.src = this.src;
+                    mainImg.setAttribute('data-alt', this.getAttribute('data-alt'));
+                    this.src = temp;
+                    this.setAttribute('data-alt', tempAlt);
+                });
+            });
+        </script>
     </div>
-  `;
+  \`;
 };
 
 const buildWPPayload = (property) => ({
