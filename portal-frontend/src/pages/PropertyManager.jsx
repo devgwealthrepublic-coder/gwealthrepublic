@@ -186,18 +186,6 @@ const PropertyManager = () => {
     const randomNum = Math.floor(1000 + Math.random() * 9000);
     setFormData({ ...formData, surveyNumber: `GW/AB/${randomNum}/26` });
   };
-      plotsRemaining: property.plotsRemaining || '',
-      plotSize: property.plotSize,
-      titleType: property.titleType,
-      surveyNumber: property.surveyNumber,
-      badge: property.badge,
-      status: property.status,
-      videoDuration: property.videoDuration || '',
-      surveyorName: property.surveyorName || '',
-      publishToWordPress: property.isPublishedToWordPress || false,
-    });
-    setShowModal(true);
-  };
 
   return (
     <div className="animate-fade-in w-full max-w-7xl mx-auto pb-12">

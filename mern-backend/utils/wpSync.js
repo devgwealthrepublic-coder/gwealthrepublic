@@ -185,8 +185,7 @@ const buildWPPayload = (property) => ({
     property_status:         property.status,
     property_size:           property.plotSize,
     property_featured_image: property.featuredImage,
-    // Gallery — pass as array of Cloudinary URLs
-    property_gallery:        property.cloudinaryImages || [],
+    // property_gallery removed: ACF expects IDs, but we already embedded the gallery into the HTML content above.
   },
 });
 
