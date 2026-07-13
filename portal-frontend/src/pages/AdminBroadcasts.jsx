@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FiRadio, FiPlus, FiTrash2, FiAlertCircle, FiCheckCircle, FiInfo, FiEdit2 } from 'react-icons/fi';
+import { ConfirmModal } from '../components/ui/ConfirmModal';
 
 const AdminBroadcasts = () => {
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, id: null });
   
   const [formData, setFormData] = useState({
     title: '',
@@ -50,11 +52,18 @@ const AdminBroadcasts = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this broadcast? It will be removed from all partner dashboards.')) return;
+    setDeleteConfirm({ isOpen: true, id });
+  };
+
+  const confirmDelete = async () => {
+    const id = deleteConfirm.id;
+    if (!id) return;
     try {
       await axios.delete(`${API_URL}/${id}`, { withCredentials: true });
       setNotices(notices.filter(n => n._id !== id));
+      setDeleteConfirm({ isOpen: false, id: null });
     } catch (err) {
+      console.error(err);
       alert('Error deleting broadcast');
     }
   };
@@ -202,6 +211,16 @@ const AdminBroadcasts = () => {
           </div>
         </div>
       )}
+
+      <ConfirmModal
+        isOpen={deleteConfirm.isOpen}
+        onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
+        onConfirm={confirmDelete}
+        title="Delete Broadcast"
+        message="Are you sure you want to delete this broadcast? It will be removed from all partner dashboards."
+        confirmText="Delete"
+        isDanger={true}
+      />
     </div>
   );
 };

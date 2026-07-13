@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FiUsers, FiPlus, FiTrash2, FiEdit2, FiPhone, FiCheckCircle } from 'react-icons/fi';
+import { ConfirmModal } from '../components/ui/ConfirmModal';
 
 const ProspectsCRM = () => {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, id: null });
   
   const [formData, setFormData] = useState({
     name: '',
@@ -65,10 +67,16 @@ const ProspectsCRM = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this prospect?')) return;
+    setDeleteConfirm({ isOpen: true, id });
+  };
+
+  const confirmDelete = async () => {
+    const id = deleteConfirm.id;
+    if (!id) return;
     try {
       await axios.delete(`${API_URL}/${id}`, { withCredentials: true });
       setLeads(leads.filter(l => l._id !== id));
+      setDeleteConfirm({ isOpen: false, id: null });
     } catch (err) {
       alert('Error deleting lead');
     }
@@ -222,6 +230,16 @@ const ProspectsCRM = () => {
           </div>
         </div>
       )}
+
+      <ConfirmModal
+        isOpen={deleteConfirm.isOpen}
+        onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
+        onConfirm={confirmDelete}
+        title="Delete Prospect"
+        message="Are you sure you want to delete this prospect? This action cannot be undone."
+        confirmText="Delete"
+        isDanger={true}
+      />
     </div>
   );
 };

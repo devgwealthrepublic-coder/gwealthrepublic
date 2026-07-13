@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FiFolder, FiImage, FiVideo, FiFileText, FiDownload, FiUploadCloud, FiTrash2, FiX } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { ConfirmModal } from '../components/ui/ConfirmModal';
 
 const AssetVault = () => {
   const { isAdmin } = useAuth();
@@ -13,6 +14,7 @@ const AssetVault = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [uploadData, setUploadData] = useState({ title: '', type: 'image', category: 'Promotional Flyers', size: '' });
   const [fileToUpload, setFileToUpload] = useState(null);
+  const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, id: null });
 
   const categories = ["All Assets", "Promotional Flyers", "Site Videos", "Site Layouts", "Legal Documents"];
   const [activeCategory, setActiveCategory] = useState("All Assets");
@@ -85,17 +87,22 @@ const AssetVault = () => {
   };
 
   const handleDelete = async (id) => {
-    if(window.confirm("Are you sure you want to remove this asset from the vault?")) {
-      try {
-        const res = await axios.delete(`/api/assets/${id}`);
-        const data = res.data;
-        if (data.success) {
-          setAssets(assets.filter(a => a._id !== id));
-        }
-      } catch (err) {
-        console.error(err);
-        alert('Error deleting asset');
+    setDeleteConfirm({ isOpen: true, id });
+  };
+
+  const confirmDelete = async () => {
+    const id = deleteConfirm.id;
+    if (!id) return;
+    try {
+      const res = await axios.delete(`/api/assets/${id}`);
+      const data = res.data;
+      if (data.success) {
+        setAssets(assets.filter(a => a._id !== id));
+        setDeleteConfirm({ isOpen: false, id: null });
       }
+    } catch (err) {
+      console.error(err);
+      alert('Error deleting asset');
     }
   };
 
@@ -229,6 +236,16 @@ const AssetVault = () => {
           </div>
         </div>
       )}
+
+      <ConfirmModal
+        isOpen={deleteConfirm.isOpen}
+        onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
+        onConfirm={confirmDelete}
+        title="Remove Asset"
+        message="Are you sure you want to remove this asset from the vault? It will be permanently deleted."
+        confirmText="Remove"
+        isDanger={true}
+      />
     </div>
   );
 };

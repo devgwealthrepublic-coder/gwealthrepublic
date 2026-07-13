@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiUsers, FiTrash2, FiCopy, FiCheck, FiSearch } from 'react-icons/fi';
 import axios from 'axios';
+import { ConfirmModal } from '../components/ui/ConfirmModal';
 
 const Subscribers = () => {
   const [subscribers, setSubscribers] = useState([]);
@@ -8,6 +9,7 @@ const Subscribers = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [copied, setCopied] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, id: null });
 
   const API_URL = '/api/subscribers';
 
@@ -28,13 +30,18 @@ const Subscribers = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to remove this subscriber?')) return;
+    setDeleteConfirm({ isOpen: true, id });
+  };
+
+  const confirmDelete = async () => {
+    const id = deleteConfirm.id;
+    if (!id) return;
     try {
       await axios.delete(`${API_URL}/${id}`);
       setSubscribers(subscribers.filter(s => s._id !== id));
     } catch (err) {
       console.error('Error deleting subscriber:', err);
-      alert('Failed to delete subscriber');
+      setError('Failed to delete subscriber');
     }
   };
 
@@ -132,6 +139,16 @@ const Subscribers = () => {
           )}
         </div>
       </div>
+
+      <ConfirmModal
+        isOpen={deleteConfirm.isOpen}
+        onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
+        onConfirm={confirmDelete}
+        title="Delete Subscriber"
+        message="Are you sure you want to remove this subscriber? This action cannot be undone."
+        confirmText="Delete"
+        isDanger={true}
+      />
     </div>
   );
 };

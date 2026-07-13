@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiMail, FiTrash2, FiCheck, FiClock, FiSearch, FiSend } from 'react-icons/fi';
 import axios from 'axios';
+import { ConfirmModal } from '../components/ui/ConfirmModal';
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);
@@ -8,6 +9,7 @@ const Messages = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMessage, setSelectedMessage] = useState(null);
+  const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, id: null });
 
   // Use the same base URL pattern as other frontend components
   const API_URL = '/api/messages';
@@ -42,7 +44,12 @@ const Messages = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this message?')) return;
+    setDeleteConfirm({ isOpen: true, id });
+  };
+
+  const confirmDelete = async () => {
+    const id = deleteConfirm.id;
+    if (!id) return;
     try {
       await axios.delete(`${API_URL}/${id}`);
       setMessages(messages.filter(m => m._id !== id));
@@ -51,7 +58,7 @@ const Messages = () => {
       }
     } catch (err) {
       console.error('Error deleting message:', err);
-      alert('Failed to delete message');
+      setError('Failed to delete message');
     }
   };
 
@@ -183,6 +190,16 @@ const Messages = () => {
           )}
         </div>
       </div>
+
+      <ConfirmModal
+        isOpen={deleteConfirm.isOpen}
+        onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
+        onConfirm={confirmDelete}
+        title="Delete Message"
+        message="Are you sure you want to delete this message? This action cannot be undone."
+        confirmText="Delete"
+        isDanger={true}
+      />
     </div>
   );
 };

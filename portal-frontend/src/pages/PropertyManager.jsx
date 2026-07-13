@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
-import { FiPlus, FiEdit2, FiTrash2, FiRefreshCw, FiImage, FiExternalLink, FiUploadCloud, FiCheckCircle, FiX } from 'react-icons/fi';
+import { FiPlus, FiEdit2, FiTrash2, FiRefreshCw, FiImage, FiExternalLink, FiUploadCloud, FiCheckCircle, FiX, FiAlertCircle } from 'react-icons/fi';
+import { ConfirmModal } from '../components/ui/ConfirmModal';
 
 const PropertyManager = () => {
   const [properties, setProperties] = useState([]);
@@ -9,6 +10,8 @@ const PropertyManager = () => {
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, id: null });
   
   const [formData, setFormData] = useState({
     propertyName: '',
@@ -118,24 +121,30 @@ const PropertyManager = () => {
       }
       resetForm();
       fetchProperties();
-    } catch (error) {
-      console.error("Error saving property", error);
-      alert(error.response?.data?.message || 'Failed to save property');
+      resetForm();
+      fetchProperties();
+    } catch (err) {
+      console.error("Error saving property", err);
+      setError(err.response?.data?.message || 'Failed to save property');
     } finally {
       setSubmitting(false);
     }
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this property? This will also remove it from WordPress if it was synced.")) {
-      try {
-        await axios.delete(`http://localhost:5000/api/properties/${id}`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem('gwealth_token')}` }
-        });
-        fetchProperties();
-      } catch (error) {
-        alert('Failed to delete property');
-      }
+    setDeleteConfirm({ isOpen: true, id });
+  };
+
+  const confirmDelete = async () => {
+    const id = deleteConfirm.id;
+    if (!id) return;
+    try {
+      await axios.delete(`http://localhost:5000/api/properties/${id}`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('gwealth_token')}` }
+      });
+      fetchProperties();
+    } catch (err) {
+      setError('Failed to delete property');
     }
   };
 
@@ -174,18 +183,26 @@ const PropertyManager = () => {
 
   return (
     <div className="animate-fade-in w-full max-w-7xl mx-auto pb-12">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+      <div className="flex justify-between items-end mb-8">
         <div>
-          <h1 className="text-3xl font-headline-lg font-bold text-primary mb-2">Property Manager</h1>
-          <p className="text-on-surface-variant font-body-lg">Manage land estates and sync them directly to the public WordPress site.</p>
+          <h1 className="text-3xl font-headline-md font-bold text-primary mb-2">Property Portfolio</h1>
+          <p className="text-on-surface-variant font-body-md">Manage your real estate listings and sync to WordPress.</p>
         </div>
         <button 
-          onClick={() => setShowModal(true)} 
-          className="flex items-center gap-2 px-5 py-3 bg-primary text-white rounded-md font-bold hover:bg-primary-container transition-colors shadow-sm"
+          onClick={() => { resetForm(); setShowModal(true); }}
+          className="bg-primary text-white px-5 py-3 rounded-md font-bold flex items-center gap-2 hover:bg-primary-container transition-colors shadow-md"
         >
-          <FiPlus size={20} /> Add New Property
+          <FiPlus /> Add New Property
         </button>
       </div>
+
+      {error && (
+        <div className="bg-error-container text-error px-4 py-3 rounded-md mb-6 flex items-center gap-2">
+          <FiAlertCircle />
+          <span>{error}</span>
+          <button onClick={() => setError(null)} className="ml-auto"><FiX /></button>
+        </div>
+      )}
 
       <div className="bg-white border border-trust-slate rounded-lg shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
@@ -442,6 +459,16 @@ const PropertyManager = () => {
           </div>
         </div>
       )}
+
+      <ConfirmModal
+        isOpen={deleteConfirm.isOpen}
+        onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
+        onConfirm={confirmDelete}
+        title="Delete Property"
+        message="Are you sure you want to delete this property? This action cannot be undone, and will remove it from WordPress if synced."
+        confirmText="Delete"
+        isDanger={true}
+      />
     </div>
   );
 };

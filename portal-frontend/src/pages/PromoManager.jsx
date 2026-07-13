@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FiImage, FiPlus, FiTrash2, FiCheckCircle, FiPower, FiLink } from 'react-icons/fi';
+import { FiImage, FiPlus, FiTrash2, FiPower, FiLink } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
+import { ConfirmModal } from '../components/ui/ConfirmModal';
 
 const PromoManager = () => {
   const [ads, setAds] = useState([]);
@@ -16,6 +17,7 @@ const PromoManager = () => {
   });
   const [file, setFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, id: null });
 
   useEffect(() => {
     fetchAds();
@@ -48,7 +50,6 @@ const PromoManager = () => {
         withCredentials: true,
         headers: { 'Content-Type': 'multipart/form-data' }
       });
-      // If the new one is active, we must set all other local ads to inactive
       let newAds = [...ads];
       if (formData.isActive) {
         newAds = newAds.map(a => ({ ...a, isActive: false }));
@@ -58,6 +59,7 @@ const PromoManager = () => {
       setFormData({ title: '', actionUrl: '', isActive: false });
       setFile(null);
     } catch (err) {
+      console.error(err);
       alert(err.response?.data?.message || 'Error creating advertisement');
     } finally {
       setSubmitting(false);
@@ -69,7 +71,6 @@ const PromoManager = () => {
       await axios.put(`/api/advertisements/${id}`, { isActive: !currentStatus }, { withCredentials: true });
       let newAds = ads.map(a => {
         if (a._id === id) return { ...a, isActive: !currentStatus };
-        // If we activated this one, others must turn off
         if (!currentStatus) return { ...a, isActive: false };
         return a;
       });
@@ -80,11 +81,18 @@ const PromoManager = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this advertisement?')) return;
+    setDeleteConfirm({ isOpen: true, id });
+  };
+
+  const confirmDelete = async () => {
+    const id = deleteConfirm.id;
+    if (!id) return;
     try {
       await axios.delete(`/api/advertisements/${id}`, { withCredentials: true });
       setAds(ads.filter(a => a._id !== id));
+      setDeleteConfirm({ isOpen: false, id: null });
     } catch (err) {
+      console.error(err);
       alert('Error deleting advertisement');
     }
   };
@@ -184,6 +192,15 @@ const PromoManager = () => {
           </div>
         </div>
       )}
+      <ConfirmModal
+        isOpen={deleteConfirm.isOpen}
+        onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
+        onConfirm={confirmDelete}
+        title="Delete Advertisement"
+        message="Are you sure you want to delete this advertisement? It will be removed from the frontend."
+        confirmText="Delete"
+        isDanger={true}
+      />
     </div>
   );
 };
