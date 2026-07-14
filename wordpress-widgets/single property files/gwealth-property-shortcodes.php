@@ -62,55 +62,40 @@ function render_gwealth_property_media() {
 
     ob_start();
     ?>
-    <div id="gw-sp-media-gallery">
-        <style>
-            #gw-sp-media-gallery { width: 100%; font-family: 'Lexend', sans-serif; margin-bottom: 32px; }
-            #gw-sp-media-gallery * { box-sizing: border-box; margin: 0; padding: 0; }
-            #gw-sp-media-gallery .gw-main-viewport { position: relative; width: 100%; border-radius: 4px; overflow: hidden; background-color: #E2E8F0; margin-bottom: 16px; aspect-ratio: 16 / 9; }
-            #gw-sp-media-gallery .gw-main-image { width: 100%; height: 100%; object-fit: cover; display: block; }
-            #gw-sp-media-gallery .gw-badges { position: absolute; top: 16px; left: 16px; display: flex; gap: 8px; flex-wrap: wrap; z-index: 2; }
-            #gw-sp-media-gallery .gw-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15); }
-            #gw-sp-media-gallery .gw-badge-verified { background-color: #D4AF37; color: #1E1B4B; }
-            #gw-sp-media-gallery .gw-badge-urgent { background-color: #bb001b; color: #FFFFFF; }
-            #gw-sp-media-gallery .gw-walkthrough-trigger { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.9); padding: 12px 24px; border-radius: 4px; font-weight: 700; font-size: 14px; color: #27267d; display: flex; align-items: center; gap: 10px; cursor: pointer; border: none; box-shadow: 0px 8px 24px rgba(30, 27, 75, 0.2); transition: all 0.3s; z-index: 2; }
-            #gw-sp-media-gallery .gw-walkthrough-trigger:hover { background: #FFFFFF; transform: translate(-50%, -52%); color: #1E1B4B; }
-            #gw-sp-media-gallery .gw-thumbnails-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-            #gw-sp-media-gallery .gw-thumb-item { position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: 4px; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: border-color 0.3s ease; }
-            #gw-sp-media-gallery .gw-thumb-item.active { border-color: #27267d; }
-            #gw-sp-media-gallery .gw-thumb-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
-            #gw-sp-media-gallery .gw-thumb-item:hover img { transform: scale(1.05); }
-            @media (max-width: 480px) { #gw-sp-media-gallery .gw-thumbnails-row { gap: 8px; } #gw-sp-media-gallery .gw-walkthrough-trigger { padding: 10px 16px; font-size: 12px; } }
-        </style>
-
-        <div class="gw-main-viewport">
-            <img id="gw-active-media" src="<?php echo esc_url($main_img); ?>" alt="Property View" class="gw-main-image">
+    <div class="w-full font-body-md mb-8">
+        <div class="relative w-full rounded overflow-hidden bg-trust-slate mb-4 aspect-video shadow-sm">
+            <img id="gw-active-media" src="<?php echo esc_url($main_img); ?>" alt="Property View" class="w-full h-full object-cover block">
             
-            <div class="gw-badges">
+            <div class="absolute top-4 left-4 flex gap-2 flex-wrap z-10">
                 <?php if($badge): ?>
-                    <span class="gw-badge gw-badge-verified"><i class="fa-solid fa-shield-halved"></i> <?php echo esc_html($badge); ?></span>
+                    <span class="bg-verified-gold text-white px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-1 shadow-md">
+                        <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span> <?php echo esc_html($badge); ?>
+                    </span>
                 <?php endif; ?>
                 <?php if($status): ?>
-                    <span class="gw-badge gw-badge-urgent"><?php echo esc_html($status); ?></span>
+                    <span class="bg-secondary text-white px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-md">
+                        <?php echo esc_html($status); ?>
+                    </span>
                 <?php endif; ?>
             </div>
 
             <?php if($video_embed): ?>
-                <button class="gw-walkthrough-trigger" onclick="window.open('<?php echo esc_url($video_embed); ?>', '_blank')">
-                    <i class="fa-solid fa-video"></i> Drone Walkthrough
+                <button onclick="window.open('<?php echo esc_url($video_embed); ?>', '_blank')" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-primary px-6 py-3 rounded font-label-md text-sm flex items-center gap-2 shadow-lg hover:-translate-y-[52%] transition-all z-10">
+                    <span class="material-symbols-outlined">play_circle</span> Drone Walkthrough
                 </button>
             <?php endif; ?>
         </div>
 
         <?php if($gallery && is_array($gallery)): ?>
-        <div class="gw-thumbnails-row">
+        <div class="grid grid-cols-4 gap-2 sm:gap-3">
             <?php 
             $count = 0;
             foreach($gallery as $img_url): 
                 if($count >= 4) break; // Max 4 thumbs
-                $active_class = ($count === 0) ? 'active' : '';
+                $active_class = ($count === 0) ? 'border-primary' : 'border-transparent';
             ?>
-                <div class="gw-thumb-item <?php echo $active_class; ?>" onclick="gwSwapMedia(this, '<?php echo esc_url($img_url); ?>')">
-                    <img src="<?php echo esc_url($img_url); ?>" alt="Thumbnail <?php echo $count+1; ?>">
+                <div class="relative w-full aspect-[4/3] rounded overflow-hidden cursor-pointer border-2 <?php echo $active_class; ?> transition-colors duration-300 gw-thumb-item" onclick="gwSwapMedia(this, '<?php echo esc_url($img_url); ?>')">
+                    <img src="<?php echo esc_url($img_url); ?>" alt="Thumbnail <?php echo $count+1; ?>" class="w-full h-full object-cover block hover:scale-105 transition-transform duration-500">
                 </div>
             <?php 
                 $count++;
@@ -124,9 +109,13 @@ function render_gwealth_property_media() {
                 const activeImg = document.getElementById('gw-active-media');
                 if(!activeImg) return;
                 activeImg.src = imageUrl;
-                const allThumbs = document.querySelectorAll('#gw-sp-media-gallery .gw-thumb-item');
-                allThumbs.forEach(thumb => thumb.classList.remove('active'));
-                element.classList.add('active');
+                const allThumbs = document.querySelectorAll('.gw-thumb-item');
+                allThumbs.forEach(thumb => {
+                    thumb.classList.remove('border-primary');
+                    thumb.classList.add('border-transparent');
+                });
+                element.classList.remove('border-transparent');
+                element.classList.add('border-primary');
             }
         </script>
     </div>
@@ -137,109 +126,133 @@ function render_gwealth_property_media() {
 // 2. Details Shortcode
 add_shortcode('gwealth_property_details', 'render_gwealth_property_details');
 function render_gwealth_property_details() {
-    $title_type = get_field('property_title_type');
-    $surveyor = get_field('property_surveyor_name');
-    $gps = get_field('property_gps');
-    $location = get_field('property_location');
-    $status = get_field('property_status');
+    $title_type = get_field('property_title_type') ?: 'Pending';
+    $surveyor = get_field('property_surveyor_name') ?: 'Registered Surveyor';
+    $gps = get_field('property_gps') ?: 'Coordinates Available on Request';
+    $location = get_field('property_location') ?: 'Prime';
+    $status = get_field('property_status') ?: 'Available';
     $plots = get_field('property_plots_remaining');
-    $size = get_field('property_size');
+    $size = get_field('property_size') ?: '500 SQM';
+    $whatsapp = get_field('property_whatsapp_number') ?: '2348000000000'; // fallback
+    
+    // Clean up WhatsApp number (handle ACF 'Number' field stripping leading zeros)
+    $whatsapp_clean = preg_replace('/[^0-9]/', '', $whatsapp);
+    
+    // Auto-format for Nigerian numbers if country code is missing
+    if (strlen($whatsapp_clean) === 10) {
+        // e.g., 8031234567 (leading zero was stripped by ACF Number field)
+        $whatsapp_clean = '234' . $whatsapp_clean;
+    } elseif (strlen($whatsapp_clean) === 11 && substr($whatsapp_clean, 0, 1) === '0') {
+        // e.g., 08031234567
+        $whatsapp_clean = '234' . substr($whatsapp_clean, 1);
+    }
+    
+    // Create a pre-filled message with the specific property title
+    $whatsapp_text = urlencode('Hello GWealth, I am interested in acquiring plots at ' . get_the_title() . '.');
+    $whatsapp_url = "https://wa.me/{$whatsapp_clean}?text={$whatsapp_text}";
+    
+    $plots_display = '';
+    if ($plots === '0' || $plots === 0) {
+        $plots_display = 'Sold Out';
+    } elseif (!empty($plots)) {
+        $plots_display = esc_html($plots) . ' Plots Left';
+    } else {
+        $plots_display = 'Selling Fast';
+    }
 
     ob_start();
     ?>
-    <div id="gw-sp-details-content">
-        <style>
-            #gw-sp-details-content { width: 100%; font-family: 'Lexend', sans-serif; color: #4a5568; }
-            #gw-sp-details-content * { box-sizing: border-box; margin: 0; padding: 0; }
-            #gw-sp-details-content .gw-meta-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 48px; }
-            @media (min-width: 640px) { #gw-sp-details-content .gw-meta-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); } }
-            #gw-sp-details-content .gw-meta-card { background-color: #FAFAFA; border: 1px solid #E2E8F0; border-radius: 4px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
-            #gw-sp-details-content .gw-meta-title { font-size: 11px; font-weight: 600; color: #718096; text-transform: uppercase; letter-spacing: 0.05em; }
-            #gw-sp-details-content .gw-meta-value { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; color: #1E1B4B; display: flex; align-items: center; gap: 8px; }
-            #gw-sp-details-content .gw-meta-sub { font-size: 11px; font-weight: 600; color: #D4AF37; display: flex; align-items: center; gap: 4px; }
-            #gw-sp-details-content .gw-meta-sub.danger { color: #bb001b; }
-            #gw-sp-details-content .gw-whatsapp-btn { background-color: #25D366; color: #FFFFFF; border: none; padding: 10px 16px; border-radius: 4px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-decoration: none; margin-top: 4px; }
+    <div class="w-full font-body-md text-on-surface-variant">
+        
+        <!-- Meta Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-12">
             
-            #gw-sp-details-content .gw-features-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 48px 0; }
-            @media (min-width: 480px) { #gw-sp-details-content .gw-features-grid { grid-template-columns: repeat(2, 1fr); } }
-            #gw-sp-details-content .gw-feature-item { display: flex; align-items: center; gap: 12px; border: 1px solid #E2E8F0; border-radius: 4px; padding: 16px; background-color: #FFFFFF; }
-            #gw-sp-details-content .gw-feature-icon { color: #27267d; font-size: 16px; }
-            #gw-sp-details-content .gw-feature-text { font-size: 13px; font-weight: 500; color: #464651; }
-
-            #gw-sp-details-content .gw-trust-shield { background-color: #1E1B4B; border-radius: 4px; padding: 32px; color: #FFFFFF; }
-            #gw-sp-details-content .gw-shield-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
-            #gw-sp-details-content .gw-shield-icon { font-size: 28px; color: #D4AF37; }
-            #gw-sp-details-content .gw-shield-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-            #gw-sp-details-content .gw-shield-sub { font-size: 12px; color: #A0AEC0; }
-            #gw-sp-details-content .gw-shield-grid { display: grid; grid-template-columns: 1fr; gap: 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 24px; }
-            @media (min-width: 640px) { #gw-sp-details-content .gw-shield-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
-            #gw-sp-details-content .gw-shield-col h5 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 700; color: #D4AF37; margin-bottom: 6px; }
-            #gw-sp-details-content .gw-shield-col p { font-size: 11px; color: #E2E8F0; line-height: 1.5; }
-        </style>
-
-        <div class="gw-meta-grid">
-            <div class="gw-meta-card">
-                <span class="gw-meta-title">Survey Status</span>
-                <div class="gw-meta-value"><i class="fa-solid fa-file-signature text-[#27267d]"></i> <?php echo esc_html($title_type); ?></div>
-                <div class="gw-meta-sub"><i class="fa-regular fa-clock"></i> Surveyor: <?php echo esc_html($surveyor); ?></div>
-            </div>
-            
-            <div class="gw-meta-card">
-                <span class="gw-meta-title">GPS Coordinates</span>
-                <div class="gw-meta-value"><i class="fa-solid fa-location-crosshairs text-[#27267d]"></i> <?php echo esc_html($gps); ?></div>
-                <div class="gw-meta-sub" style="color: #718096;"><?php echo esc_html($location); ?> Region</div>
-            </div>
-
-            <div class="gw-meta-card" style="background-color: #f0fdf4; border-color: #bbf7d0;">
-                <span class="gw-meta-title">Current Status</span>
-                <div class="gw-meta-sub danger" style="margin-bottom: 4px;">
-                    <i class="fa-solid fa-fire"></i> <?php echo esc_html($status); ?> (<?php echo esc_html($plots); ?> Plots Left)
+            <!-- Survey Status -->
+            <div class="bg-surface border border-trust-slate rounded p-5 flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
+                <span class="text-xs font-bold text-outline uppercase tracking-widest">Survey Status</span>
+                <div class="font-headline-md text-primary text-base flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">description</span>
+                    <?php echo esc_html($title_type); ?>
                 </div>
-                <a href="https://wa.me/2340000000000" target="_blank" class="gw-whatsapp-btn">
-                    <i class="fa-brands fa-whatsapp"></i> WhatsApp Hotline
+                <div class="text-sm font-label-md text-on-surface-variant flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">person</span>
+                    Surveyor: <?php echo esc_html($surveyor); ?>
+                </div>
+            </div>
+
+            <!-- GPS Coordinates -->
+            <div class="bg-surface border border-trust-slate rounded p-5 flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
+                <span class="text-xs font-bold text-outline uppercase tracking-widest">Location Details</span>
+                <div class="font-headline-md text-primary text-base flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">location_on</span>
+                    <?php echo esc_html($gps); ?>
+                </div>
+                <div class="text-sm font-label-md text-on-surface-variant flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">map</span>
+                    <?php echo esc_html($location); ?> Region
+                </div>
+            </div>
+
+            <!-- Current Status & WhatsApp -->
+            <div class="bg-surface-container-low border border-primary-fixed-dim rounded p-5 flex flex-col gap-3 shadow-sm hover:shadow-md transition-shadow">
+                <span class="text-xs font-bold text-primary uppercase tracking-widest">Investment Status</span>
+                <div class="font-headline-md text-secondary text-base flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary">local_fire_department</span>
+                    <?php echo esc_html($status); ?> 
+                    <?php if($plots_display): ?>
+                        <span class="text-xs bg-secondary/10 text-secondary px-2 py-1 rounded-full ml-1 whitespace-nowrap"><?php echo $plots_display; ?></span>
+                    <?php endif; ?>
+                </div>
+                <!-- WhatsApp Button (w-fit prevents full width stretching) -->
+                <a href="<?php echo $whatsapp_url; ?>" target="_blank" class="w-fit bg-[#25D366] text-white px-4 py-2 rounded font-label-md text-sm flex items-center gap-2 hover:bg-[#1DA851] transition-colors mt-auto">
+                    <span class="material-symbols-outlined text-sm">chat</span>
+                    WhatsApp Hotline
                 </a>
             </div>
+
         </div>
 
-        <div class="gw-features-grid">
-            <div class="gw-feature-item">
-                <i class="fa-solid fa-expand gw-feature-icon"></i>
-                <span class="gw-feature-text">Plot Size: <?php echo esc_html($size); ?></span>
+        <!-- Features Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+            <div class="flex items-center gap-4 border border-trust-slate rounded p-4 bg-white shadow-sm">
+                <span class="material-symbols-outlined text-primary text-2xl">square_foot</span>
+                <span class="text-sm font-label-md text-on-surface-variant">Plot Size: <?php echo esc_html($size); ?></span>
             </div>
-            <div class="gw-feature-item">
-                <i class="fa-solid fa-file-contract gw-feature-icon"></i>
-                <span class="gw-feature-text">100% C of O Global Process</span>
+            <div class="flex items-center gap-4 border border-trust-slate rounded p-4 bg-white shadow-sm">
+                <span class="material-symbols-outlined text-primary text-2xl">gavel</span>
+                <span class="text-sm font-label-md text-on-surface-variant">100% C of O Global Process</span>
             </div>
-            <div class="gw-feature-item">
-                <i class="fa-solid fa-layer-group gw-feature-icon"></i>
-                <span class="gw-feature-text">Dry, Table-flat Land</span>
+            <div class="flex items-center gap-4 border border-trust-slate rounded p-4 bg-white shadow-sm">
+                <span class="material-symbols-outlined text-primary text-2xl">landscape</span>
+                <span class="text-sm font-label-md text-on-surface-variant">Dry, Table-flat Land</span>
             </div>
-            <div class="gw-feature-item">
-                <i class="fa-solid fa-shield-halved gw-feature-icon"></i>
-                <span class="gw-feature-text">24/7 Gated Security Patrol</span>
+            <div class="flex items-center gap-4 border border-trust-slate rounded p-4 bg-white shadow-sm">
+                <span class="material-symbols-outlined text-primary text-2xl">shield_person</span>
+                <span class="text-sm font-label-md text-on-surface-variant">24/7 Gated Security Patrol</span>
             </div>
         </div>
 
-        <div class="gw-trust-shield">
-            <div class="gw-shield-header">
-                <i class="fa-solid fa-shield-halved gw-shield-icon"></i>
+        <!-- Trust Shield -->
+        <div class="bg-primary rounded p-8 text-white shadow-lg">
+            <div class="flex items-start gap-4 mb-8">
+                <span class="material-symbols-outlined text-verified-gold text-4xl">shield</span>
                 <div>
-                    <h4 class="gw-shield-title">The GWealth Trust Shield</h4>
-                    <p class="gw-shield-sub">Guaranteed legal protection for every plot owner.</p>
+                    <h4 class="font-headline-md text-white text-lg mb-1">The GWealth Trust Shield</h4>
+                    <p class="text-white/80 text-sm">Guaranteed legal protection for every plot owner.</p>
                 </div>
             </div>
-            <div class="gw-shield-grid">
-                <div class="gw-shield-col">
-                    <h5>Zero Hidden Fees</h5>
-                    <p>The price you see covers primary paperwork and developmental levy.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-white/20">
+                <div>
+                    <h5 class="font-label-md text-verified-gold text-sm mb-2">Zero Hidden Fees</h5>
+                    <p class="text-xs text-white/80 leading-relaxed">The price you see covers primary paperwork and developmental levy.</p>
                 </div>
-                <div class="gw-shield-col">
-                    <h5>C of O Priority</h5>
-                    <p>Institutional processing of your individual Deed of Assignment.</p>
+                <div>
+                    <h5 class="font-label-md text-verified-gold text-sm mb-2">C of O Priority</h5>
+                    <p class="text-xs text-white/80 leading-relaxed">Institutional processing of your individual Deed of Assignment.</p>
                 </div>
-                <div class="gw-shield-col">
-                    <h5>Refund Policy</h5>
-                    <p>Transparent refund structure if legal standards are not met.</p>
+                <div>
+                    <h5 class="font-label-md text-verified-gold text-sm mb-2">Refund Policy</h5>
+                    <p class="text-xs text-white/80 leading-relaxed">Transparent refund structure if legal standards are not met.</p>
                 </div>
             </div>
         </div>
@@ -256,130 +269,42 @@ function render_gwealth_booking_form() {
     ?>
     
     <!-- Trigger Button -->
-    <button id="gwOpenBookingBtn" class="gw-open-booking-modal-btn">
-        <i class="fa-solid fa-calendar-check"></i> Book an Inspection
+    <button id="gwOpenBookingBtn" class="w-full sm:w-auto bg-primary text-white px-8 py-4 rounded font-label-md text-lg hover:bg-primary-container transition-all shadow-lg hover:shadow-primary/20 flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined">calendar_today</span> Book an Inspection
     </button>
 
     <!-- Modal Background -->
-    <div id="gwBookingModalOverlay" class="gw-booking-modal-overlay">
+    <div id="gwBookingModalOverlay" class="fixed inset-0 bg-inverse-surface/80 backdrop-blur-sm z-[999999] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
         <!-- Modal Content -->
-        <div id="gw-booking-widget" class="gw-booking-modal-content">
-            <button id="gwCloseBookingBtn" class="gw-close-modal-btn">&times;</button>
+        <div id="gw-booking-widget" class="relative w-[90%] max-w-lg bg-surface rounded-lg p-8 shadow-2xl transform translate-y-4 transition-transform duration-300 max-h-[90vh] overflow-y-auto">
+            <button id="gwCloseBookingBtn" class="absolute top-4 right-4 text-outline hover:text-secondary transition-colors">
+                <span class="material-symbols-outlined text-3xl">close</span>
+            </button>
             
-            <style>
-                /* Trigger Button Styles */
-                .gw-open-booking-modal-btn {
-                    background-color: #27267d;
-                    color: #ffffff;
-                    border: none;
-                    padding: 14px 28px;
-                    font-family: 'Plus Jakarta Sans', sans-serif;
-                    font-weight: 800;
-                    font-size: 16px;
-                    border-radius: 6px;
-                    cursor: pointer;
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 10px;
-                    transition: all 0.3s ease;
-                    box-shadow: 0 4px 15px rgba(39, 38, 125, 0.3);
-                }
-                .gw-open-booking-modal-btn:hover {
-                    background-color: #1e1d61;
-                    transform: translateY(-2px);
-                    box-shadow: 0 6px 20px rgba(39, 38, 125, 0.4);
-                }
+            <h4 class="font-headline-md text-primary text-2xl mb-2">Book an Inspection</h4>
+            <p class="text-sm text-on-surface-variant mb-6">Schedule a free site tour with our experts.</p>
 
-                /* Modal Overlay Styles */
-                .gw-booking-modal-overlay {
-                    position: fixed;
-                    top: 0; left: 0; width: 100vw; height: 100vh;
-                    background: rgba(15, 23, 42, 0.8);
-                    backdrop-filter: blur(8px);
-                    z-index: 999999;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    opacity: 0;
-                    pointer-events: none;
-                    transition: opacity 0.3s ease;
-                }
-                .gw-booking-modal-overlay.active {
-                    opacity: 1;
-                    pointer-events: auto;
-                }
-
-                /* Close Button */
-                .gw-close-modal-btn {
-                    position: absolute;
-                    top: 16px; right: 16px;
-                    background: transparent;
-                    border: none;
-                    font-size: 28px;
-                    color: #64748b;
-                    cursor: pointer;
-                    line-height: 1;
-                    transition: color 0.2s;
-                    z-index: 10;
-                }
-                .gw-close-modal-btn:hover { color: #bb001b; }
-
-                /* Form Widget inside Modal */
-                #gw-booking-widget { 
-                    position: relative;
-                    width: 90%; max-width: 500px;
-                    font-family: 'Lexend', sans-serif; 
-                    background-color: #ffffff; 
-                    border-radius: 12px; 
-                    padding: 32px; 
-                    box-shadow: 0 20px 40px rgba(0,0,0,0.2); 
-                    transform: translateY(20px);
-                    transition: transform 0.3s ease;
-                    max-height: 90vh;
-                    overflow-y: auto;
-                }
-                .gw-booking-modal-overlay.active #gw-booking-widget {
-                    transform: translateY(0);
-                }
-
-                #gw-booking-widget * { box-sizing: border-box; }
-                #gw-booking-widget .gw-form-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 24px; font-weight: 800; color: #1E1B4B; margin-bottom: 8px; }
-                #gw-booking-widget .gw-form-subtitle { font-size: 14px; color: #64748b; margin-bottom: 24px; line-height: 1.5; }
-                #gw-booking-widget .gw-form-group { margin-bottom: 16px; text-align: left; }
-                #gw-booking-widget label { display: block; font-size: 13px; font-weight: 700; color: #1E1B4B; margin-bottom: 6px; }
-                #gw-booking-widget input, #gw-booking-widget select { width: 100%; padding: 12px 16px; border: 1px solid #CBD5E0; border-radius: 6px; font-family: 'Lexend', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
-                #gw-booking-widget input:focus, #gw-booking-widget select:focus { border-color: #27267d; box-shadow: 0 0 0 3px rgba(39, 38, 125, 0.1); }
-                #gw-booking-widget .gw-submit-btn { width: 100%; background-color: #27267d; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 16px; padding: 16px; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.2s; margin-top: 16px; }
-                #gw-booking-widget .gw-submit-btn:hover { background-color: #1e1d61; }
-                #gw-booking-widget .gw-form-message { margin-top: 16px; font-size: 14px; font-weight: 700; display: none; padding: 16px; border-radius: 6px; text-align: left; }
-                #gw-booking-widget .gw-msg-success { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; display: block; }
-                #gw-booking-widget .gw-msg-error { background-color: #fef2f2; color: #991b1b; border: 1px solid #fecaca; display: block; }
-            </style>
-
-            <h4 class="gw-form-title">Book an Inspection</h4>
-            <p class="gw-form-subtitle">Schedule a free site tour with our experts.</p>
-
-            <form id="gwExcursionForm">
+            <form id="gwExcursionForm" class="space-y-4">
                 <input type="hidden" id="gwReferralCode" name="referralCode" value="">
 
-                <div class="gw-form-group">
-                    <label for="gwProperty">Selected Property</label>
-                    <input type="text" id="gwProperty" name="property" value="<?php echo esc_attr($property_title); ?>" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 700; cursor: not-allowed;">
+                <div>
+                    <label for="gwProperty" class="block text-sm font-label-md text-primary mb-1">Selected Property</label>
+                    <input type="text" id="gwProperty" name="property" value="<?php echo esc_attr($property_title); ?>" readonly class="w-full px-4 py-3 bg-surface-container border border-trust-slate rounded text-on-surface-variant font-label-md cursor-not-allowed focus:ring-0">
                 </div>
 
-                <div class="gw-form-group">
-                    <label for="gwName">Full Name</label>
-                    <input type="text" id="gwName" name="clientName" placeholder="e.g. John Doe" required>
+                <div>
+                    <label for="gwName" class="block text-sm font-label-md text-primary mb-1">Full Name</label>
+                    <input type="text" id="gwName" name="clientName" placeholder="e.g. John Doe" required class="w-full px-4 py-3 border border-trust-slate rounded text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
                 </div>
                 
-                <div class="gw-form-group">
-                    <label for="gwPhone">Phone Number (WhatsApp Active)</label>
-                    <input type="tel" id="gwPhone" name="phone" placeholder="+234..." required>
+                <div>
+                    <label for="gwPhone" class="block text-sm font-label-md text-primary mb-1">Phone Number (WhatsApp Active)</label>
+                    <input type="tel" id="gwPhone" name="phone" placeholder="+234..." required class="w-full px-4 py-3 border border-trust-slate rounded text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
                 </div>
 
-                <div class="gw-form-group">
-                    <label for="gwBranch">Nearest GWealth Branch</label>
-                    <select id="gwBranch" name="branch" required>
+                <div>
+                    <label for="gwBranch" class="block text-sm font-label-md text-primary mb-1">Nearest GWealth Branch</label>
+                    <select id="gwBranch" name="branch" required class="w-full px-4 py-3 border border-trust-slate rounded text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all bg-white">
                         <option value="" disabled selected>Select Branch</option>
                         <option value="Aba">Aba</option>
                         <option value="Asaba">Asaba</option>
@@ -389,13 +314,13 @@ function render_gwealth_booking_form() {
                     </select>
                 </div>
 
-                <div class="gw-form-group">
-                    <label for="gwDate">Preferred Inspection Date</label>
-                    <input type="date" id="gwDate" name="preferredDate" required>
+                <div>
+                    <label for="gwDate" class="block text-sm font-label-md text-primary mb-1">Preferred Inspection Date</label>
+                    <input type="date" id="gwDate" name="preferredDate" required class="w-full px-4 py-3 border border-trust-slate rounded text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
                 </div>
 
-                <button type="submit" class="gw-submit-btn" id="gwSubmitBtn">Confirm Booking</button>
-                <div id="gwFormMessage" class="gw-form-message"></div>
+                <button type="submit" id="gwSubmitBtn" class="w-full bg-primary text-white py-4 rounded font-label-md text-lg hover:bg-primary-container transition-colors mt-4">Confirm Booking</button>
+                <div id="gwFormMessage" class="mt-4 text-sm font-label-md hidden p-4 rounded text-left"></div>
             </form>
         </div>
     </div>
@@ -406,23 +331,27 @@ function render_gwealth_booking_form() {
             const openBtn = document.getElementById('gwOpenBookingBtn');
             const closeBtn = document.getElementById('gwCloseBookingBtn');
             const modal = document.getElementById('gwBookingModalOverlay');
+            const widget = document.getElementById('gw-booking-widget');
 
             if (openBtn && modal) {
                 openBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    modal.classList.add('active');
+                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                    widget.classList.remove('translate-y-4');
                 });
             }
             if (closeBtn && modal) {
                 closeBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    modal.classList.remove('active');
+                    modal.classList.add('opacity-0', 'pointer-events-none');
+                    widget.classList.add('translate-y-4');
                 });
             }
             if (modal) {
                 modal.addEventListener('click', function(e) {
-                    if (e.target === modal) {
-                        modal.classList.remove('active');
+                    if (e.target === modal || e.target.closest('#gwCloseBookingBtn')) {
+                        modal.classList.add('opacity-0', 'pointer-events-none');
+                        widget.classList.add('translate-y-4');
                     }
                 });
             }
@@ -453,8 +382,7 @@ function render_gwealth_booking_form() {
                     // Reset UI
                     btn.disabled = true;
                     btn.innerText = 'Submitting...';
-                    msgBox.className = 'gw-form-message';
-                    msgBox.style.display = 'none';
+                    msgBox.className = 'mt-4 text-sm font-label-md hidden p-4 rounded text-left';
 
                     // Gather Data
                     const formData = {
@@ -481,170 +409,28 @@ function render_gwealth_booking_form() {
 
                         if (response.ok && result.success) {
                             msgBox.innerText = 'Inspection booked successfully! A coordinator will contact you shortly.';
-                            msgBox.classList.add('gw-msg-success');
+                            msgBox.classList.add('bg-surface-container-low', 'text-[#166534]', 'border', 'border-[#bbf7d0]', 'block');
+                            msgBox.classList.remove('hidden');
                             form.reset();
                             
                             // Auto close modal after 3 seconds
                             setTimeout(() => {
-                                modal.classList.remove('active');
+                                modal.classList.add('opacity-0', 'pointer-events-none');
+                                widget.classList.add('translate-y-4');
                             }, 3000);
                         } else {
                             throw new Error(result.message || 'Failed to book inspection');
                         }
                     } catch (error) {
                         msgBox.innerText = error.message;
-                        msgBox.classList.add('gw-msg-error');
+                        msgBox.classList.add('bg-error-container', 'text-error', 'border', 'border-[#fecaca]', 'block');
+                        msgBox.classList.remove('hidden');
                     } finally {
                         btn.disabled = false;
                         btn.innerText = 'Confirm Booking';
-                        msgBox.style.display = 'block';
                     }
                 });
             }
-        });
-    </script>
-    </script>
-    <?php
-    return ob_get_clean();
-}
-
-// 4. Promo/Flyer Slider Shortcode
-add_shortcode('gwealth_promo_slider', 'render_gwealth_promo_slider');
-function render_gwealth_promo_slider($atts) {
-    // Determine the API URL
-    $api_url = 'https://gwealth-backend.onrender.com/api/advertisements/active';
-    if (in_array($_SERVER['HTTP_HOST'], ['localhost', '127.0.0.1']) || strpos($_SERVER['HTTP_HOST'], '.local') !== false) {
-        $api_url = 'http://localhost:5000/api/advertisements/active';
-    }
-
-    $response = wp_remote_get($api_url, array('timeout' => 5));
-    if (is_wp_error($response)) {
-        return ''; // Fail silently
-    }
-
-    $body = wp_remote_retrieve_body($response);
-    $data = json_decode($body, true);
-
-    if (!$data || !$data['success'] || empty($data['data'])) {
-        return ''; // No active flyers
-    }
-
-    $flyers = $data['data'];
-
-    // Enqueue Swiper CSS/JS if not already present
-    wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0');
-    wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true);
-
-    ob_start();
-    ?>
-    <div class="gw-promo-slider-container">
-        <style>
-            .gw-promo-slider-container {
-                width: 100%;
-                max-width: 1280px;
-                margin: 0 auto;
-                padding: 20px 0;
-            }
-            .gw-flyer-swiper {
-                width: 100%;
-                height: auto;
-                border-radius: 8px;
-                overflow: hidden;
-            }
-            .gw-flyer-slide {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background-color: transparent;
-            }
-            .gw-flyer-img {
-                width: 100%;
-                height: auto;
-                max-height: 80vh;
-                object-fit: contain;
-                border-radius: 8px;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            }
-            .gw-flyer-link {
-                display: block;
-                width: 100%;
-                text-decoration: none;
-            }
-            /* Swiper navigation colors */
-            .gw-promo-slider-container .swiper-button-next,
-            .gw-promo-slider-container .swiper-button-prev {
-                color: #27267d;
-                background: rgba(255,255,255,0.8);
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            }
-            .gw-promo-slider-container .swiper-button-next:after,
-            .gw-promo-slider-container .swiper-button-prev:after {
-                font-size: 18px;
-            }
-            .gw-promo-slider-container .swiper-pagination-bullet-active {
-                background: #27267d;
-            }
-        </style>
-
-        <div class="swiper gw-flyer-swiper">
-            <div class="swiper-wrapper">
-                <?php foreach ($flyers as $flyer): 
-                    $img_url = esc_url($flyer['imageUrl']);
-                    $action_url = !empty($flyer['actionUrl']) ? esc_url($flyer['actionUrl']) : '';
-                    $title = esc_attr($flyer['title']);
-                ?>
-                    <div class="swiper-slide gw-flyer-slide">
-                        <?php if ($action_url): ?>
-                            <a href="<?php echo $action_url; ?>" class="gw-flyer-link" target="_blank" rel="noopener noreferrer">
-                                <img src="<?php echo $img_url; ?>" alt="<?php echo $title; ?>" class="gw-flyer-img">
-                            </a>
-                        <?php else: ?>
-                            <img src="<?php echo $img_url; ?>" alt="<?php echo $title; ?>" class="gw-flyer-img">
-                        <?php endif; ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-            <!-- Pagination and Navigation -->
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Swiper when it's ready
-            const initSwiper = () => {
-                if (typeof Swiper === 'undefined') {
-                    setTimeout(initSwiper, 100);
-                    return;
-                }
-                new Swiper('.gw-flyer-swiper', {
-                    slidesPerView: 1,
-                    spaceBetween: 30,
-                    loop: true,
-                    autoplay: {
-                        delay: 5000,
-                        disableOnInteraction: false,
-                    },
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
-                    },
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev',
-                    },
-                    effect: 'fade', // Gives a nice crossfade for flyers
-                    fadeEffect: {
-                        crossFade: true
-                    }
-                });
-            };
-            initSwiper();
         });
     </script>
     <?php
