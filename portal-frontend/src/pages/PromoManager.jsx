@@ -50,11 +50,7 @@ const PromoManager = () => {
         withCredentials: true,
         headers: { 'Content-Type': 'multipart/form-data' }
       });
-      let newAds = [...ads];
-      if (formData.isActive) {
-        newAds = newAds.map(a => ({ ...a, isActive: false }));
-      }
-      setAds([res.data.data, ...newAds]);
+      setAds([res.data.data, ...ads]);
       setShowModal(false);
       setFormData({ title: '', actionUrl: '', isActive: false });
       setFile(null);
@@ -71,7 +67,6 @@ const PromoManager = () => {
       await axios.put(`/api/advertisements/${id}`, { isActive: !currentStatus }, { withCredentials: true });
       let newAds = ads.map(a => {
         if (a._id === id) return { ...a, isActive: !currentStatus };
-        if (!currentStatus) return { ...a, isActive: false };
         return a;
       });
       setAds(newAds);

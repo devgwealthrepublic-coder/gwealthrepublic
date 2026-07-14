@@ -1,5 +1,52 @@
 <?php
 
+// Inject Tailwind CSS into the head of Single Property pages to ensure the MERN design renders perfectly
+add_action('wp_head', 'gwealth_inject_tailwind_for_properties', 5);
+function gwealth_inject_tailwind_for_properties() {
+    if (is_singular('properties') || is_singular('property')) {
+        ?>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <script id="tailwind-config">
+        try{
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                extend: {
+                    "colors": {
+                            "primary": "#27267d",
+                            "primary-container": "#3f3f95",
+                            "on-primary-container": "#b2b2ff",
+                            "trust-slate": "#E2E8F0",
+                            "verified-gold": "#D4AF37",
+                            "secondary": "#bb001b",
+                            "surface": "#FAFAFA",
+                            "on-surface": "#0b1c30",
+                            "on-surface-variant": "#464651",
+                            "error-container": "#ffdad6",
+                            "error": "#ba1a1a",
+                            "surface-container-low": "#eff4ff",
+                            "surface-container": "#e5eeff"
+                    },
+                    "borderRadius": { "DEFAULT": "4px" },
+                    "spacing": { "gutter": "24px", "container-max": "1280px" },
+                    "fontFamily": {
+                            "headline-md": ["Montserrat"],
+                            "body-md": ["Inter"],
+                            "body-lg": ["Inter"],
+                            "label-sm": ["Inter"],
+                            "display-lg": ["Montserrat"]
+                    }
+                }
+                }
+            }
+        }catch(_e){}
+        </script>
+        <?php
+    }
+}
+
 // 1. Media Gallery Shortcode
 add_shortcode('gwealth_property_media', 'render_gwealth_property_media');
 function render_gwealth_property_media() {
@@ -456,7 +503,150 @@ function render_gwealth_booking_form() {
             }
         });
     </script>
+    </script>
     <?php
     return ob_get_clean();
 }
 
+// 4. Promo/Flyer Slider Shortcode
+add_shortcode('gwealth_promo_slider', 'render_gwealth_promo_slider');
+function render_gwealth_promo_slider($atts) {
+    // Determine the API URL
+    $api_url = 'https://gwealth-backend.onrender.com/api/advertisements/active';
+    if (in_array($_SERVER['HTTP_HOST'], ['localhost', '127.0.0.1']) || strpos($_SERVER['HTTP_HOST'], '.local') !== false) {
+        $api_url = 'http://localhost:5000/api/advertisements/active';
+    }
+
+    $response = wp_remote_get($api_url, array('timeout' => 5));
+    if (is_wp_error($response)) {
+        return ''; // Fail silently
+    }
+
+    $body = wp_remote_retrieve_body($response);
+    $data = json_decode($body, true);
+
+    if (!$data || !$data['success'] || empty($data['data'])) {
+        return ''; // No active flyers
+    }
+
+    $flyers = $data['data'];
+
+    // Enqueue Swiper CSS/JS if not already present
+    wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0');
+    wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true);
+
+    ob_start();
+    ?>
+    <div class="gw-promo-slider-container">
+        <style>
+            .gw-promo-slider-container {
+                width: 100%;
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 20px 0;
+            }
+            .gw-flyer-swiper {
+                width: 100%;
+                height: auto;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            .gw-flyer-slide {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: transparent;
+            }
+            .gw-flyer-img {
+                width: 100%;
+                height: auto;
+                max-height: 80vh;
+                object-fit: contain;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            }
+            .gw-flyer-link {
+                display: block;
+                width: 100%;
+                text-decoration: none;
+            }
+            /* Swiper navigation colors */
+            .gw-promo-slider-container .swiper-button-next,
+            .gw-promo-slider-container .swiper-button-prev {
+                color: #27267d;
+                background: rgba(255,255,255,0.8);
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            .gw-promo-slider-container .swiper-button-next:after,
+            .gw-promo-slider-container .swiper-button-prev:after {
+                font-size: 18px;
+            }
+            .gw-promo-slider-container .swiper-pagination-bullet-active {
+                background: #27267d;
+            }
+        </style>
+
+        <div class="swiper gw-flyer-swiper">
+            <div class="swiper-wrapper">
+                <?php foreach ($flyers as $flyer): 
+                    $img_url = esc_url($flyer['imageUrl']);
+                    $action_url = !empty($flyer['actionUrl']) ? esc_url($flyer['actionUrl']) : '';
+                    $title = esc_attr($flyer['title']);
+                ?>
+                    <div class="swiper-slide gw-flyer-slide">
+                        <?php if ($action_url): ?>
+                            <a href="<?php echo $action_url; ?>" class="gw-flyer-link" target="_blank" rel="noopener noreferrer">
+                                <img src="<?php echo $img_url; ?>" alt="<?php echo $title; ?>" class="gw-flyer-img">
+                            </a>
+                        <?php else: ?>
+                            <img src="<?php echo $img_url; ?>" alt="<?php echo $title; ?>" class="gw-flyer-img">
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <!-- Pagination and Navigation -->
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Swiper when it's ready
+            const initSwiper = () => {
+                if (typeof Swiper === 'undefined') {
+                    setTimeout(initSwiper, 100);
+                    return;
+                }
+                new Swiper('.gw-flyer-swiper', {
+                    slidesPerView: 1,
+                    spaceBetween: 30,
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    effect: 'fade', // Gives a nice crossfade for flyers
+                    fadeEffect: {
+                        crossFade: true
+                    }
+                });
+            };
+            initSwiper();
+        });
+    </script>
+    <?php
+    return ob_get_clean();
+}

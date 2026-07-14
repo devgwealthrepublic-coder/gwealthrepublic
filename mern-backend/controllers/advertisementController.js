@@ -1,18 +1,18 @@
 const Advertisement = require('../models/Advertisement');
 
-// @desc    Get the active advertisement (For public WordPress frontend)
+// @desc    Get the active advertisements (For public WordPress frontend)
 // @route   GET /api/advertisements/active
 // @access  Public
 exports.getActiveAdvertisement = async (req, res) => {
   try {
-    // There should only be one active at a time, but we take the latest
-    const ad = await Advertisement.findOne({ isActive: true }).sort({ updatedAt: -1 });
+    // Return all active advertisements
+    const ads = await Advertisement.find({ isActive: true }).sort({ updatedAt: -1 });
     
-    if (!ad) {
-      return res.status(200).json({ success: true, data: null });
+    if (!ads || ads.length === 0) {
+      return res.status(200).json({ success: true, data: [] });
     }
 
-    res.status(200).json({ success: true, data: ad });
+    res.status(200).json({ success: true, data: ads });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: 'Server Error' });
@@ -42,11 +42,6 @@ exports.createAdvertisement = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Please upload a flyer image' });
     }
 
-    // If this new one is active, deactivate others
-    if (isActive === 'true' || isActive === true) {
-      await Advertisement.updateMany({}, { isActive: false });
-    }
-
     const ad = await Advertisement.create({
       title,
       actionUrl,
@@ -72,11 +67,6 @@ exports.updateAdvertisement = async (req, res) => {
 
     if (!ad) {
       return res.status(404).json({ success: false, message: 'Ad not found' });
-    }
-
-    // If activating, deactivate all others first
-    if (isActive) {
-      await Advertisement.updateMany({}, { isActive: false });
     }
 
     ad.isActive = isActive;
